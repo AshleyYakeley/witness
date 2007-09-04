@@ -34,5 +34,6 @@
 (^|/)Thumbs\.db$
 (^|/)autom4te\.cache($|/)
 ^\.setup-config$
+^\.installed-pkg-config$
 ^dist($|/)
 \.chi$
