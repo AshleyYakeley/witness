@@ -1,0 +1,12 @@
+Name:			witness
+Version:		1.0
+License-file:	LICENSE
+Author:			Ashley Yakeley <ashley@semantic.org>
+Maintainer:		Ashley Yakeley <ashley@semantic.org>
+build-depends:	base>=2.0
+Synopsis:		values that witness types
+Extensions:		FunctionalDependencies
+Exposed-Modules:
+	Data.Witness
+Other-Modules:
+GHC-Options: -Wall -Werror
