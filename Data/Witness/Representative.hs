@@ -20,8 +20,8 @@ module Data.Witness.Representative where
 	rerepresentative _ = representative;
 
 	mkAny :: (Is w a) => a -> Any w;
-	mkAny a = Any representative a;
+	mkAny a = MkAny representative a;
 
 	mkAnyF :: (Is w a) => f a -> AnyF w f;
-	mkAnyF fa = AnyF representative fa;
+	mkAnyF fa = MkAnyF representative fa;
 }
