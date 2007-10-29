@@ -1,9 +1,10 @@
 module Data.Witness.List where
 {
-	import Control.Compositor;
+	import Control.Category;
 	import Data.Witness.Representative;
 	import Data.Witness.Witness;
 	import Data.Witness.AllMap;
+	import Prelude hiding (id,(.));
 
 	data ListType w a where
 	{
@@ -29,12 +30,12 @@ module Data.Witness.List where
 
 	instance (Witness w) => Witness (ListType w) where
 	{
-		matchWitnessF NilListType NilListType = Just identity;
+		matchWitnessF NilListType NilListType = Just id;
 		matchWitnessF (ConsListType wpa wpb) (ConsListType wqa wqb) = do
 		{
 			fa <- matchWitnessF wpa wqa;
 			fb <- matchWitnessF wpb wqb;
-			return (compose (mapCompose2 fa) (mapCompose fb));
+			return ((mapCompose2 fa) . (mapCompose fb));
 		};
 		matchWitnessF _ _ = Nothing;
 	};

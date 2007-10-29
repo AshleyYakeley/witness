@@ -7,7 +7,7 @@ build-depends:	base>=2.0
 Synopsis:		values that witness types
 Extensions:		FunctionalDependencies
 Exposed-Modules:
-	Control.Compositor
+	Control.Category
 	Data.Witness
 Other-Modules:
 	Data.Witness.Any

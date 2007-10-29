@@ -1,13 +1,14 @@
 module Data.Witness.AllMap where
 {
-	import Control.Compositor;
+	import Control.Category;
+	import Prelude hiding (id,(.));
 
 	newtype AllMap a a' = MkAllMap (forall f. f a -> f a');
 
-	instance Compositor AllMap where
+	instance Category AllMap where
 	{
-		identity = MkAllMap identity;
-		compose (MkAllMap bc) (MkAllMap ab) = MkAllMap (compose bc ab);
+		id = MkAllMap id;
+		(MkAllMap bc) . (MkAllMap ab) = MkAllMap (bc . ab);
 	};
 
 	newtype ID a = ID {unID :: a};
