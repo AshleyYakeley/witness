@@ -5,7 +5,7 @@ Author:			Ashley Yakeley <ashley@semantic.org>
 Maintainer:		Ashley Yakeley <ashley@semantic.org>
 build-depends:	base>=2.0
 Synopsis:		values that witness types
-Extensions:		FunctionalDependencies
+Extensions:		RankNTypes MultiParamTypeClasses FlexibleInstances FlexibleContexts
 Exposed-Modules:
 	Control.Category
 	Data.Witness
@@ -16,4 +16,4 @@ Other-Modules:
 	Data.Witness.Witness
 	Data.Witness.SameType
 	Data.Witness.List
-GHC-Options: -Wall -Werror
+GHC-Options: -Wall -Werror -XGADTs
