@@ -1,16 +1,16 @@
 module Data.Witness.Witness where
 {
-	import Data.Witness.AllMap;
+	import Data.Witness.SameType;
 	import Data.Witness.Type;
 	import Data.Witness.Representative;
 
 	-- every witness has a type
 	class Witness w where
 	{
-		matchWitnessF :: w a -> w a' -> Maybe (AllMap a a');
+		matchWitnessF :: w a -> w a' -> Maybe (SameType a a');
 	};
 
-	matchIsF :: (Witness w,Is w a,Is w a') => Type (w ()) -> Maybe (AllMap a a');
+	matchIsF :: (Witness w,Is w a,Is w a') => Type (w ()) -> Maybe (SameType a a');
 	matchIsF t = matchWitnessF (foo t) (foo t) where
 	{
 		foo :: (Is w a) => Type (w ()) -> w a;

@@ -3,7 +3,7 @@ module Data.Witness.List where
 	import Control.Category;
 	import Data.Witness.Representative;
 	import Data.Witness.Witness;
-	import Data.Witness.AllMap;
+	import Data.Witness.SameType;
 	import Prelude hiding (id,(.));
 
 	data ListType w a where
