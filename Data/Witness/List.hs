@@ -33,9 +33,9 @@ module Data.Witness.List where
 		matchWitness NilListType NilListType = Just id;
 		matchWitness (ConsListType wpa wpb) (ConsListType wqa wqb) = do
 		{
-			fa <- matchWitness wpa wqa;
-			fb <- matchWitness wpb wqb;
-			return ((lift2SameType fa) . (lift1SameType fb));
+			MkSameType <- matchWitness wpa wqa;
+			MkSameType <- matchWitness wpb wqb;
+			return MkSameType;
 		};
 		matchWitness _ _ = Nothing;
 	};
