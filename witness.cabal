@@ -1,6 +1,6 @@
 Name:			witness
 Version:		0.1
-License-file:	LICENSE
+License:		AllRightsReserved
 Author:			Ashley Yakeley <ashley@semantic.org>
 Maintainer:		Ashley Yakeley <ashley@semantic.org>
 build-depends:	base>=2.0

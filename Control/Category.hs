@@ -11,6 +11,7 @@ module Control.Category where
 	instance Category (->) where
 	{
 		id = Prelude.id;
-		(.) = (Prelude..);
+		-- (.) = (Prelude..);	haddock chokes on this
+		(.) f g a = f (g a);
 	};
 }

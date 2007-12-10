@@ -30,13 +30,13 @@ module Data.Witness.List where
 
 	instance (Witness w) => Witness (ListType w) where
 	{
-		matchWitnessF NilListType NilListType = Just id;
-		matchWitnessF (ConsListType wpa wpb) (ConsListType wqa wqb) = do
+		matchWitness NilListType NilListType = Just id;
+		matchWitness (ConsListType wpa wpb) (ConsListType wqa wqb) = do
 		{
-			fa <- matchWitnessF wpa wqa;
-			fb <- matchWitnessF wpb wqb;
-			return ((mapCompose2 fa) . (mapCompose fb));
+			fa <- matchWitness wpa wqa;
+			fb <- matchWitness wpb wqb;
+			return ((lift2SameType fa) . (lift1SameType fb));
 		};
-		matchWitnessF _ _ = Nothing;
+		matchWitness _ _ = Nothing;
 	};
 }

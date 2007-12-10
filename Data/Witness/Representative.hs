@@ -2,12 +2,13 @@ module Data.Witness.Representative where
 {
 	import Data.Witness.Any;
 
-	-- every type (in Is) has a representative
+	-- | Every value is an instance of Is
 	class Representative rep where
 	{
 		withRepresentative :: forall r. (forall a. (Is rep a) => rep a -> r) -> (forall b. rep b -> r);
 	};
 
+	-- | If two representatives have the same type, then they have the same value.
 	class (Representative rep) => Is rep a where
 	{
 		representative :: rep a;

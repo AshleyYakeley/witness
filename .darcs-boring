@@ -37,3 +37,4 @@
 ^\.installed-pkg-config$
 ^dist($|/)
 \.chi$
+-haddock-prolog\.txt$
