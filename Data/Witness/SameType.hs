@@ -1,51 +1,39 @@
 module Data.Witness.SameType
 (
-	SameType(..),--TT(..),
+	SameType(..),
 	mapSameType,reverseSameType,lift1SameType,lift2SameType,change1SameType,apply1SameType
-) where
+)
+ where
 {
 	import Control.Category;
 	import Prelude hiding (id,(.));
 
-	newtype SameType a a' = MkSameType {unSameType :: forall p. p a -> p a'};
+	data SameType a a' where
+	{
+		MkSameType :: SameType a a;
+	};
 
 	instance Category SameType where
 	{
-		id = MkSameType id;
-		(MkSameType bc) . (MkSameType ab) = MkSameType (bc . ab);
+		id = MkSameType;
+		MkSameType . MkSameType = MkSameType;
 	};
 
-	newtype Id a = MkId {unId :: a};
 	mapSameType :: SameType a a' -> a -> a';
-	mapSameType (MkSameType mp) = unId . mp . MkId;
+	mapSameType MkSameType a = a;
 	
-	newtype Reverse f b a = MkReverse {unReverse :: f a -> b};
 	reverseSameType :: SameType a a' -> SameType a' a;
-	reverseSameType (MkSameType mp) = MkSameType (unReverse (mp (MkReverse id)));
+	reverseSameType MkSameType = MkSameType;
 	
-	newtype Compose p q a = MkCompose {unCompose :: p (q a)};
 	lift1SameType :: SameType a a' -> SameType (p a) (p a');
-	lift1SameType (MkSameType fafa) = MkSameType (unCompose . fafa . MkCompose);
+	lift1SameType MkSameType = MkSameType;
 
-	newtype Compose2 p q b a = MkCompose2 {unCompose2 :: p (q a b)};
 	lift2SameType :: SameType a a' -> SameType (q a b) (q a' b);
-	lift2SameType (MkSameType mp) = MkSameType (unCompose2 . mp . MkCompose2);
-	
---	newtype TT a where
---	{
---		MkTT :: TT Int;
---	};
-	
-	data Change1 f b pa where
-	{ 
-		MkChange1 :: f (p b) -> Change1 f b (p a)
-	};
-	unChange1 :: Change1 f b (p a) -> f (p b);
-	unChange1 (MkChange1 n) = n;
+	lift2SameType MkSameType = MkSameType;
 
 	change1SameType :: SameType (p a) (p' a) -> SameType (p b) (p' b);
-	change1SameType (MkSameType fpafpa) = MkSameType (unChange1 . fpafpa . MkChange1);
+	change1SameType MkSameType = MkSameType;
 	
 	apply1SameType :: SameType (p ()) (p' ()) -> SameType a a' -> SameType (p a) (p' a');
-	apply1SameType spp saa = (change1SameType spp) . (lift1SameType saa);
+	apply1SameType MkSameType MkSameType = MkSameType;
 }
