@@ -3,12 +3,13 @@ Version:		0.1
 License:		AllRightsReserved
 Author:			Ashley Yakeley <ashley@semantic.org>
 Maintainer:		Ashley Yakeley <ashley@semantic.org>
-build-depends:	base>=2.0
+build-depends:	base>=2.0, mtl>=1.1
 Synopsis:		values that witness types
 Extensions:		RankNTypes MultiParamTypeClasses FlexibleInstances FlexibleContexts
 Exposed-Modules:
 	Control.Category
 	Data.Witness
+	Data.Witness.WitnessDict
 Other-Modules:
 	Data.Witness.Any
 	Data.Witness.Representative
