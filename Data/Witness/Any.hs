@@ -1,17 +1,8 @@
 module Data.Witness.Any where
 {
-	data Any w where
-	{
-		MkAny :: forall a. w a -> a -> Any w
-	};
+	data Any w = forall a. MkAny (w a) a;
 
-	data AnyF w f where
-	{
-		MkAnyF :: forall a. w a -> f a -> AnyF w f
-	};
+	data AnyF w f = forall a. MkAnyF (w a) (f a);
 
-	data AnyWitness w where
-	{
-		MkAnyWitness :: forall a. w a -> AnyWitness w
-	};
+	data AnyWitness w = forall a. MkAnyWitness (w a);
 }
