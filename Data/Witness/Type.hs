@@ -4,9 +4,14 @@ module Data.Witness.Type where
 
 	data Type a = Type;
 
+	instance Eq1 Type where
+	{
+		equals1 Type Type = True;
+	};
+
 	instance Eq (Type a) where
 	{
-		Type == Type = True;
+		(==) = equals1;
 	};
 
 	instance Representative Type where

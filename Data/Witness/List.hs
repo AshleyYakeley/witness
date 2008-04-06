@@ -12,6 +12,18 @@ module Data.Witness.List where
 		ConsListType :: w a -> ListType w b -> ListType w (a,b);
 	};
 
+	instance Eq1 w => Eq1 (ListType w) where
+	{
+		equals1 NilListType NilListType = True;
+		equals1 (ConsListType pe pl) (ConsListType qe ql) = (equals1 pe qe) && (equals1 pl ql);
+		equals1 _ _ = False;
+	};
+
+	instance Eq1 w => Eq (ListType w a) where
+	{
+		(==) = equals1;
+	};
+
 	instance (Representative w) => Representative (ListType w) where
 	{
 		withRepresentative f NilListType = f NilListType;
