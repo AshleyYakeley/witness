@@ -16,6 +16,6 @@ Other-Modules:
 	Data.Witness.Representative
 	Data.Witness.Type
 	Data.Witness.Witness
-	Data.Witness.SameType
+	Data.Witness.EqualType
 	Data.Witness.List
 GHC-Options: -Wall -Werror

@@ -3,7 +3,7 @@ module Data.Witness.List where
 	import Control.Category;
 	import Data.Witness.Representative;
 	import Data.Witness.Witness;
-	import Data.Witness.SameType;
+	import Data.Witness.EqualType;
 	import Prelude hiding (id,(.));
 
 	data ListType w a where
@@ -45,9 +45,9 @@ module Data.Witness.List where
 		matchWitness NilListType NilListType = Just id;
 		matchWitness (ConsListType wpa wpb) (ConsListType wqa wqb) = do
 		{
-			MkSameType <- matchWitness wpa wqa;
-			MkSameType <- matchWitness wpb wqb;
-			return MkSameType;
+			MkEqualType <- matchWitness wpa wqa;
+			MkEqualType <- matchWitness wpb wqb;
+			return MkEqualType;
 		};
 		matchWitness _ _ = Nothing;
 	};

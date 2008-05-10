@@ -15,7 +15,7 @@ module Data.Witness.WitnessDict
 	witnessDictLookup :: (Witness w) => w a -> WitnessDict w -> Maybe a;
 	witnessDictLookup wit (MkWitnessDict cells) = findM (\(MkAny cwit ca) -> do
 	{
-		MkSameType <- matchWitness cwit wit;
+		MkEqualType <- matchWitness cwit wit;
 		return ca;
 	}) cells where
 	{
@@ -42,7 +42,7 @@ module Data.Witness.WitnessDict
 		mapCell :: (Witness w) => w a -> (a -> a) -> Any w -> Maybe (Any w);
 		mapCell wit' amap' (MkAny w a') = mapAny (\cwit a -> do
 		{
-			MkSameType <- matchWitness wit' cwit;
+			MkEqualType <- matchWitness wit' cwit;
 			return (amap' a);
 		}) (MkAny w a');
 		
