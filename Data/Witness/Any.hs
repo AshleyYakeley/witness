@@ -27,7 +27,7 @@ module Data.Witness.Any where
 	matchAnyWitness :: (Witness w) => w a -> AnyWitness w -> Bool;
 	matchAnyWitness wit (MkAnyWitness cwit) = isJust (matchWitness cwit wit);
 
-	instance (Witness wit) => Eq (AnyWitness wit) where
+	instance (Witness w) => Eq (AnyWitness w) where
 	{
 		(==) (MkAnyWitness wa) = matchAnyWitness wa;
 	};
