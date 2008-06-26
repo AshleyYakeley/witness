@@ -6,7 +6,7 @@ clean:
 	runhaskell Setup.hs clean
 
 configure:
-	runhaskell Setup.hs configure
+	runhaskell Setup.hs configure --enable-library-profiling
 
 build: configure
 	runhaskell Setup.hs build
