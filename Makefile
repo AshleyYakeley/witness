@@ -3,22 +3,24 @@ default: build
 # Building
 
 clean:
-	runhaskell Setup.hs clean
+	cabal clean
 
 configure:
-	runhaskell Setup.hs configure --enable-library-profiling
+	cabal configure
 
 build: configure
-	runhaskell Setup.hs build
+	cabal build --ghc-options="-Wall -Werror"
 
 haddock: configure
-	runhaskell Setup.hs haddock
+	cabal haddock
 
 install: build haddock
-	sudo runhaskell Setup.hs install
+	cabal install --user
+
+sdist: configure
+	cabal sdist
 
 # switch off intermediate file deletion
 .SECONDARY:
 
-.PHONY: default configure build haddock install test
-
+.PHONY: default configure build haddock install test sdist

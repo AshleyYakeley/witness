@@ -1,21 +1,26 @@
-Name:			witness
-Version:		0.1
-License:		AllRightsReserved
-Author:			Ashley Yakeley <ashley@semantic.org>
-Maintainer:		Ashley Yakeley <ashley@semantic.org>
+name:			witness
+version:		0.1
+license:		BSD3
+license-file:	LICENSE
+author:			Ashley Yakeley <ashley@semantic.org>
+maintainer:		Ashley Yakeley <ashley@semantic.org>
 build-depends:	base>=2.0, mtl>=1.1
-Synopsis:		values that witness types
-Extensions:		RankNTypes MultiParamTypeClasses FlexibleInstances FlexibleContexts GADTs
-Build-Type:		Simple
-Exposed-Modules:
+category:		Data
+synopsis:		values that witness types
+description:
+	A witness is a value that "witnesses" some sort of constraint on some list of type variables.
+
+	This library provides support for simple witnesses, that constrain a type variable to a single type, and equality witnesses, that constrain two type variables to be the same type. It also provides classes for representatives, which are values that represent types.
+extensions:		RankNTypes MultiParamTypeClasses FlexibleInstances FlexibleContexts GADTs
+build-type:		Simple
+exposed-modules:
 	Control.Category
 	Data.Witness
 	Data.Witness.WitnessDict
-Other-Modules:
+other-modules:
 	Data.Witness.Any
 	Data.Witness.Representative
 	Data.Witness.Type
 	Data.Witness.Witness
 	Data.Witness.EqualType
 	Data.Witness.List
-GHC-Options: -Wall -Werror
