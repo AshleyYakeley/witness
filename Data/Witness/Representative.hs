@@ -7,10 +7,10 @@ module Data.Witness.Representative where
 		equals1 :: forall a. p a -> p a -> Bool;
 	};
 
-	-- | Every value is an instance of Is
-	;
 	class Eq1 rep => Representative rep where
 	{
+		-- | Every value is an instance of 'Is'.
+		;
 		withRepresentative :: forall r. (forall a. (Is rep a) => rep a -> r) -> (forall b. rep b -> r);
 	};
 
@@ -18,6 +18,8 @@ module Data.Witness.Representative where
 	;
 	class Representative rep => Is rep a where
 	{
+		-- | The representative value for type @a@.
+		;
 		representative :: rep a;
 	};
 

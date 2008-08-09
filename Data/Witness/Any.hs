@@ -4,6 +4,8 @@ module Data.Witness.Any where
 	import Data.Witness.EqualType;
 	import Data.Maybe;
 
+	-- | Any value with a witness to it.
+	;
 	data Any w = forall a. MkAny (w a) a;
 	
 	matchAny :: (Witness w) => w a -> Any w -> Maybe a;
@@ -13,6 +15,8 @@ module Data.Witness.Any where
 		return ca;
 	};
 
+	-- | Any value with a witness to a parameter of its type.
+	;
 	data AnyF w f = forall a. MkAnyF (w a) (f a);
 	
 	matchAnyF :: (Witness w) => w a -> AnyF w f -> Maybe (f a);
@@ -22,6 +26,8 @@ module Data.Witness.Any where
 		return cfa;
 	};
 
+	-- | Any witness.
+	;
 	data AnyWitness w = forall a. MkAnyWitness (w a);
 	
 	matchAnyWitness :: (Witness w) => w a -> AnyWitness w -> Bool;

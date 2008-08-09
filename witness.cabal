@@ -17,10 +17,9 @@ exposed-modules:
 	Control.Category
 	Data.Witness
 	Data.Witness.WitnessDict
-other-modules:
-	Data.Witness.Any
 	Data.Witness.Representative
+	Data.Witness.List
+	Data.Witness.Any
 	Data.Witness.Type
 	Data.Witness.Witness
 	Data.Witness.EqualType
-	Data.Witness.List

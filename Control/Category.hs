@@ -2,6 +2,8 @@ module Control.Category where
 {
 	import qualified Prelude;
 
+	-- | ('.') must be associative, and 'id' must be a left and right identity for ('.').
+	;
 	class Category comp where
 	{
 		id :: comp a a;
@@ -11,7 +13,6 @@ module Control.Category where
 	instance Category (->) where
 	{
 		id = Prelude.id;
-		-- (.) = (Prelude..);	haddock chokes on this
-		(.) f g a = f (g a);
+		(.) = (Prelude..);
 	};
 }

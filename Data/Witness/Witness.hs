@@ -2,10 +2,14 @@ module Data.Witness.Witness where
 {
 	import Data.Witness.EqualType;
 
-	-- | If two witnesses have the same value, then they have the same type.
+	-- | @w@ is a witness type if if has the property that if two values are the same, then they have the same type.
 	;
 	class Witness w where
 	{
-		matchWitness :: w a -> w a' -> Maybe (EqualType a a');
+		-- | If the two values are the same, then @a@ and @b@ are the same type.
+		--
+		-- As an equivalence relation, 'matchWitness' must be reflexive, commutative, and transitive.
+		;
+		matchWitness :: w a -> w b -> Maybe (EqualType a b);
 	};
 }

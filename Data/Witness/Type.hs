@@ -2,6 +2,8 @@ module Data.Witness.Type where
 {
 	import Data.Witness.Representative;
 
+	-- | The simplest 'Representative', with one value that represents all types.
+	;
 	data Type a = Type;
 
 	instance Eq1 Type where

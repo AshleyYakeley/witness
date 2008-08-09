@@ -16,7 +16,9 @@ module Data.Witness
 	import Data.Witness.Representative;
 	import Data.Witness.Any;
 
-	matchIs :: (Witness w,Is w a,Is w a') => Type (w ()) -> Maybe (EqualType a a');
+	-- | See whether two represented and witnessed types are the same.
+	;
+	matchIs :: (Witness w,Is w a,Is w b) => Type (w ()) -> Maybe (EqualType a b);
 	matchIs t = matchWitness (foo t) (foo t) where
 	{
 		foo :: (Is w a) => Type (w ()) -> w a;

@@ -6,6 +6,9 @@ module Data.Witness.List where
 	import Data.Witness.EqualType;
 	import Prelude hiding (id,(.));
 
+	-- | a witness type for HList-style lists. Here we use @()@ and @(,)@ for @HNil@ and @HCons@. 
+	-- The @w@ parameter is the witness type of the elements.
+	;
 	data ListType w a where
 	{
 		NilListType :: ListType w ();
