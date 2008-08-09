@@ -2,7 +2,7 @@ module Data.Witness.List where
 {
 	import Control.Category;
 	import Data.Witness.Representative;
-	import Data.Witness.Witness;
+	import Data.Witness.SimpleWitness;
 	import Data.Witness.EqualType;
 	import Prelude hiding (id,(.));
 
@@ -43,7 +43,7 @@ module Data.Witness.List where
 		representative = ConsListType representative representative;
 	};
 
-	instance (Witness w) => Witness (ListType w) where
+	instance (SimpleWitness w) => SimpleWitness (ListType w) where
 	{
 		matchWitness NilListType NilListType = Just id;
 		matchWitness (ConsListType wpa wpb) (ConsListType wqa wqb) = do

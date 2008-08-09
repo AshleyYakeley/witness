@@ -1,10 +1,10 @@
-module Data.Witness.Witness where
+module Data.Witness.SimpleWitness where
 {
 	import Data.Witness.EqualType;
 
-	-- | @w@ is a witness type if if has the property that if two values are the same, then they have the same type.
+	-- | @w@ is a simple witness type if each value witnesses to a single type. Thus if two values are the same, then they have the same type.
 	;
-	class Witness w where
+	class SimpleWitness w where
 	{
 		-- | If the two values are the same, then @a@ and @b@ are the same type.
 		--

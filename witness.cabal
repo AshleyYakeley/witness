@@ -21,5 +21,5 @@ exposed-modules:
 	Data.Witness.List
 	Data.Witness.Any
 	Data.Witness.Type
-	Data.Witness.Witness
+	Data.Witness.SimpleWitness
 	Data.Witness.EqualType
