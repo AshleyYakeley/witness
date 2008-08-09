@@ -1,6 +1,7 @@
 module Data.Witness.WitnessDict where
 {
-	import Data.Witness;
+	import Data.Witness.Any;
+	import Data.Witness.SimpleWitness;
 	import Control.Monad.State;
 	import Data.Maybe;
 	
