@@ -5,14 +5,23 @@ module Data.Witness.WitnessDict where
 	import Control.Monad.State;
 	import Data.Maybe;
 	
+	-- | A dictionary that is heterogenous up to its simple witness type @w@. 
+	-- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
+	;
 	newtype WitnessDict w = MkWitnessDict [Any w];
 	
+	-- | An empty dictionary.
+	;
 	emptyWitnessDict :: WitnessDict w;
 	emptyWitnessDict = MkWitnessDict[];
 	
+	-- | Look up the first value in the dictionary that matches the given witness.
+	;
 	witnessDictLookup :: (SimpleWitness w) => w a -> WitnessDict w -> Maybe a;
 	witnessDictLookup wit (MkWitnessDict cells) = listToMaybe (mapMaybe (matchAny wit) cells);
 	
+	-- | Modify the first value in the dictionary that matches a particular witness.
+	;
 	witnessDictModify :: (SimpleWitness w) => w a -> (a -> a) -> WitnessDict w -> WitnessDict w;
 	witnessDictModify wit amap (MkWitnessDict cells) = MkWitnessDict 
 		(replaceFirst ((fmap ((MkAny wit) . amap)) . (matchAny wit)) cells) where
@@ -26,12 +35,18 @@ module Data.Witness.WitnessDict where
 		replaceFirst _ _ = [];
 	};
 
+	-- | Replace the first value in the dictionary that matches the witness
+	;
 	witnessDictReplace :: (SimpleWitness w) => w a -> a -> WitnessDict w -> WitnessDict w;
 	witnessDictReplace wit newa = witnessDictModify wit (const newa);
 	
+	-- | Add a witness and value as the first entry in the dictionary.
+	;
 	witnessDictAdd :: w a -> a -> WitnessDict w -> WitnessDict w;
 	witnessDictAdd wit a (MkWitnessDict cells) = MkWitnessDict ((MkAny wit a):cells);
 	
+	-- | Remove the first entry in the dictionary that matches the given witness.
+	;
 	witnessDictRemove :: (SimpleWitness w) => w a -> WitnessDict w -> WitnessDict w;
 	witnessDictRemove wit (MkWitnessDict cells) = MkWitnessDict 
 		(removeFirst (\(MkAny cwit _) -> isJust (matchWitness wit cwit)) cells) where
@@ -42,6 +57,8 @@ module Data.Witness.WitnessDict where
 		removeFirst _ _ = [];
 	};
 	
+	-- | Create a dictionary from a list of witness\/value pairs
+	;
 	witnessDictFromList :: (SimpleWitness w) => [Any w] -> WitnessDict w;
 	witnessDictFromList = MkWitnessDict;
 }
