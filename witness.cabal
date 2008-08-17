@@ -11,7 +11,13 @@ description:
 	A witness is a value that "witnesses" some sort of constraint on some list of type variables.
 
 	This library provides support for simple witnesses, that constrain a type variable to a single type, and equality witnesses, that constrain two type variables to be the same type. It also provides classes for representatives, which are values that represent types.
-extensions:		RankNTypes MultiParamTypeClasses FlexibleInstances FlexibleContexts GADTs
+extensions:
+	RankNTypes
+	MultiParamTypeClasses
+	FlexibleInstances
+	FlexibleContexts
+	GADTs
+	KindSignatures
 build-type:		Simple
 exposed-modules:
 	Control.Category

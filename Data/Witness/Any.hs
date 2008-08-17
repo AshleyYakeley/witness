@@ -26,6 +26,9 @@ module Data.Witness.Any where
 		return cfa;
 	};
 
+	data AnyF1 w f = forall (a :: * -> *). MkAnyF1 (w a) (f a);
+	data AnyF2 w f = forall (a :: * -> * -> *). MkAnyF2 (w a) (f a);
+
 	-- | Any witness.
 	;
 	data AnyWitness w = forall a. MkAnyWitness (w a);
@@ -37,4 +40,7 @@ module Data.Witness.Any where
 	{
 		(==) (MkAnyWitness wa) = matchAnyWitness wa;
 	};
+
+	data AnyWitness1 w = forall (a :: * -> *). MkAnyWitness1 (w a);
+	data AnyWitness2 w = forall (a :: * -> * -> *). MkAnyWitness2 (w a);
 }
