@@ -26,7 +26,12 @@ module Data.Witness.Any where
 		return cfa;
 	};
 
+	-- | Any value with a witness to a parameter of its type of kind @* -> *@.
+	;
 	data AnyF1 w f = forall (a :: * -> *). MkAnyF1 (w a) (f a);
+
+	-- | Any value with a witness to a parameter of its type of kind @* -> * -> *@.
+	;
 	data AnyF2 w f = forall (a :: * -> * -> *). MkAnyF2 (w a) (f a);
 
 	-- | Any witness.
@@ -41,6 +46,11 @@ module Data.Witness.Any where
 		(==) (MkAnyWitness wa) = matchAnyWitness wa;
 	};
 
+	-- | Any witness of a type of kind @* -> *@.
+	;
 	data AnyWitness1 w = forall (a :: * -> *). MkAnyWitness1 (w a);
+
+	-- | Any witness of a type of kind @* -> * -> *@.
+	;
 	data AnyWitness2 w = forall (a :: * -> * -> *). MkAnyWitness2 (w a);
 }
