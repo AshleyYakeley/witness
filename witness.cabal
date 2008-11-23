@@ -1,10 +1,10 @@
 name:			witness
-version:		0.1
+version:		0.2
 license:		BSD3
 license-file:	LICENSE
 author:			Ashley Yakeley <ashley@semantic.org>
 maintainer:		Ashley Yakeley <ashley@semantic.org>
-build-depends:	base>=2.0, mtl>=1.1
+build-depends:	base>=4.0, mtl>=1.1
 category:		Data
 synopsis:		values that witness types
 description:
@@ -22,7 +22,6 @@ extensions:
 	KindSignatures
 build-type:		Simple
 exposed-modules:
-	Control.Category
 	Data.Witness
 	Data.Witness.WitnessDict
 	Data.Witness.Representative
