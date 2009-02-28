@@ -12,4 +12,14 @@ module Data.Witness.SimpleWitness where
 		;
 		matchWitness :: w a -> w b -> Maybe (EqualType a b);
 	};
+
+	class SimpleWitness1 (w1 :: * -> * -> *) where
+	{
+		matchWitness1 :: w1 t a -> w1 t b -> Maybe (EqualType a b);
+	};
+
+	instance (SimpleWitness1 w1) => SimpleWitness (w1 t) where
+	{
+		matchWitness = matchWitness1;
+	};
 }
