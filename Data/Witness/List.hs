@@ -29,8 +29,11 @@ module Data.Witness.List where
 
 	instance (Representative w) => Representative (ListType w) where
 	{
-		withRepresentative f NilListType = f NilListType;
-		withRepresentative f (ConsListType w lw) = withRepresentative (\w' -> withRepresentative (\lw' -> f (ConsListType w' lw')) lw) w;
+		getRepWitness NilListType = MkRepWitness;
+		getRepWitness (ConsListType w lw) = case (getRepWitness w,getRepWitness lw) of
+		{
+			(MkRepWitness,MkRepWitness) -> MkRepWitness;
+		};
 	};
 
 	instance (Representative w) => Is (ListType w) () where

@@ -18,7 +18,7 @@ module Data.Witness.Type where
 
 	instance Representative Type where
 	{
-		withRepresentative f t = f t;
+		getRepWitness Type = MkRepWitness;
 	};
 
 	instance Is Type a where
