@@ -3,6 +3,7 @@ module Data.Witness.List where
 	import Control.Category;
 	import Data.Witness.Representative;
 	import Data.Witness.SimpleWitness;
+	import Data.Witness.Any;
 	import Data.Witness.EqualType;
 	import Prelude hiding (id,(.));
 
@@ -57,4 +58,29 @@ module Data.Witness.List where
 		};
 		matchWitness _ _ = Nothing;
 	};
+
+	data ListElementType t a where
+	{
+		HeadListElementType :: ListElementType (h,r) h;
+		TailListElementType :: ListElementType r a -> ListElementType (h,r) a;
+	};
+
+	instance SimpleWitness1 ListElementType where
+	{
+		matchWitness1 HeadListElementType HeadListElementType = Just MkEqualType;
+		matchWitness1 (TailListElementType wa) (TailListElementType wb) = matchWitness1 wa wb;
+		matchWitness1 _ _ = Nothing
+	};
+
+	getListElement :: ListElementType t a -> t -> a;
+	getListElement HeadListElementType (h,_) = h;
+	getListElement (TailListElementType n) (_,r) = getListElement n r;
+
+	putListElement :: ListElementType t a -> a -> t -> t;
+	putListElement HeadListElementType a (_,r) = (a,r);
+	putListElement (TailListElementType n) a (h,r) = (h,putListElement n a r);
+
+	getListElementTypes :: ListType w t -> [AnyF w (ListElementType t)];
+	getListElementTypes NilListType = [];
+	getListElementTypes (ConsListType w ltb) = (MkAnyF w HeadListElementType) : (fmap (\(MkAnyF wt lt) -> MkAnyF wt (TailListElementType lt)) (getListElementTypes ltb));
 }
