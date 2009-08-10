@@ -1,6 +1,7 @@
 module Data.Witness
 (
 	module Data.Witness.WitnessDict,
+	module Data.Witness.WitnessFDict,
 	module Data.Witness.Any,
 	module Data.Witness.Representative,
 	module Data.Witness.Type,
@@ -16,6 +17,7 @@ module Data.Witness
 	import Data.Witness.Type;
 	import Data.Witness.Representative;
 	import Data.Witness.Any;
+	import Data.Witness.WitnessFDict;
 	import Data.Witness.WitnessDict;
 
 	-- | See whether two represented and witnessed types are the same.

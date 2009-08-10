@@ -24,6 +24,7 @@ build-type:		Simple
 exposed-modules:
 	Data.Witness
 	Data.Witness.WitnessDict
+	Data.Witness.WitnessFDict
 	Data.Witness.Representative
 	Data.Witness.List
 	Data.Witness.Any
