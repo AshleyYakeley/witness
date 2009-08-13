@@ -14,6 +14,7 @@ description:
 
 	See the paper /Witnesses and Open Witnesses/ (<http://semantic.org/stuff/Open-Witnesses.pdf>).
 extensions:
+    EmptyDataDecls
 	RankNTypes
 	MultiParamTypeClasses
 	FlexibleInstances
@@ -22,6 +23,7 @@ extensions:
 	KindSignatures
 build-type:		Simple
 exposed-modules:
+	Data.Nothing
 	Data.Witness
 	Data.Witness.WitnessDict
 	Data.Witness.WitnessFDict
