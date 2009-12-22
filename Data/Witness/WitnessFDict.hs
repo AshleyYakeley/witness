@@ -2,7 +2,6 @@ module Data.Witness.WitnessFDict where
 {
 	import Data.Witness.Any;
 	import Data.Witness.SimpleWitness;
-	import Control.Monad.State;
 	import Data.Maybe;
 	
 	-- | A dictionary that is heterogenous up to its simple witness type @w@. 

@@ -1,4 +1,4 @@
-default: build
+default: complete
 
 # Building
 
@@ -14,8 +14,10 @@ build: configure
 haddock: configure
 	cabal haddock
 
-install: build haddock
+install: build
 	cabal install --user --enable-library-profiling --enable-executable-profiling
+
+complete: haddock install
 
 sdist: configure
 	cabal sdist
@@ -23,4 +25,4 @@ sdist: configure
 # switch off intermediate file deletion
 .SECONDARY:
 
-.PHONY: default configure build haddock install test sdist
+.PHONY: default configure build haddock install complete test sdist

@@ -1,7 +1,6 @@
 module Data.Witness.EqualType where
 {
 	import Control.Category;
-	import Prelude hiding (id,(.));
 
 	-- | witness that type parameters @a@ and @b@ are the same type
 	;
