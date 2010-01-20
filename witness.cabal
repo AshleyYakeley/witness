@@ -21,6 +21,7 @@ extensions:
 	FlexibleContexts
 	GADTs
 	KindSignatures
+	TypeFamilies
 ghc-options: -Wall
 build-type:		Simple
 exposed-modules:

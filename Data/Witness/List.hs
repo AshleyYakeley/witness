@@ -1,10 +1,10 @@
 module Data.Witness.List where
 {
-	import Control.Category;
+	import Data.Witness.Nat;
 	import Data.Witness.Representative;
 	import Data.Witness.SimpleWitness;
-	import Data.Witness.Any;
 	import Data.Witness.EqualType;
+	import Control.Category;
 	import Prelude hiding (id,(.));
 
 	-- | a witness type for HList-style lists. Here we use @()@ and @(,)@ for @HNil@ and @HCons@. 
@@ -59,28 +59,30 @@ module Data.Witness.List where
 		matchWitness _ _ = Nothing;
 	};
 
-	data ListElementType t a where
-	{
-		HeadListElementType :: ListElementType (h,r) h;
-		TailListElementType :: ListElementType r a -> ListElementType (h,r) a;
-	};
 
-	instance SimpleWitness1 ListElementType where
-	{
-		matchWitness1 HeadListElementType HeadListElementType = Just MkEqualType;
-		matchWitness1 (TailListElementType wa) (TailListElementType wb) = matchWitness1 wa wb;
-		matchWitness1 _ _ = Nothing
-	};
+    class HasListElement n list where
+    {
+        type ListElement n list :: *;
+        getListElement :: Nat n -> list -> ListElement n list;
+        putListElement :: Nat n -> ListElement n list -> list -> list;
+    };
 
-	getListElement :: ListElementType t a -> t -> a;
-	getListElement HeadListElementType (h,_) = h;
-	getListElement (TailListElementType n) (_,r) = getListElement n r;
+    modifyListElement :: (HasListElement n t) => Nat n -> (ListElement n t -> ListElement n t) -> t -> t;
+    modifyListElement n aa t = putListElement n (aa (getListElement n t)) t;
 
-	putListElement :: ListElementType t a -> a -> t -> t;
-	putListElement HeadListElementType a (_,r) = (a,r);
-	putListElement (TailListElementType n) a (h,r) = (h,putListElement n a r);
+    instance HasListElement Zero (a,r) where
+    {
+        type ListElement Zero (a,r) = a;
+        getListElement _ (a,_) = a;
+        putListElement _ a (_,r) = (a,r);
+    };
 
-	getListElementTypes :: ListType w t -> [AnyF w (ListElementType t)];
-	getListElementTypes NilListType = [];
-	getListElementTypes (ConsListType w ltb) = (MkAnyF w HeadListElementType) : (fmap (\(MkAnyF wt lt) -> MkAnyF wt (TailListElementType lt)) (getListElementTypes ltb));
+    instance (HasListElement n r) => HasListElement (Succ n) (a,r) where
+    {
+        type ListElement (Succ n) (a,r) = ListElement n r;
+        getListElement (SuccNat n) (_,r) = getListElement n r;
+        getListElement _ _ = undefined;    -- hack to overcome dumb warning
+        putListElement (SuccNat n) a (f,r) = (f,putListElement n a r);
+        putListElement _ _ _ = undefined;    -- hack to overcome dumb warning
+    };
 }
