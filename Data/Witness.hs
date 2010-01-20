@@ -7,11 +7,13 @@ module Data.Witness
 	module Data.Witness.Type,
 	module Data.Witness.SimpleWitness,
 	module Data.Witness.EqualType,
+	module Data.Witness.Nat,
 	module Data.Witness.List,
 	module Data.Witness
 ) where
 {
 	import Data.Witness.List;
+	import Data.Witness.Nat;
 	import Data.Witness.EqualType;
 	import Data.Witness.SimpleWitness;
 	import Data.Witness.Type;

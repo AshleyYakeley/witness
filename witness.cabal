@@ -21,6 +21,7 @@ extensions:
 	FlexibleContexts
 	GADTs
 	KindSignatures
+ghc-options: -Wall
 build-type:		Simple
 exposed-modules:
 	Data.Nothing
@@ -28,6 +29,7 @@ exposed-modules:
 	Data.Witness.WitnessDict
 	Data.Witness.WitnessFDict
 	Data.Witness.Representative
+	Data.Witness.Nat
 	Data.Witness.List
 	Data.Witness.Any
 	Data.Witness.Type
