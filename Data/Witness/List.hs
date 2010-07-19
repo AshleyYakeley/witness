@@ -81,8 +81,6 @@ module Data.Witness.List where
     {
         type ListElement (Succ n) (a,r) = ListElement n r;
         getListElement (SuccNat n) (_,r) = getListElement n r;
-        getListElement _ _ = undefined;    -- hack to overcome dumb warning
         putListElement (SuccNat n) a (f,r) = (f,putListElement n a r);
-        putListElement _ _ _ = undefined;    -- hack to overcome dumb warning
     };
 }
