@@ -1,4 +1,4 @@
-cabal-version: >= 1.2.3
+cabal-version: >= 1.6
 
 name: witness
 version: 0.2
@@ -7,7 +7,7 @@ license: BSD3
 license-file: LICENSE
 copyright:
 maintainer: Ashley Yakeley <ashley@semantic.org>
-build-depends: base >=4.0, mtl >=1.1
+build-depends: base == 4.*, mtl >=1.1
 stability:
 homepage:
 package-url:
