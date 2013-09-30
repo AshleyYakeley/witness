@@ -1,4 +1,4 @@
-default: complete
+default: install
 
 # Building
 
@@ -14,15 +14,16 @@ build: configure
 haddock: configure
 	cabal haddock
 
-install: build
-	cabal install --user --enable-library-profiling --enable-executable-profiling
+copy: build test haddock
+	cabal copy
 
-complete: haddock install
+install:
+	cabal install --user --ghc-options=-Werror --enable-library-profiling --enable-executable-profiling --force-reinstalls
 
-sdist: configure
+sdist: clean configure
 	cabal sdist
 
 # switch off intermediate file deletion
 .SECONDARY:
 
-.PHONY: default configure build haddock install complete test sdist
+.PHONY: default clean configure build haddock copy install sdist

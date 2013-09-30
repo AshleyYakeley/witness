@@ -1,16 +1,14 @@
 module Data.Witness.Nat where
 {
-	import Data.Witness.Representative;
-	import Data.Witness.SimpleWitness;
-	import Data.Witness.EqualType;
-	import Data.Maybe;
-	import Prelude hiding (id,(.));
+    import Data.Witness.Representative;
+    import Data.Witness.SimpleWitness;
+    import Data.Witness.EqualType;
+    import Data.Maybe;
+    import Prelude hiding (id,(.));
 
-    data Zero;
-    
-    data Succ n;
-    
-    data Nat t where
+    data NatKind = Zero | Succ NatKind;
+
+    data Nat (t :: NatKind) where
     {
         ZeroNat :: Nat Zero;
         SuccNat :: Nat t -> Nat (Succ t);

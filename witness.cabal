@@ -1,7 +1,6 @@
-cabal-version: >= 1.6
-
 name: witness
-version: 0.2
+version: 0.3
+cabal-version: >=1.8
 build-type: Simple
 author: Ashley Yakeley <ashley@semantic.org>
 license: BSD3
@@ -16,16 +15,35 @@ description:
 category: Data
 
 library
-  build-depends: base == 4.*, mtl >=1.1
-  exposed-modules:
-    Data.Witness Data.Witness.SimpleWitness
-    Data.Witness.Type Data.Witness.List Data.Witness.WitnessDict
-    Data.Witness.WitnessFDict Data.Witness.Any Data.Witness.Nat
-    Data.Witness.Representative Data.Witness.EqualType
-  exposed: True
-  buildable: True
-  extensions:
-    MultiParamTypeClasses RankNTypes FlexibleContexts
-    FlexibleInstances EmptyDataDecls KindSignatures TypeFamilies GADTs
-  ghc-options: -Wall
+    build-depends:
+        base == 4.*,
+        transformers >=0.3,
+        categories == 1.0.*,
+        constraints >= 0.3
+    exposed-modules:
+        Data.Witness.ListElement
+        Data.Witness
+        Data.Witness.SimpleWitness
+        Data.Witness.Type
+        Data.Witness.List
+        Data.Witness.WitnessDict
+        Data.Witness.WitnessFDict
+        Data.Witness.Any
+        Data.Witness.Nat
+        Data.Witness.Representative
+        Data.Witness.EqualType
+    extensions:
+        MultiParamTypeClasses
+        RankNTypes
+        FlexibleContexts
+        TypeOperators
+        FlexibleInstances
+        EmptyDataDecls
+        KindSignatures
+        TypeFamilies
+        GADTs
+        PolyKinds
+        DataKinds
+        ScopedTypeVariables
+    ghc-options: -Wall
 
