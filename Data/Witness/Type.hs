@@ -1,6 +1,7 @@
 module Data.Witness.Type where
 {
     import Data.Witness.Representative;
+    import Data.Constraint;
 
     -- | The simplest 'Representative', with one value that represents all types.
     ;
@@ -18,7 +19,7 @@ module Data.Witness.Type where
 
     instance Representative Type where
     {
-        getRepWitness Type = MkRepWitness;
+        getRepWitness Type = Dict;
     };
 
     instance Is Type a where

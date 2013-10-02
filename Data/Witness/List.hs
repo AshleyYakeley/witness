@@ -4,6 +4,7 @@ module Data.Witness.List where
     import Data.Witness.SimpleWitness;
     import Data.Witness.EqualType;
     import Control.Category.Dual;
+    import Data.Constraint(Dict(..));
     import Control.Applicative;
     import Control.Category;
     import Data.Functor.Identity as Import;
@@ -32,10 +33,10 @@ module Data.Witness.List where
 
     instance (Representative w) => Representative (ListType w) where
     {
-        getRepWitness NilListType = MkRepWitness;
+        getRepWitness NilListType = Dict;
         getRepWitness (ConsListType w lw) = case (getRepWitness w,getRepWitness lw) of
         {
-            (MkRepWitness,MkRepWitness) -> MkRepWitness;
+            (Dict,Dict) -> Dict;
         };
     };
 

@@ -3,6 +3,7 @@ module Data.Witness.Nat where
     import Data.Witness.Representative;
     import Data.Witness.SimpleWitness;
     import Data.Witness.EqualType;
+    import Data.Constraint(Dict(..));
     import Data.Maybe;
     import Prelude hiding (id,(.));
 
@@ -32,10 +33,10 @@ module Data.Witness.Nat where
 
     instance Representative Nat where
     {
-        getRepWitness ZeroNat = MkRepWitness;
+        getRepWitness ZeroNat = Dict;
         getRepWitness (SuccNat n) = case getRepWitness n of
         {
-            MkRepWitness -> MkRepWitness;
+            Dict -> Dict;
         };
     };
 
