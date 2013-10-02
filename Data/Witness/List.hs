@@ -62,9 +62,17 @@ module Data.Witness.List where
         matchWitness _ _ = Nothing;
     };
 
-    listFill :: (forall a. w a -> a) -> ListType w t -> t;
-    listFill _f NilListType = ();
-    listFill f (ConsListType w rest) = (f w,listFill f rest);
+    listFill :: ListType w t -> (forall a. w a -> a) -> t;
+    listFill NilListType _f = ();
+    listFill (ConsListType wa wr) f = (f wa,listFill wr f);
+
+    listMap :: ListType w t -> (forall a. w a -> a -> a) -> t -> t;
+    listMap NilListType _f () = ();
+    listMap (ConsListType wa wr) f (a,rest) = (f wa a,listMap wr f rest);
+
+    listLift2 :: ListType w t -> (forall a. w a -> a -> a -> a) -> t -> t -> t;
+    listLift2 NilListType _f () () = ();
+    listLift2 (ConsListType wa wr) f (a,resta) (b,restb) = (f wa a b,listLift2 wr f resta restb);
 
     listTypeToList :: (forall a. w a -> r) -> ListType w t -> [r];
     listTypeToList _wr NilListType = [];
@@ -221,21 +229,21 @@ module Data.Witness.List where
     data MapList cc w2 l = forall lr. MkMapList
     {
         listMapWitness :: ListType w2 lr,
-        listMap :: cc l lr
+        listMapW :: cc l lr
     };
 
     mapList :: (Tensor cc) => MapWitness cc w1 w2 -> ListType w1 l -> MapList cc w2 l;
     mapList _ NilListType = MkMapList
     {
         listMapWitness = NilListType,
-        listMap = tensorUnit
+        listMapW = tensorUnit
     };
     mapList mapwit (ConsListType w rest) = case mapList mapwit rest of
     {
-        MkMapList wit listMap' -> mapwit w (\w' vmap -> MkMapList
+        MkMapList wit listMapW' -> mapwit w (\w' vmap -> MkMapList
         {
             listMapWitness = ConsListType w' wit,
-            listMap = tensorPair vmap listMap'
+            listMapW = tensorPair vmap listMapW'
         });
     };
 
