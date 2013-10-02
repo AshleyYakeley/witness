@@ -3,7 +3,6 @@ module Data.Witness.List where
     import Data.Witness.Representative;
     import Data.Witness.SimpleWitness;
     import Data.Witness.EqualType;
-    import Data.Constraint(Dict(..));
     import Control.Category.Dual;
     import Control.Applicative;
     import Control.Category;
@@ -62,6 +61,10 @@ module Data.Witness.List where
         matchWitness _ _ = Nothing;
     };
 
+    listFill :: (forall a. w a -> a) -> ListType w t -> t;
+    listFill _f NilListType = ();
+    listFill f (ConsListType w rest) = (f w,listFill f rest);
+
     listTypeToList :: (forall a. w a -> r) -> ListType w t -> [r];
     listTypeToList _wr NilListType = [];
     listTypeToList wr (ConsListType wa rest) = (wr wa):(listTypeToList wr rest);
@@ -78,38 +81,116 @@ module Data.Witness.List where
     listSequence NilListType = pure ();
     listSequence (ConsListType fa rest) = liftA2 (,) fa (listSequence rest);
 
-    class AppendList (la :: *) (lb :: *) where
+    data AppendList w la lb = forall lr. MkAppendList
     {
-        type ListAppend la lb :: *;
-        listAppendWitness :: ListType w la -> ListType w lb -> ListType w (ListAppend la lb);
-        listJoin :: la -> lb -> ListAppend la lb;
-        listSplit :: ListAppend la lb -> (la,lb);
+        listAppendWitness :: ListType w lr,
+        listAppend :: la -> lb -> lr,
+        listSplit :: lr -> (la,lb)
     };
 
-    instance AppendList () lb where
+    appendList :: ListType w la -> ListType w lb -> AppendList w la lb;
+    appendList NilListType wlb = MkAppendList
     {
-        type ListAppend () lb = lb;
-        listAppendWitness NilListType wlb = wlb;
-        listJoin () lb = lb;
-        listSplit lb = ((),lb);
+        listAppendWitness = wlb,
+        listAppend = \() lb -> lb,
+        listSplit = \lb -> ((),lb)
     };
-
-    instance (AppendList la lb) => AppendList (a,la) lb where
+    appendList (ConsListType wa wla) wlb = case appendList wla wlb of
     {
-        type ListAppend (a,la) lb = (a,ListAppend la lb);
-        listAppendWitness (ConsListType wa wla) wlb = ConsListType wa (listAppendWitness wla wlb);
-        listJoin (a,la) lb = (a,listJoin la lb);
-        listSplit (a,lab) = case listSplit lab of
+        MkAppendList wit join split -> MkAppendList
         {
-            (la,lb) -> ((a,la),lb);
+            listAppendWitness = ConsListType wa wit,
+            listAppend = \(a,la) lb -> (a,join la lb),
+            listSplit = \(a,lab) -> case split lab of
+            {
+                (la,lb) -> ((a,la),lb);
+            }
         };
     };
 
-    witnessedListAppend :: ListType w la -> ListType w lb -> Dict (AppendList la lb);
-    witnessedListAppend NilListType _ = Dict;
-    witnessedListAppend (ConsListType _ wla) wlb = case witnessedListAppend wla wlb of
+    data AddItemList w a l = forall lr. MkAddItemList
     {
-        Dict -> Dict;
+        listAddItemWitness :: ListType w lr,
+        listAddItem :: a -> l -> lr,
+        listSplitItem :: lr -> (a,l)
+    };
+
+    addListItem :: w a -> ListType w l -> AddItemList w a l;
+    addListItem wa wl = MkAddItemList
+    {
+        listAddItemWitness = ConsListType wa wl,
+        listAddItem = (,),
+        listSplitItem = id
+    };
+
+    data MergeItemList w a l = forall lr. MkMergeItemList
+    {
+        listMergeItemWitness :: ListType w lr,
+        listMergeItem :: (Maybe a -> a) -> l -> lr,
+        listUnmergeItem :: lr -> (a,l)
+    };
+
+    mergeListItem :: (SimpleWitness w) => ListType w l -> w a -> MergeItemList w a l;
+    mergeListItem NilListType wa = MkMergeItemList
+    {
+        listMergeItemWitness = ConsListType wa NilListType,
+        listMergeItem = \maa () -> (maa Nothing,()),
+        listUnmergeItem = id
+    };
+    mergeListItem wl@(ConsListType wa' _) wa | Just MkEqualType <- matchWitness wa wa' = MkMergeItemList
+    {
+        listMergeItemWitness = wl,
+        listMergeItem = \maa (a,l) -> (maa (Just a),l),
+        listUnmergeItem = \(a,l) -> (a,(a,l))
+    };
+    mergeListItem (ConsListType wa' wl) wa = case mergeListItem wl wa of
+    {
+        MkMergeItemList wit merge unmerge -> MkMergeItemList
+        {
+            listMergeItemWitness = ConsListType wa' wit,
+            listMergeItem = \maa (a',l) -> (a',merge maa l),
+            listUnmergeItem = \(a',l') -> case unmerge l' of
+            {
+                (a,l) -> (a,(a',l));
+            }
+        };
+    };
+
+    data MergeList w la lb = forall lr. MkMergeList
+    {
+        listMergeWitness :: ListType w lr,
+        listMerge :: (forall t. w t -> t -> t -> t) -> la -> lb -> lr,
+        listUnmerge :: lr -> (la,lb)
+    };
+
+    mergeList :: (SimpleWitness w) => ListType w la -> ListType w lb -> MergeList w la lb;
+    mergeList wla NilListType = MkMergeList
+    {
+        listMergeWitness = wla,
+        listMerge = \_ la () -> la,
+        listUnmerge = \la -> (la,())
+    };
+    mergeList wla (ConsListType wb wlb) = case mergeListItem wla wb of
+    {
+        MkMergeItemList wla' mergeItem unmergeItem -> case mergeList wla' wlb of
+        {
+            MkMergeList wlr merge unmerge -> MkMergeList
+            {
+                listMergeWitness = wlr,
+                listMerge = \f la (b,lb) -> merge f (mergeItem (\mb' -> case mb' of
+                {
+                    Just b' -> f wb b' b;
+                    Nothing -> b;
+                }) la) lb,
+                listUnmerge = \lr -> case unmerge lr of
+                {
+                    (la',lb) -> case unmergeItem la' of
+                    {
+                        (b,la) -> (la,(b,lb));
+                    };
+                }
+            };
+        };
     };
 
     -- could use data-lens:Control.Category.Product(Tensor)
@@ -132,6 +213,9 @@ module Data.Witness.List where
     };
 
     type MapWitness cc w1 w2 = forall r v1. w1 v1 -> (forall v2. w2 v2 -> (cc v1 v2) -> r) -> r;
+
+    sameMapWitness :: (forall v. w v -> cc v v) -> MapWitness cc w w;
+    sameMapWitness wc w wcr = wcr w (wc w);
 
     data MapList cc w2 l = forall lr. MkMapList
     {
@@ -214,7 +298,14 @@ module Data.Witness.List where
         };
     };
 
-    newtype EitherWitness w1 w2 a = MkEitherWitness (Either (w1 a) (w2 a));
+    newtype EitherWitness (w1 :: k -> *) (w2 :: k -> *) (a :: k) = MkEitherWitness (Either (w1 a) (w2 a));
+
+    instance (SimpleWitness w1,SimpleWitness w2) => SimpleWitness (EitherWitness w1 w2) where
+    {
+        matchWitness (MkEitherWitness (Left wa)) (MkEitherWitness (Left wb)) = matchWitness wa wb;
+        matchWitness (MkEitherWitness (Right wa)) (MkEitherWitness (Right wb)) = matchWitness wa wb;
+        matchWitness _ _ = Nothing;
+    };
 
     data PartitionList wit1 wit2 l = forall l1 l2. MkPartitionList
     {
