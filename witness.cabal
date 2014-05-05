@@ -15,6 +15,7 @@ description:
 category: Data
 
 library
+    hs-source-dirs: src
     build-depends:
         base == 4.*,
         transformers >=0.3,
