@@ -1,14 +1,13 @@
 module Data.Witness.List where
 {
+    import Prelude hiding (id,(.));
     import Data.Witness.Representative;
-    import Data.Witness.SimpleWitness;
-    import Data.Witness.EqualType;
+    import Data.Type.Equality;
     import Control.Category.Dual;
     import Data.Constraint(Dict(..));
     import Control.Applicative;
     import Control.Category;
     import Data.Functor.Identity as Import;
-    import Prelude hiding (id,(.));
 
     -- | a witness type for HList-style lists.
     -- The @w@ parameter is the witness type of the elements.
@@ -50,16 +49,16 @@ module Data.Witness.List where
         representative = ConsListType representative representative;
     };
 
-    instance (SimpleWitness w) => SimpleWitness (ListType w) where
+    instance (TestEquality w) => TestEquality (ListType w) where
     {
-        matchWitness NilListType NilListType = Just MkEqualType;
-        matchWitness (ConsListType wpa wpb) (ConsListType wqa wqb) = do
+        testEquality NilListType NilListType = Just Refl;
+        testEquality (ConsListType wpa wpb) (ConsListType wqa wqb) = do
         {
-            MkEqualType <- matchWitness wpa wqa;
-            MkEqualType <- matchWitness wpb wqb;
-            return MkEqualType;
+            Refl <- testEquality wpa wqa;
+            Refl <- testEquality wpb wqb;
+            return Refl;
         };
-        matchWitness _ _ = Nothing;
+        testEquality _ _ = Nothing;
     };
 
     listFill :: ListType w t -> (forall a. w a -> a) -> t;
@@ -139,14 +138,14 @@ module Data.Witness.List where
         listUnmergeItem :: lr -> (a,l)
     };
 
-    mergeListItem :: (SimpleWitness w) => ListType w l -> w a -> MergeItemList w a l;
+    mergeListItem :: (TestEquality w) => ListType w l -> w a -> MergeItemList w a l;
     mergeListItem NilListType wa = MkMergeItemList
     {
         listMergeItemWitness = ConsListType wa NilListType,
         listMergeItem = \maa () -> (maa Nothing,()),
         listUnmergeItem = id
     };
-    mergeListItem wl@(ConsListType wa' _) wa | Just MkEqualType <- matchWitness wa wa' = MkMergeItemList
+    mergeListItem wl@(ConsListType wa' _) wa | Just Refl <- testEquality wa wa' = MkMergeItemList
     {
         listMergeItemWitness = wl,
         listMergeItem = \maa (a,l) -> (maa (Just a),l),
@@ -172,7 +171,7 @@ module Data.Witness.List where
         listUnmerge :: lr -> (la,lb)
     };
 
-    mergeList :: (SimpleWitness w) => ListType w la -> ListType w lb -> MergeList w la lb;
+    mergeList :: (TestEquality w) => ListType w la -> ListType w lb -> MergeList w la lb;
     mergeList wla NilListType = MkMergeList
     {
         listMergeWitness = wla,
@@ -254,7 +253,7 @@ module Data.Witness.List where
         listRemove :: l -> lr
     };
 
-    removeAllMatching :: (SimpleWitness w) => w a -> ListType w l -> RemoveFromList w a l;
+    removeAllMatching :: (TestEquality w) => w a -> ListType w l -> RemoveFromList w a l;
     removeAllMatching _ NilListType = MkRemoveFromList
     {
         listRemoveWitness = NilListType,
@@ -263,9 +262,9 @@ module Data.Witness.List where
     };
     removeAllMatching wa (ConsListType wb rest) = case removeAllMatching wa rest of
     {
-        MkRemoveFromList wit ins rm -> case matchWitness wa wb of
+        MkRemoveFromList wit ins rm -> case testEquality wa wb of
         {
-            Just MkEqualType -> MkRemoveFromList
+            Just Refl -> MkRemoveFromList
             {
                 listRemoveWitness = wit,
                 listInsert = \a l2 -> (a,ins a l2),
@@ -287,7 +286,7 @@ module Data.Witness.List where
         listRemoveMany :: l -> lr
     };
 
-    removeAllMatchingMany :: (SimpleWitness wit) => ListType wit lx -> ListType wit l -> RemoveManyFromList wit lx l;
+    removeAllMatchingMany :: (TestEquality wit) => ListType wit lx -> ListType wit l -> RemoveManyFromList wit lx l;
     removeAllMatchingMany NilListType wl = MkRemoveManyFromList
     {
         listRemoveManyWitness = wl,
@@ -309,11 +308,11 @@ module Data.Witness.List where
 
     newtype EitherWitness (w1 :: k -> *) (w2 :: k -> *) (a :: k) = MkEitherWitness (Either (w1 a) (w2 a));
 
-    instance (SimpleWitness w1,SimpleWitness w2) => SimpleWitness (EitherWitness w1 w2) where
+    instance (TestEquality w1,TestEquality w2) => TestEquality (EitherWitness w1 w2) where
     {
-        matchWitness (MkEitherWitness (Left wa)) (MkEitherWitness (Left wb)) = matchWitness wa wb;
-        matchWitness (MkEitherWitness (Right wa)) (MkEitherWitness (Right wb)) = matchWitness wa wb;
-        matchWitness _ _ = Nothing;
+        testEquality (MkEitherWitness (Left wa)) (MkEitherWitness (Left wb)) = testEquality wa wb;
+        testEquality (MkEitherWitness (Right wa)) (MkEitherWitness (Right wb)) = testEquality wa wb;
+        testEquality _ _ = Nothing;
     };
 
     data PartitionList wit1 wit2 l = forall l1 l2. MkPartitionList

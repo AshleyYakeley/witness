@@ -1,8 +1,8 @@
 module Data.Witness.WitnessDict where
 {
-    import Data.Witness.Any;
-    import Data.Witness.SimpleWitness;
     import Data.Maybe;
+    import Data.Type.Equality;
+    import Data.Witness.Any;
 
     -- | A dictionary that is heterogenous up to its simple witness type @w@.
     -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
@@ -16,12 +16,12 @@ module Data.Witness.WitnessDict where
 
     -- | Look up the first value in the dictionary that matches the given witness.
     ;
-    witnessDictLookup :: (SimpleWitness w) => w a -> WitnessDict w -> Maybe a;
+    witnessDictLookup :: (TestEquality w) => w a -> WitnessDict w -> Maybe a;
     witnessDictLookup wit (MkWitnessDict cells) = listToMaybe (mapMaybe (matchAny wit) cells);
 
     -- | Modify the first value in the dictionary that matches a particular witness.
     ;
-    witnessDictModify :: (SimpleWitness w) => w a -> (a -> a) -> WitnessDict w -> WitnessDict w;
+    witnessDictModify :: (TestEquality w) => w a -> (a -> a) -> WitnessDict w -> WitnessDict w;
     witnessDictModify wit amap (MkWitnessDict cells) = MkWitnessDict
         (replaceFirst ((fmap ((MkAny wit) . amap)) . (matchAny wit)) cells) where
     {
@@ -36,7 +36,7 @@ module Data.Witness.WitnessDict where
 
     -- | Replace the first value in the dictionary that matches the witness
     ;
-    witnessDictReplace :: (SimpleWitness w) => w a -> a -> WitnessDict w -> WitnessDict w;
+    witnessDictReplace :: (TestEquality w) => w a -> a -> WitnessDict w -> WitnessDict w;
     witnessDictReplace wit newa = witnessDictModify wit (const newa);
 
     -- | Add a witness and value as the first entry in the dictionary.
@@ -46,9 +46,9 @@ module Data.Witness.WitnessDict where
 
     -- | Remove the first entry in the dictionary that matches the given witness.
     ;
-    witnessDictRemove :: (SimpleWitness w) => w a -> WitnessDict w -> WitnessDict w;
+    witnessDictRemove :: (TestEquality w) => w a -> WitnessDict w -> WitnessDict w;
     witnessDictRemove wit (MkWitnessDict cells) = MkWitnessDict
-        (removeFirst (\(MkAny cwit _) -> isJust (matchWitness wit cwit)) cells) where
+        (removeFirst (\(MkAny cwit _) -> isJust (testEquality wit cwit)) cells) where
     {
         removeFirst :: (a -> Bool) -> [a] -> [a];
         removeFirst p (a:as) | p a = as;
@@ -58,6 +58,6 @@ module Data.Witness.WitnessDict where
 
     -- | Create a dictionary from a list of witness\/value pairs
     ;
-    witnessDictFromList :: (SimpleWitness w) => [Any w] -> WitnessDict w;
+    witnessDictFromList :: (TestEquality w) => [Any w] -> WitnessDict w;
     witnessDictFromList = MkWitnessDict;
 }

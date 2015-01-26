@@ -22,17 +22,14 @@ library
         categories == 1.0.*,
         constraints >= 0.3
     exposed-modules:
-        Data.Witness.ListElement
-        Data.Witness
-        Data.Witness.SimpleWitness
-        Data.Witness.Type
-        Data.Witness.List
+        Data.Witness.Any
         Data.Witness.WitnessDict
         Data.Witness.WitnessFDict
-        Data.Witness.Any
         Data.Witness.Nat
+        Data.Witness.ListElement
+        Data.Witness.List
         Data.Witness.Representative
-        Data.Witness.EqualType
+        Data.Witness
     extensions:
         MultiParamTypeClasses
         RankNTypes

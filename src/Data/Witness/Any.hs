@@ -1,17 +1,16 @@
 module Data.Witness.Any where
 {
-    import Data.Witness.SimpleWitness;
-    import Data.Witness.EqualType;
     import Data.Maybe;
+    import Data.Type.Equality;
 
     -- | Any value with a witness to it.
     ;
     data Any (w :: * -> *) = forall (a :: *). MkAny (w a) a;
 
-    matchAny :: (SimpleWitness w) => w a -> Any w -> Maybe a;
+    matchAny :: (TestEquality w) => w a -> Any w -> Maybe a;
     matchAny wit (MkAny cwit ca) = do
     {
-        MkEqualType <- matchWitness cwit wit;
+        Refl <- testEquality cwit wit;
         return ca;
     };
 
@@ -19,10 +18,10 @@ module Data.Witness.Any where
     ;
     data AnyF (w :: k -> *) (f :: k -> *) = forall (a :: k). MkAnyF (w a) (f a);
 
-    matchAnyF :: (SimpleWitness w) => w a -> AnyF w f -> Maybe (f a);
+    matchAnyF :: (TestEquality w) => w a -> AnyF w f -> Maybe (f a);
     matchAnyF wit (MkAnyF cwit cfa) = do
     {
-        MkEqualType <- matchWitness cwit wit;
+        Refl <- testEquality cwit wit;
         return cfa;
     };
 
@@ -30,10 +29,10 @@ module Data.Witness.Any where
     ;
     data AnyWitness (w :: k -> *) = forall (a :: k). MkAnyWitness (w a);
 
-    matchAnyWitness :: (SimpleWitness w) => w a -> AnyWitness w -> Bool;
-    matchAnyWitness wit (MkAnyWitness cwit) = isJust (matchWitness cwit wit);
+    matchAnyWitness :: (TestEquality w) => w a -> AnyWitness w -> Bool;
+    matchAnyWitness wit (MkAnyWitness cwit) = isJust (testEquality cwit wit);
 
-    instance (SimpleWitness w) => Eq (AnyWitness w) where
+    instance (TestEquality w) => Eq (AnyWitness w) where
     {
         (==) (MkAnyWitness wa) = matchAnyWitness wa;
     };

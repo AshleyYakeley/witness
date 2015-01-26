@@ -1,11 +1,10 @@
 module Data.Witness.Nat where
 {
-    import Data.Witness.Representative;
-    import Data.Witness.SimpleWitness;
-    import Data.Witness.EqualType;
-    import Data.Constraint(Dict(..));
-    import Data.Maybe;
     import Prelude hiding (id,(.));
+    import Data.Maybe;
+    import Data.Type.Equality;
+    import Data.Constraint(Dict(..));
+    import Data.Witness.Representative;
 
     data NatKind = Zero | Succ NatKind;
 
@@ -15,20 +14,20 @@ module Data.Witness.Nat where
         SuccNat :: Nat t -> Nat (Succ t);
     };
 
-    instance SimpleWitness Nat where
+    instance TestEquality Nat where
     {
-        matchWitness ZeroNat ZeroNat = return MkEqualType;
-        matchWitness (SuccNat a) (SuccNat b) = do
+        testEquality ZeroNat ZeroNat = return Refl;
+        testEquality (SuccNat a) (SuccNat b) = do
         {
-            MkEqualType <- matchWitness a b;
-            return MkEqualType;
+            Refl <- testEquality a b;
+            return Refl;
         };
-        matchWitness _ _ = Nothing;
+        testEquality _ _ = Nothing;
     };
 
     instance Eq1 Nat where
     {
-        equals1 a b = isJust (matchWitness a b);
+        equals1 a b = isJust (testEquality a b);
     };
 
     instance Representative Nat where
