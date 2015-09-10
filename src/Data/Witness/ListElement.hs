@@ -12,16 +12,16 @@ module Data.Witness.ListElement where
     modifyListElement :: (HasListElement n t) => Nat n -> (ListElement n t -> ListElement n t) -> t -> t;
     modifyListElement n aa t = putListElement n (aa (getListElement n t)) t;
 
-    instance HasListElement Zero (a,r) where
+    instance HasListElement 'Zero (a,r) where
     {
-        type ListElement Zero (a,r) = a;
+        type ListElement 'Zero (a,r) = a;
         getListElement _ (a,_) = a;
         putListElement _ a (_,r) = (a,r);
     };
 
-    instance (HasListElement n r) => HasListElement (Succ n) (a,r) where
+    instance (HasListElement n r) => HasListElement ('Succ n) (a,r) where
     {
-        type ListElement (Succ n) (a,r) = ListElement n r;
+        type ListElement ('Succ n) (a,r) = ListElement n r;
         getListElement (SuccNat n) (_,r) = getListElement n r;
         putListElement (SuccNat n) a (f,r) = (f,putListElement n a r);
     };

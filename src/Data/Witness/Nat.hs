@@ -10,8 +10,8 @@ module Data.Witness.Nat where
 
     data Nat (t :: NatKind) where
     {
-        ZeroNat :: Nat Zero;
-        SuccNat :: Nat t -> Nat (Succ t);
+        ZeroNat :: Nat 'Zero;
+        SuccNat :: Nat t -> Nat ('Succ t);
     };
 
     instance TestEquality Nat where
@@ -39,12 +39,12 @@ module Data.Witness.Nat where
         };
     };
 
-    instance Is Nat Zero where
+    instance Is Nat 'Zero where
     {
         representative = ZeroNat;
     };
 
-    instance (Is Nat n) => Is Nat (Succ n) where
+    instance (Is Nat n) => Is Nat ('Succ n) where
     {
         representative = SuccNat representative;
     };
