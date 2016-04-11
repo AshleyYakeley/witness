@@ -37,9 +37,9 @@ library
         PatternGuards
     build-depends:
         base == 4.*,
-        transformers >=0.3,
-        categories == 1.0.*,
-        constraints >= 0.3
+        transformers,
+        categories,
+        constraints
     exposed-modules:
         Data.Witness.Any
         Data.Witness.WitnessDict
