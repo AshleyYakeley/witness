@@ -1,6 +1,6 @@
 cabal-version:  >=1.14
 name:           witness
-version:        0.3.1
+version:        0.3.0.1
 x-follows-version-policy:
 license:        BSD3
 license-file:   LICENSE
@@ -36,7 +36,7 @@ library
         ScopedTypeVariables
         PatternGuards
     build-depends:
-        base >= 4.7,
+        base >= 4.7 && < 5,
         transformers,
         categories,
         constraints
