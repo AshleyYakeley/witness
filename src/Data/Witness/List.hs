@@ -1,3 +1,4 @@
+{-# OPTIONS -fno-warn-overlapping-patterns #-}
 module Data.Witness.List where
 {
     import Prelude hiding (id,(.));

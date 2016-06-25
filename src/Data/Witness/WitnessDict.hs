@@ -58,6 +58,6 @@ module Data.Witness.WitnessDict where
 
     -- | Create a dictionary from a list of witness\/value pairs
     ;
-    witnessDictFromList :: (TestEquality w) => [Any w] -> WitnessDict w;
+    witnessDictFromList :: [Any w] -> WitnessDict w;
     witnessDictFromList = MkWitnessDict;
 }
