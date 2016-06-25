@@ -35,10 +35,11 @@ library
         DataKinds
         ScopedTypeVariables
         PatternGuards
+        PatternSynonyms
     build-depends:
         base >= 4.7 && < 5,
         transformers,
-        categories,
+        -- categories,
         constraints
     exposed-modules:
         Data.Witness.Any
