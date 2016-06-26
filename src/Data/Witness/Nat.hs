@@ -6,18 +6,18 @@ module Data.Witness.Nat where
     import Data.Constraint(Dict(..));
     import Data.Witness.Representative;
 
-    data NatKind = Zero | Succ NatKind;
+    data Nat = Zero | Succ Nat;
 
-    data Nat (t :: NatKind) where
+    data NatType (t :: Nat) where
     {
-        ZeroNat :: Nat 'Zero;
-        SuccNat :: Nat t -> Nat ('Succ t);
+        ZeroType :: NatType 'Zero;
+        SuccType :: NatType t -> NatType ('Succ t);
     };
 
-    instance TestEquality Nat where
+    instance TestEquality NatType where
     {
-        testEquality ZeroNat ZeroNat = return Refl;
-        testEquality (SuccNat a) (SuccNat b) = do
+        testEquality ZeroType ZeroType = return Refl;
+        testEquality (SuccType a) (SuccType b) = do
         {
             Refl <- testEquality a b;
             return Refl;
@@ -25,27 +25,27 @@ module Data.Witness.Nat where
         testEquality _ _ = Nothing;
     };
 
-    instance Eq1 Nat where
+    instance Eq1 NatType where
     {
         equals1 a b = isJust (testEquality a b);
     };
 
-    instance Representative Nat where
+    instance Representative NatType where
     {
-        getRepWitness ZeroNat = Dict;
-        getRepWitness (SuccNat n) = case getRepWitness n of
+        getRepWitness ZeroType = Dict;
+        getRepWitness (SuccType n) = case getRepWitness n of
         {
             Dict -> Dict;
         };
     };
 
-    instance Is Nat 'Zero where
+    instance Is NatType 'Zero where
     {
-        representative = ZeroNat;
+        representative = ZeroType;
     };
 
-    instance (Is Nat n) => Is Nat ('Succ n) where
+    instance (Is NatType n) => Is NatType ('Succ n) where
     {
-        representative = SuccNat representative;
+        representative = SuccType representative;
     };
 }
