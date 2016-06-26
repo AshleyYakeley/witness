@@ -4,9 +4,8 @@ module Data.Witness.Nat where
     import Data.Maybe;
     import Data.Type.Equality;
     import Data.Constraint(Dict(..));
+    import Data.Nat;
     import Data.Witness.Representative;
-
-    data Nat = Zero | Succ Nat;
 
     data NatType (t :: Nat) where
     {

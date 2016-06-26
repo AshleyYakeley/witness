@@ -42,6 +42,7 @@ library
         semigroupoids,
         constraints
     exposed-modules:
+        Data.Nat
         Data.Witness.Any
         Data.Witness.WitnessDict
         Data.Witness.WitnessFDict

@@ -1,5 +1,6 @@
 module Data.Witness.ListElement where
 {
+    import Data.Nat;
     import Data.Witness.Nat;
 
     class HasListElement (n :: Nat) (list :: *) where
