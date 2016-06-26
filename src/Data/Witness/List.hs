@@ -4,7 +4,7 @@ module Data.Witness.List where
     import Prelude hiding (id,(.));
     import Data.Witness.Representative;
     import Data.Type.Equality;
-    --import Control.Category.Dual;
+    import Data.Semigroupoid.Dual;
     import Data.Constraint(Dict(..));
     import Control.Applicative;
     import Control.Category;
@@ -214,13 +214,13 @@ module Data.Witness.List where
         tensorUnit = id;
         tensorPair ab1 ab2 (a1,a2) = (ab1 a1,ab2 a2);
     };
-{-
+
     instance (Tensor cc) => Tensor (Dual cc) where
     {
         tensorUnit = Dual tensorUnit;
         tensorPair (Dual ab1) (Dual ab2) = Dual (tensorPair ab1 ab2);
     };
--}
+
     type MapWitness cc w1 w2 = forall r v1. w1 v1 -> (forall v2. w2 v2 -> (cc v1 v2) -> r) -> r;
 
     sameMapWitness :: (forall v. w v -> cc v v) -> MapWitness cc w w;
