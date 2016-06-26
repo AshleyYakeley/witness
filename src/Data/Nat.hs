@@ -7,6 +7,7 @@ module Data.Nat where
     addNat (Succ a) b = Succ $ addNat a b;
 
     -- | subtractFromNat a b = b - a
+    ;
     subtractFromNat :: Nat -> Nat -> Maybe Nat;
     subtractFromNat Zero b = Just b;
     subtractFromNat (Succ a) (Succ b) = subtractFromNat a b;
