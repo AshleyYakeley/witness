@@ -43,6 +43,7 @@ library
         constraints
     exposed-modules:
         Data.Nat
+        Control.Category.Tensor
         Data.Witness.Any
         Data.Witness.WitnessDict
         Data.Witness.WitnessFDict
