@@ -32,3 +32,6 @@ matchAnyWitness wit (MkAnyWitness cwit) = isJust (testEquality cwit wit)
 
 instance (TestEquality w) => Eq (AnyWitness w) where
     (==) (MkAnyWitness wa) = matchAnyWitness wa
+
+mapAnyWitness :: (forall t. w1 t -> w2 t) -> AnyWitness w1 -> AnyWitness w2
+mapAnyWitness f (MkAnyWitness wt) = MkAnyWitness $ f wt

@@ -1,22 +1,34 @@
 module Data.Witness.ListElement where
 
-import Data.Nat
-import Data.Witness.Nat
+import Data.Countable
+import Data.Empty
+import Data.Maybe
+import Data.Searchable
+import Data.Type.Equality
 
-class HasListElement (n :: Nat) (list :: *) where
-    type ListElement n list :: *
-    getListElement :: NatType n -> list -> ListElement n list
-    putListElement :: NatType n -> ListElement n list -> list -> list
+data ListThingWitness (kk :: [k]) (t :: k) where
+    FirstListThingWitness :: ListThingWitness (t : tt) t
+    RestListThingWitness :: ListThingWitness aa t -> ListThingWitness (a : aa) t
 
-modifyListElement :: (HasListElement n t) => NatType n -> (ListElement n t -> ListElement n t) -> t -> t
-modifyListElement n aa t = putListElement n (aa (getListElement n t)) t
+instance TestEquality (ListThingWitness tt) where
+    testEquality FirstListThingWitness FirstListThingWitness = Just Refl
+    testEquality (RestListThingWitness lt1) (RestListThingWitness lt2) = do
+        Refl <- testEquality lt1 lt2
+        return Refl
+    testEquality _ _ = Nothing
 
-instance HasListElement 'Zero (a, r) where
-    type ListElement 'Zero (a, r) = a
-    getListElement _ (a, _) = a
-    putListElement _ a (_, r) = (a, r)
+instance Searchable (ListThingWitness '[] t) where
+    search = finiteSearch
 
-instance (HasListElement n r) => HasListElement ('Succ n) (a, r) where
-    type ListElement ('Succ n) (a, r) = ListElement n r
-    getListElement (SuccType n) (_, r) = getListElement n r
-    putListElement (SuccType n) a (f, r) = (f, putListElement n a r)
+instance Eq (ListThingWitness tt t) where
+    lt1 == lt2 = isJust $ testEquality lt1 lt2
+
+instance Countable (ListThingWitness '[] t) where
+    countPrevious = finiteCountPrevious
+    countMaybeNext = finiteCountMaybeNext
+
+instance Finite (ListThingWitness '[] t) where
+    allValues = []
+
+instance Empty (ListThingWitness '[] t) where
+    never lt = case lt of {}

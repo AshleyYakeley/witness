@@ -1,5 +1,5 @@
 name: witness
-version: "0.4"
+version: "0.5"
 author: Ashley Yakeley
 copyright: (c) 2017-2018 Ashley Yakeley
 license: BSD3
@@ -33,20 +33,35 @@ library:
       - ScopedTypeVariables
       - PatternGuards
       - PatternSynonyms
+      - TypeApplications
+      - EmptyCase
+      - UndecidableInstances
+      - ConstraintKinds
+      - GeneralizedNewtypeDeriving
+      - InstanceSigs
     dependencies:
-      - base >= 4.7 && < 5
+      - base >= 4.9 && < 5
       - transformers
+      - countable
       - semigroupoids
       - constraints
     exposed-modules:
       - Data.Nat
       - Control.Category.Tensor
       - Data.Witness.Any
+      - Data.Witness.All
+      - Data.Witness.Constraint
+      - Data.Witness.Finite
+      - Data.Witness.Single
+      - Data.Witness.Cons
+      - Data.Witness.Either
+      - Data.Witness.Submap
       - Data.Witness.WitnessDict
       - Data.Witness.WitnessFDict
       - Data.Witness.Nat
       - Data.Witness.ListElement
       - Data.Witness.List
+      - Data.Witness.HList
       - Data.Witness.Representative
       - Data.Witness
     ghc-options: -Wall
