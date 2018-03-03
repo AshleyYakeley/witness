@@ -6,29 +6,29 @@ import Data.Maybe
 import Data.Searchable
 import Data.Type.Equality
 
-data ListThingWitness (kk :: [k]) (t :: k) where
-    FirstListThingWitness :: ListThingWitness (t : tt) t
-    RestListThingWitness :: ListThingWitness aa t -> ListThingWitness (a : aa) t
+data ListElementWitness (kk :: [k]) (t :: k) where
+    FirstListElementWitness :: ListElementWitness (t : tt) t
+    RestListElementWitness :: ListElementWitness aa t -> ListElementWitness (a : aa) t
 
-instance TestEquality (ListThingWitness tt) where
-    testEquality FirstListThingWitness FirstListThingWitness = Just Refl
-    testEquality (RestListThingWitness lt1) (RestListThingWitness lt2) = do
+instance TestEquality (ListElementWitness tt) where
+    testEquality FirstListElementWitness FirstListElementWitness = Just Refl
+    testEquality (RestListElementWitness lt1) (RestListElementWitness lt2) = do
         Refl <- testEquality lt1 lt2
         return Refl
     testEquality _ _ = Nothing
 
-instance Searchable (ListThingWitness '[] t) where
+instance Searchable (ListElementWitness '[] t) where
     search = finiteSearch
 
-instance Eq (ListThingWitness tt t) where
+instance Eq (ListElementWitness tt t) where
     lt1 == lt2 = isJust $ testEquality lt1 lt2
 
-instance Countable (ListThingWitness '[] t) where
+instance Countable (ListElementWitness '[] t) where
     countPrevious = finiteCountPrevious
     countMaybeNext = finiteCountMaybeNext
 
-instance Finite (ListThingWitness '[] t) where
+instance Finite (ListElementWitness '[] t) where
     allValues = []
 
-instance Empty (ListThingWitness '[] t) where
+instance Empty (ListElementWitness '[] t) where
     never lt = case lt of {}

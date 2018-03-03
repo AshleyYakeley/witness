@@ -71,11 +71,11 @@ consAll a (MkAll tup) =
 class KnownList (FiniteConsWitness sel) =>
       IsFiniteConsWitness (sel :: k -> *) where
     type FiniteConsWitness sel :: [k]
-    toLTW :: forall t. sel t -> ListThingWitness (FiniteConsWitness sel) t
-    fromLTW :: forall t. ListThingWitness (FiniteConsWitness sel) t -> sel t
+    toLTW :: forall t. sel t -> ListElementWitness (FiniteConsWitness sel) t
+    fromLTW :: forall t. ListElementWitness (FiniteConsWitness sel) t -> sel t
 
-instance KnownList edits => IsFiniteConsWitness (ListThingWitness edits) where
-    type FiniteConsWitness (ListThingWitness edits) = edits
+instance KnownList edits => IsFiniteConsWitness (ListElementWitness edits) where
+    type FiniteConsWitness (ListElementWitness edits) = edits
     toLTW = id
     fromLTW = id
 
@@ -86,7 +86,7 @@ instance IsFiniteConsWitness EmptyWitness where
 
 instance IsFiniteConsWitness lt => IsFiniteConsWitness (ConsWitness a lt) where
     type FiniteConsWitness (ConsWitness a lt) = a : (FiniteConsWitness lt)
-    toLTW FirstWitness = FirstListThingWitness
-    toLTW (RestWitness sel) = RestListThingWitness $ toLTW sel
-    fromLTW FirstListThingWitness = FirstWitness
-    fromLTW (RestListThingWitness lt) = RestWitness $ fromLTW lt
+    toLTW FirstWitness = FirstListElementWitness
+    toLTW (RestWitness sel) = RestListElementWitness $ toLTW sel
+    fromLTW FirstListElementWitness = FirstWitness
+    fromLTW (RestListElementWitness lt) = RestWitness $ fromLTW lt

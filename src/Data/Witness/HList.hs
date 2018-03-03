@@ -41,15 +41,15 @@ listSequence :: (Applicative f) => ListType f lt -> f (HList lt)
 listSequence NilListType = pure ()
 listSequence (ConsListType fa rest) = liftA2 (,) fa (listSequence rest)
 
-getListElement :: ListThingWitness list t -> HList list -> t
-getListElement FirstListThingWitness (a, _) = a
-getListElement (RestListThingWitness lw) (_, r) = getListElement lw r
+getListElement :: ListElementWitness list t -> HList list -> t
+getListElement FirstListElementWitness (a, _) = a
+getListElement (RestListElementWitness lw) (_, r) = getListElement lw r
 
-putListElement :: ListThingWitness list t -> t -> HList list -> HList list
-putListElement FirstListThingWitness t (_, r) = (t, r)
-putListElement (RestListThingWitness lw) t (a, r) = (a, putListElement lw t r)
+putListElement :: ListElementWitness list t -> t -> HList list -> HList list
+putListElement FirstListElementWitness t (_, r) = (t, r)
+putListElement (RestListElementWitness lw) t (a, r) = (a, putListElement lw t r)
 
-modifyListElement :: ListThingWitness list t -> (t -> t) -> HList list -> HList list
+modifyListElement :: ListElementWitness list t -> (t -> t) -> HList list -> HList list
 modifyListElement n aa t = putListElement n (aa (getListElement n t)) t
 
 data AppendList w la lb = forall lr. MkAppendList
