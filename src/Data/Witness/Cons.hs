@@ -3,6 +3,7 @@ module Data.Witness.Cons where
 import Data.Constraint
 import Data.Countable
 import Data.Empty
+import Data.Kind
 import Data.Searchable
 import Data.Type.Equality
 import Data.Witness.All
@@ -10,6 +11,7 @@ import Data.Witness.Constraint
 import Data.Witness.Finite
 import Data.Witness.List
 import Data.Witness.ListElement
+import Prelude
 
 newtype EmptyWitness t =
     MkEmptyWitness None

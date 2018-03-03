@@ -1,6 +1,7 @@
 module Control.Category.Tensor where
 
 import Data.Semigroupoid.Dual
+import Prelude
 
 -- could use data-lens:Control.Category.Product(Tensor)
 class Tensor cc where

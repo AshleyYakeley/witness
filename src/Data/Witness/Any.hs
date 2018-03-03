@@ -1,7 +1,9 @@
 module Data.Witness.Any where
 
+import Data.Kind
 import Data.Maybe
 import Data.Type.Equality
+import Prelude
 
 -- | Any value with a witness to it.
 data Any (w :: * -> *) =
@@ -24,7 +26,7 @@ matchAnyF wit (MkAnyF cwit cfa) = do
     return cfa
 
 -- | Any witness.
-data AnyWitness (w :: k -> *) =
+data AnyWitness (w :: k -> Type) =
     forall (a :: k). MkAnyWitness (w a)
 
 matchAnyWitness :: (TestEquality w) => w a -> AnyWitness w -> Bool

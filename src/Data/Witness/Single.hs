@@ -7,6 +7,7 @@ import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
+import Prelude
 
 type SingleWitness = (:~:)
 

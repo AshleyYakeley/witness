@@ -1,7 +1,9 @@
 module Data.Witness.Constraint where
 
 import Data.Constraint
+import Data.Kind
 import Data.Type.Equality
+import Prelude
 
 class AllWitnessConstraint (c :: kw -> Constraint) (w :: kt -> kw) where
     allWitnessConstraint :: forall (t :: kt). Dict (c (w t))

@@ -1,5 +1,7 @@
 module Data.Nat where
 
+import Prelude
+
 data Nat
     = Zero
     | Succ Nat

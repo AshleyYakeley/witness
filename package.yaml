@@ -19,26 +19,53 @@ build-type: Simple
 library:
     source-dirs: src
     default-extensions:
-      - MultiParamTypeClasses
-      - RankNTypes
-      - FlexibleContexts
-      - TypeOperators
-      - FlexibleInstances
-      - EmptyDataDecls
-      - KindSignatures
-      - TypeFamilies
-      - GADTs
-      - PolyKinds
+      - AllowAmbiguousTypes
+      - Arrows
+      - ConstraintKinds
       - DataKinds
-      - ScopedTypeVariables
+      - DefaultSignatures
+      - EmptyCase
+      - EmptyDataDecls
+      - ExistentialQuantification
+      - FlexibleContexts
+      - FlexibleInstances
+      - ForeignFunctionInterface
+      - FunctionalDependencies
+      - GADTs
+      - GeneralizedNewtypeDeriving
+      - ImplicitParams
+      - InstanceSigs
+      - KindSignatures
+      - LambdaCase
+      - MonadFailDesugaring
+      - MultiParamTypeClasses
+      - NoImplicitPrelude
+      - OverloadedLabels
+      - OverloadedStrings
       - PatternGuards
       - PatternSynonyms
+      - PolyKinds
+      - RankNTypes
+      - RecordWildCards
+      - RecursiveDo
+      - ScopedTypeVariables
+      - StandaloneDeriving
+      - TemplateHaskell
       - TypeApplications
-      - EmptyCase
+      - TypeFamilies
+      - TypeInType
+      - TypeOperators
+      - TypeSynonymInstances
       - UndecidableInstances
-      - ConstraintKinds
-      - GeneralizedNewtypeDeriving
-      - InstanceSigs
+      - UndecidableSuperClasses
+      - ViewPatterns
+    ghc-options:
+      - -Wall
+      - -Wincomplete-uni-patterns
+      - -Wincomplete-record-updates
+      - -Wcompat
+      - -Wnoncanonical-monad-instances
+      - -Wnoncanonical-monadfail-instances
     dependencies:
       - base >= 4.9 && < 5
       - transformers
@@ -64,4 +91,3 @@ library:
       - Data.Witness.HList
       - Data.Witness.Representative
       - Data.Witness
-    ghc-options: -Wall

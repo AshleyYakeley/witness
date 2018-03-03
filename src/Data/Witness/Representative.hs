@@ -1,8 +1,10 @@
 module Data.Witness.Representative where
 
 import Data.Constraint
+import Data.Kind
 import Data.Proxy
 import Data.Witness.Any
+import Prelude
 
 class Eq1 (p :: k -> *) where
     equals1 :: forall a. p a -> p a -> Bool

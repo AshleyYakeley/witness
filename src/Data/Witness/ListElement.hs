@@ -5,6 +5,7 @@ import Data.Empty
 import Data.Maybe
 import Data.Searchable
 import Data.Type.Equality
+import Prelude
 
 data ListElementWitness (kk :: [k]) (t :: k) where
     FirstListElementWitness :: ListElementWitness (t : tt) t

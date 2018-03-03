@@ -1,10 +1,12 @@
 module Data.Witness.Either where
 
 import Data.Constraint
+import Data.Kind
 import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
+import Prelude
 
 data EitherWitness (colsel1 :: k -> *) (colsel2 :: k -> *) (t :: k)
     = LeftWitness (colsel1 t)

@@ -34,6 +34,7 @@ import Data.Witness.Single
 import Data.Witness.Submap
 import Data.Witness.WitnessDict
 import Data.Witness.WitnessFDict
+import Prelude
 
 -- | See whether two represented and witnessed types are the same.
 matchIs ::
