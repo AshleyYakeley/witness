@@ -70,8 +70,7 @@ consAll a (MkAll tup) =
             FirstWitness -> a
             RestWitness sel -> tup sel
 
-class KnownList (FiniteConsWitness sel) =>
-      IsFiniteConsWitness (sel :: k -> *) where
+class KnownList (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> *) where
     type FiniteConsWitness sel :: [k]
     toLTW :: forall t. sel t -> ListElementWitness (FiniteConsWitness sel) t
     fromLTW :: forall t. ListElementWitness (FiniteConsWitness sel) t -> sel t

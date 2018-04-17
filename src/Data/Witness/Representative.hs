@@ -15,8 +15,7 @@ instance Eq1 Proxy where
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
 isWitnessRepresentative Dict = representative
 
-class Eq1 rep =>
-      Representative (rep :: k -> *) where
+class Eq1 rep => Representative (rep :: k -> *) where
         -- | Every value is an instance of 'Is'.
     getRepWitness :: forall (a :: k). rep a -> Dict (Is rep a)
 
@@ -25,16 +24,14 @@ instance Representative Proxy where
 
 withRepresentative ::
        forall (rep :: k -> *) r. (Representative rep)
-    => (forall (a :: k). (Is rep a) =>
-                             rep a -> r)
+    => (forall (a :: k). (Is rep a) => rep a -> r)
     -> (forall (b :: k). rep b -> r)
 withRepresentative foo rep =
     case getRepWitness rep of
         Dict -> foo rep
 
 -- | If two representatives have the same type, then they have the same value.
-class Representative rep =>
-      Is (rep :: k -> *) (a :: k) where
+class Representative rep => Is (rep :: k -> *) (a :: k) where
       -- | The representative value for type @a@.
     representative :: rep a
 

@@ -43,8 +43,7 @@ instance (Show (p t), Show (q t)) => Show (EitherWitness p q t) where
     show (LeftWitness rt) = show rt
     show (RightWitness rt) = show rt
 
-instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) =>
-         AllWitnessConstraint Show (EitherWitness p q) where
+instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) => AllWitnessConstraint Show (EitherWitness p q) where
     allWitnessConstraint :: forall t. Dict (Show (EitherWitness p q t))
     allWitnessConstraint =
         case allWitnessConstraint @_ @_ @Show @p @t of
