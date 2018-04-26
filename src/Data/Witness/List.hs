@@ -14,13 +14,6 @@ data ListType (w :: k -> *) (lt :: [k]) where
     NilListType :: ListType w '[]
     ConsListType :: w a -> ListType w lt -> ListType w (a : lt)
 
-instance Eq1 w => Eq1 (ListType w) where
-    equals1 NilListType NilListType = True
-    equals1 (ConsListType pe pl) (ConsListType qe ql) = (equals1 pe qe) && (equals1 pl ql)
-
-instance Eq1 w => Eq (ListType w a) where
-    (==) = equals1
-
 instance (Representative w) => Representative (ListType w) where
     getRepWitness NilListType = Dict
     getRepWitness (ConsListType w lw) =

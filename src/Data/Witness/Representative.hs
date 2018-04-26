@@ -4,18 +4,11 @@ import Data.Constraint
 import Data.Kind
 import Data.Proxy
 import Data.Witness.Any
-import Prelude
-
-class Eq1 (p :: k -> *) where
-    equals1 :: forall a. p a -> p a -> Bool
-
-instance Eq1 Proxy where
-    equals1 Proxy Proxy = True
 
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
 isWitnessRepresentative Dict = representative
 
-class Eq1 rep => Representative (rep :: k -> *) where
+class Representative (rep :: k -> *) where
         -- | Every value is an instance of 'Is'.
     getRepWitness :: forall (a :: k). rep a -> Dict (Is rep a)
 

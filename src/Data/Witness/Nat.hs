@@ -18,9 +18,6 @@ instance TestEquality NatType where
         return Refl
     testEquality _ _ = Nothing
 
-instance Eq1 NatType where
-    equals1 a b = isJust (testEquality a b)
-
 instance Representative NatType where
     getRepWitness ZeroType = Dict
     getRepWitness (SuccType n) =
