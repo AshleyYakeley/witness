@@ -1,6 +1,7 @@
 module Data.Witness
     ( module Data.Proxy
     , module Data.Type.Equality
+    , module Data.Nat
     , module Data.Witness.Any
     , module Data.Witness.All
     , module Data.Witness.Constraint
@@ -18,6 +19,7 @@ module Data.Witness
     , module Data.Witness
     ) where
 
+import Data.Nat
 import Data.Proxy
 import Data.Type.Equality
 import Data.Witness.All
