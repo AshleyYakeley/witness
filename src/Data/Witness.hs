@@ -5,6 +5,7 @@ module Data.Witness
     , module Data.Witness.Any
     , module Data.Witness.All
     , module Data.Witness.Constraint
+    , module Data.Witness.Symbol
     , module Data.Witness.Finite
     , module Data.Witness.Single
     , module Data.Witness.Cons
@@ -34,6 +35,7 @@ import Data.Witness.Nat
 import Data.Witness.Representative
 import Data.Witness.Single
 import Data.Witness.Submap
+import Data.Witness.Symbol
 import Data.Witness.WitnessDict
 import Data.Witness.WitnessFDict
 import Prelude

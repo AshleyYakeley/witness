@@ -78,6 +78,7 @@ library:
       - Data.Witness.Any
       - Data.Witness.All
       - Data.Witness.Constraint
+      - Data.Witness.Symbol
       - Data.Witness.Finite
       - Data.Witness.Single
       - Data.Witness.Cons
