@@ -9,7 +9,7 @@ isWitnessRepresentative :: Dict (Is rep a) -> rep a
 isWitnessRepresentative Dict = representative
 
 class Representative (rep :: k -> *) where
-        -- | Every value is an instance of 'Is'.
+    -- | Every value is an instance of 'Is'.
     getRepWitness :: forall (a :: k). rep a -> Dict (Is rep a)
 
 instance Representative Proxy where
@@ -25,7 +25,7 @@ withRepresentative foo rep =
 
 -- | If two representatives have the same type, then they have the same value.
 class Representative rep => Is (rep :: k -> *) (a :: k) where
-      -- | The representative value for type @a@.
+    -- | The representative value for type @a@.
     representative :: rep a
 
 instance Is Proxy a where
