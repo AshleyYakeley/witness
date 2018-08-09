@@ -3,6 +3,7 @@ module Data.Witness.Any where
 import Data.Kind
 import Data.Maybe
 import Data.Type.Equality
+import Data.Witness.Constraint
 import Prelude
 
 -- | Any value with a witness to it.
@@ -37,3 +38,6 @@ instance (TestEquality w) => Eq (AnyWitness w) where
 
 mapAnyWitness :: (forall t. w1 t -> w2 t) -> AnyWitness w1 -> AnyWitness w2
 mapAnyWitness f (MkAnyWitness wt) = MkAnyWitness $ f wt
+
+instance AllWitnessConstraint Show w => Show (AnyWitness w) where
+    show (MkAnyWitness wa) = showAllWitness wa
