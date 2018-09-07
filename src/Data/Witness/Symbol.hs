@@ -1,7 +1,9 @@
 module Data.Witness.Symbol where
 
+import Data.Constraint
 import Data.Proxy
 import Data.Type.Equality
+import Data.Witness.Constraint
 import GHC.TypeLits
 import Prelude
 
@@ -24,3 +26,9 @@ toSymbolWitness s cont =
 instance TestEquality SymbolWitness where
     testEquality (MkSymbolWitness :: SymbolWitness a) (MkSymbolWitness :: SymbolWitness b) =
         sameSymbol (Proxy @a) (Proxy @b)
+
+instance Show (SymbolWitness symbol) where
+    show = fromSymbolWitness
+
+instance AllWitnessConstraint Show SymbolWitness where
+    allWitnessConstraint = Dict
