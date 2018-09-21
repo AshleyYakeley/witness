@@ -75,6 +75,7 @@ library:
     exposed-modules:
       - Data.Nat
       - Control.Category.Tensor
+      - Data.Witness.Kind
       - Data.Witness.Any
       - Data.Witness.All
       - Data.Witness.Constraint

@@ -2,6 +2,7 @@ module Data.Witness
     ( module Data.Proxy
     , module Data.Type.Equality
     , module Data.Nat
+    , module Data.Witness.Kind
     , module Data.Witness.Any
     , module Data.Witness.All
     , module Data.Witness.Constraint
@@ -29,6 +30,7 @@ import Data.Witness.Cons
 import Data.Witness.Constraint
 import Data.Witness.Either
 import Data.Witness.Finite
+import Data.Witness.Kind
 import Data.Witness.List
 import Data.Witness.ListElement
 import Data.Witness.Nat
