@@ -1,4 +1,8 @@
-module Data.Witness.Symbol where
+module Data.Witness.Symbol
+    ( module Data.Witness.Symbol
+    , Symbol
+    , KnownSymbol
+    ) where
 
 import Data.Constraint
 import Data.Proxy
