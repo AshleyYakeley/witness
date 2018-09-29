@@ -53,3 +53,6 @@ instance (Is wp p, Is wq q) => Is (PairWitness wp wq) '( p, q) where
 
 type instance KindWitness (kp, kq) =
      PairWitness (KindWitness kp) (KindWitness kq)
+
+data AnyInKind (wit :: k -> Type) =
+    forall (t :: k). InKind t => MkAnyInKind (wit t)
