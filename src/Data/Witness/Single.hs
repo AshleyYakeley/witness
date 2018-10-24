@@ -17,8 +17,8 @@ instance FiniteWitness (SingleWitness t) where
 instance c t => WitnessConstraint c (SingleWitness t) where
     witnessConstraint Refl = Dict
 
-singleAll :: t -> All (SingleWitness t)
-singleAll t = MkAll $ \Refl -> t
+singleAll :: t -> AllValue (SingleWitness t)
+singleAll t = MkAllValue $ \Refl -> t
 
-getSingleAll :: All (SingleWitness t) -> t
-getSingleAll (MkAll f) = f Refl
+getSingleAll :: AllValue (SingleWitness t) -> t
+getSingleAll (MkAllValue f) = f Refl

@@ -30,8 +30,8 @@ instance FiniteWitness EmptyWitness where
 instance WitnessConstraint c EmptyWitness where
     witnessConstraint = never
 
-emptyAll :: All EmptyWitness
-emptyAll = MkAll never
+emptyAll :: AllValue EmptyWitness
+emptyAll = MkAllValue never
 
 emptyAllF :: AllF EmptyWitness f
 emptyAllF = MkAllF never
@@ -63,9 +63,9 @@ instance (c a, WitnessConstraint c r) => WitnessConstraint c (ConsWitness a r) w
         case witnessConstraint @_ @c rt of
             Dict -> Dict
 
-consAll :: a -> All r -> All (ConsWitness a r)
-consAll a (MkAll tup) =
-    MkAll $ \esel ->
+consAll :: a -> AllValue r -> AllValue (ConsWitness a r)
+consAll a (MkAllValue tup) =
+    MkAllValue $ \esel ->
         case esel of
             FirstWitness -> a
             RestWitness sel -> tup sel

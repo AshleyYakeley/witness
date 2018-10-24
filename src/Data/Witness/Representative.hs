@@ -37,8 +37,8 @@ getRepresentative _ = representative
 rerepresentative :: (Is rep a) => p a -> rep a
 rerepresentative _ = representative
 
-mkAny :: (Is rep a) => a -> Any rep
-mkAny a = MkAny representative a
+mkAny :: (Is rep a) => a -> AnyValue rep
+mkAny a = MkAnyValue representative a
 
 mkAnyF :: (Is rep a) => f a -> AnyF rep f
 mkAnyF fa = MkAnyF representative fa

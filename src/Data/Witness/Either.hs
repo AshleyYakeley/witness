@@ -51,9 +51,9 @@ instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) => AllWitnes
                 case allWitnessConstraint @_ @_ @Show @q @t of
                     Dict -> Dict
 
-eitherAll :: All sel1 -> All sel2 -> All (EitherWitness sel1 sel2)
-eitherAll (MkAll tup1) (MkAll tup2) =
-    MkAll $ \esel ->
+eitherAll :: AllValue sel1 -> AllValue sel2 -> AllValue (EitherWitness sel1 sel2)
+eitherAll (MkAllValue tup1) (MkAllValue tup2) =
+    MkAllValue $ \esel ->
         case esel of
             LeftWitness sel -> tup1 sel
             RightWitness sel -> tup2 sel

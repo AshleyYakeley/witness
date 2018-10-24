@@ -10,22 +10,22 @@ newtype AllF (w :: k -> *) (f :: k -> *) = MkAllF
     { getAllF :: forall (t :: k). w t -> f t
     }
 
-newtype All (w :: * -> *) = MkAll
-    { getAll :: forall t. w t -> t
+newtype AllValue (w :: * -> *) = MkAllValue
+    { getAllValue :: forall t. w t -> t
     }
 
-allFToAll :: AllF w Identity -> All w
-allFToAll (MkAllF wtit) = MkAll $ \wt -> runIdentity $ wtit wt
+allFToAllValue :: AllF w Identity -> AllValue w
+allFToAllValue (MkAllF wtit) = MkAllValue $ \wt -> runIdentity $ wtit wt
 
-allToAllF :: All w -> AllF w Identity
-allToAllF (MkAll wtt) = MkAllF $ \wt -> Identity $ wtt wt
+allValueToAllF :: AllValue w -> AllF w Identity
+allValueToAllF (MkAllValue wtt) = MkAllF $ \wt -> Identity $ wtt wt
 
-type family UnAll (aw :: *) :: * -> * where
-    UnAll (All w) = w
+type family UnAllValue (aw :: *) :: * -> * where
+    UnAllValue (AllValue w) = w
 
-splitWitnessList :: TestEquality w => [Any w] -> AllF w []
+splitWitnessList :: TestEquality w => [AnyValue w] -> AllF w []
 splitWitnessList [] = MkAllF $ \_ -> []
-splitWitnessList ((MkAny wt t):rr) =
+splitWitnessList ((MkAnyValue wt t):rr) =
     MkAllF $ \wt' ->
         case testEquality wt wt' of
             Just Refl -> t : (getAllF (splitWitnessList rr) wt')
