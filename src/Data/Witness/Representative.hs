@@ -8,20 +8,22 @@ import Data.Witness.Any
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
 isWitnessRepresentative Dict = representative
 
+type Subrepresentative (p :: k -> Type) (q :: k -> Type) = forall (a :: k). p a -> Dict (Is q a)
+
+withSubrepresentative :: Subrepresentative p q -> p a -> (Is q a => r) -> r
+withSubrepresentative subrep pa f =
+    case subrep pa of
+        Dict -> f
+
 class Representative (rep :: k -> *) where
     -- | Every value is an instance of 'Is'.
-    getRepWitness :: forall (a :: k). rep a -> Dict (Is rep a)
+    getRepWitness :: Subrepresentative rep rep
 
 instance Representative Proxy where
     getRepWitness Proxy = Dict
 
-withRepresentative ::
-       forall (rep :: k -> *) r. (Representative rep)
-    => (forall (a :: k). (Is rep a) => rep a -> r)
-    -> (forall (b :: k). rep b -> r)
-withRepresentative foo rep =
-    case getRepWitness rep of
-        Dict -> foo rep
+withRepresentative :: Representative rep => rep a -> (Is rep a => r) -> r
+withRepresentative = withSubrepresentative getRepWitness
 
 -- | If two representatives have the same type, then they have the same value.
 class Representative rep => Is (rep :: k -> *) (a :: k) where
