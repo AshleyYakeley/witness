@@ -6,7 +6,6 @@ import Data.Constraint
 import Data.Countable
 import Data.Functor.Const
 import Data.Functor.Identity
-import Data.Kind
 import Data.List
 import Data.Searchable
 import Data.Type.Equality

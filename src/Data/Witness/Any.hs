@@ -2,7 +2,6 @@ module Data.Witness.Any where
 
 import Data.Functor.Const
 import Data.Functor.Identity
-import Data.Kind
 import Data.Maybe
 import Data.Type.Equality
 import Data.Witness.Constraint

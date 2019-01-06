@@ -1,7 +1,6 @@
 module Data.Witness.All where
 
 import Data.Functor.Identity
-import Data.Kind
 import Data.Type.Equality
 import Data.Witness.Any
 import Prelude

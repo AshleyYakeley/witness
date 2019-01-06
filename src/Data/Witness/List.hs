@@ -1,7 +1,6 @@
 module Data.Witness.List where
 
 import Data.Constraint (Dict(..))
-import Data.Kind
 import Data.Nat
 import Data.Proxy
 import Data.Type.Equality

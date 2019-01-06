@@ -3,7 +3,6 @@ module Data.Witness.Cons where
 import Data.Constraint
 import Data.Countable
 import Data.Empty
-import Data.Kind
 import Data.Searchable
 import Data.Type.Equality
 import Data.Witness.All

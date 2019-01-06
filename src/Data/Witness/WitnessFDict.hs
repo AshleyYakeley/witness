@@ -1,6 +1,5 @@
 module Data.Witness.WitnessFDict where
 
-import Data.Kind
 import Data.Maybe
 import Data.Type.Equality
 import Data.Witness.Any

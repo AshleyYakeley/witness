@@ -67,7 +67,7 @@ library:
       - -Wnoncanonical-monad-instances
       - -Wnoncanonical-monadfail-instances
     dependencies:
-      - base >= 4.9 && < 5
+      - base >= 4.12
       - transformers
       - countable
       - semigroupoids

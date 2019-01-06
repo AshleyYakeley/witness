@@ -1,7 +1,6 @@
 module Data.Witness.Either where
 
 import Data.Constraint
-import Data.Kind
 import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Constraint

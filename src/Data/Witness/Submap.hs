@@ -1,6 +1,5 @@
 module Data.Witness.Submap where
 
-import Data.Kind
 import Data.Witness.All
 import Data.Witness.Any
 import Data.Witness.Either

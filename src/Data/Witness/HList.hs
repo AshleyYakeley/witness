@@ -4,7 +4,6 @@ import Control.Applicative
 import Control.Category
 import Control.Category.Tensor
 import Data.Functor.Identity as Import
-import Data.Kind
 import Data.Type.Equality
 import Data.Witness.List
 import Data.Witness.ListElement

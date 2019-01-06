@@ -1,7 +1,6 @@
 module Data.Witness.Constraint where
 
 import Data.Constraint
-import Data.Kind
 import Data.Type.Equality
 import Prelude
 
