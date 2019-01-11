@@ -3,6 +3,7 @@ module Data.Witness.Cons where
 import Data.Constraint
 import Data.Countable
 import Data.Empty
+import Data.Proxy
 import Data.Searchable
 import Data.Type.Equality
 import Data.Witness.All
@@ -10,6 +11,7 @@ import Data.Witness.Constraint
 import Data.Witness.Finite
 import Data.Witness.List
 import Data.Witness.ListElement
+import Data.Witness.Representative
 import Prelude
 
 newtype EmptyWitness t =
@@ -69,12 +71,12 @@ consAll a (MkAllValue tup) =
             FirstWitness -> a
             RestWitness sel -> tup sel
 
-class KnownList (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> *) where
+class Is (ListType Proxy) (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> *) where
     type FiniteConsWitness sel :: [k]
     toLTW :: forall t. sel t -> ListElementWitness (FiniteConsWitness sel) t
     fromLTW :: forall t. ListElementWitness (FiniteConsWitness sel) t -> sel t
 
-instance KnownList edits => IsFiniteConsWitness (ListElementWitness edits) where
+instance Is (ListType Proxy) edits => IsFiniteConsWitness (ListElementWitness edits) where
     type FiniteConsWitness (ListElementWitness edits) = edits
     toLTW = id
     fromLTW = id
