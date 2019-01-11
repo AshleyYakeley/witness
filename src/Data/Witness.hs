@@ -1,45 +1,28 @@
 module Data.Witness
-    ( module Data.Proxy
-    , module Data.Type.Equality
-    , module Data.Nat
-    , module Data.Witness.Kind
-    , module Data.Witness.Any
-    , module Data.Witness.All
-    , module Data.Witness.Constraint
-    , module Data.Witness.Symbol
-    , module Data.Witness.Finite
-    , module Data.Witness.Single
-    , module Data.Witness.Cons
-    , module Data.Witness.Either
-    , module Data.Witness.Submap
-    , module Data.Witness.WitnessDict
-    , module Data.Witness.WitnessFDict
-    , module Data.Witness.Nat
-    , module Data.Witness.ListElement
-    , module Data.Witness.List
-    , module Data.Witness.Representative
+    ( module I
     , module Data.Witness
     ) where
 
-import Data.Nat
-import Data.Proxy
-import Data.Type.Equality
-import Data.Witness.All
-import Data.Witness.Any
-import Data.Witness.Cons
-import Data.Witness.Constraint
-import Data.Witness.Either
-import Data.Witness.Finite
-import Data.Witness.Kind
-import Data.Witness.List
-import Data.Witness.ListElement
-import Data.Witness.Nat
-import Data.Witness.Representative
-import Data.Witness.Single
-import Data.Witness.Submap
-import Data.Witness.Symbol
-import Data.Witness.WitnessDict
-import Data.Witness.WitnessFDict
+import Data.Nat as I
+import Data.Proxy as I
+import Data.Type.Equality as I
+import Data.Witness.All as I
+import Data.Witness.Any as I
+import Data.Witness.Cons as I
+import Data.Witness.Constraint as I
+import Data.Witness.Either as I
+import Data.Witness.Finite as I
+import Data.Witness.HList as I
+import Data.Witness.Kind as I
+import Data.Witness.List as I
+import Data.Witness.ListElement as I
+import Data.Witness.Nat as I
+import Data.Witness.Representative as I
+import Data.Witness.Single as I
+import Data.Witness.Submap as I
+import Data.Witness.Symbol as I
+import Data.Witness.WitnessDict as I
+import Data.Witness.WitnessFDict as I
 import Prelude
 
 -- | See whether two represented and witnessed types are the same.

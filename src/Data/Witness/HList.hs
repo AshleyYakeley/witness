@@ -5,11 +5,12 @@ import Control.Category
 import Control.Category.Tensor
 import Data.Functor.Identity as Import
 import Data.Type.Equality
+import Data.Witness.Either
 import Data.Witness.List
 import Data.Witness.ListElement
 import Prelude hiding ((.), id)
 
-type family HList (w :: [*]) where
+type family HList (w :: [*]) = r | r -> w where
     HList '[] = ()
     HList (t : tt) = (t, HList tt)
 
@@ -211,14 +212,6 @@ removeAllMatchingMany (ConsListType wa wlx) wl =
                         , listRemoveMany = remM . rm
                         }
 
-newtype EitherWitness (w1 :: k -> *) (w2 :: k -> *) (a :: k) =
-    MkEitherWitness (Either (w1 a) (w2 a))
-
-instance (TestEquality w1, TestEquality w2) => TestEquality (EitherWitness w1 w2) where
-    testEquality (MkEitherWitness (Left wa)) (MkEitherWitness (Left wb)) = testEquality wa wb
-    testEquality (MkEitherWitness (Right wa)) (MkEitherWitness (Right wb)) = testEquality wa wb
-    testEquality _ _ = Nothing
-
 data PartitionList wit1 wit2 l = forall l1 l2. MkPartitionList
     { listPartitionWitness1 :: ListType wit1 l1
     , listPartitionWitness2 :: ListType wit2 l2
@@ -236,7 +229,7 @@ partitionList NilListType =
         , listToPartition1 = \() -> ()
         , listToPartition2 = \() -> ()
         }
-partitionList (ConsListType (MkEitherWitness (Left w1a)) rest) =
+partitionList (ConsListType (LeftWitness w1a) rest) =
     case partitionList rest of
         MkPartitionList pw1 pw2 fp tp1 tp2 ->
             MkPartitionList
@@ -246,7 +239,7 @@ partitionList (ConsListType (MkEitherWitness (Left w1a)) rest) =
                 , listToPartition1 = \(a, l) -> (a, tp1 l)
                 , listToPartition2 = \(_, l) -> tp2 l
                 }
-partitionList (ConsListType (MkEitherWitness (Right w2a)) rest) =
+partitionList (ConsListType (RightWitness w2a) rest) =
     case partitionList rest of
         MkPartitionList pw1 pw2 fp tp1 tp2 ->
             MkPartitionList

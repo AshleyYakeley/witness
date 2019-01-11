@@ -42,6 +42,7 @@ library:
       - NoImplicitPrelude
       - OverloadedLabels
       - OverloadedStrings
+      - PartialTypeSignatures
       - PatternGuards
       - PatternSynonyms
       - PolyKinds
@@ -53,6 +54,7 @@ library:
       - TemplateHaskell
       - TypeApplications
       - TypeFamilies
+      - TypeFamilyDependencies
       - TypeInType
       - TypeOperators
       - TypeSynonymInstances
