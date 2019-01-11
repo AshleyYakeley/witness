@@ -1,65 +1,66 @@
 module Data.Witness.Either where
 
 import Data.Constraint
+import Data.Kind
 import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
 import Prelude
 
-data EitherWitness (colsel1 :: k -> *) (colsel2 :: k -> *) (t :: k)
-    = LeftWitness (colsel1 t)
-    | RightWitness (colsel2 t)
+data EitherType (colsel1 :: k -> Type) (colsel2 :: k -> Type) (t :: k)
+    = LeftType (colsel1 t)
+    | RightType (colsel2 t)
 
-instance (TestEquality colsel1, TestEquality colsel2) => TestEquality (EitherWitness colsel1 colsel2) where
-    testEquality (LeftWitness s1) (LeftWitness s2) = do
+instance (TestEquality colsel1, TestEquality colsel2) => TestEquality (EitherType colsel1 colsel2) where
+    testEquality (LeftType s1) (LeftType s2) = do
         Refl <- testEquality s1 s2
         return Refl
-    testEquality (RightWitness s1) (RightWitness s2) = do
+    testEquality (RightType s1) (RightType s2) = do
         Refl <- testEquality s1 s2
         return Refl
     testEquality _ _ = Nothing
 
-instance (FiniteWitness p, FiniteWitness q) => FiniteWitness (EitherWitness p q) where
+instance (FiniteWitness p, FiniteWitness q) => FiniteWitness (EitherType p q) where
     assembleWitnessF getsel =
         (\(MkAllF p) (MkAllF q) ->
              MkAllF $ \wt ->
                  case wt of
-                     LeftWitness rt -> p rt
-                     RightWitness rt -> q rt) <$>
-        assembleWitnessF (getsel . LeftWitness) <*>
-        assembleWitnessF (getsel . RightWitness)
+                     LeftType rt -> p rt
+                     RightType rt -> q rt) <$>
+        assembleWitnessF (getsel . LeftType) <*>
+        assembleWitnessF (getsel . RightType)
 
-instance (WitnessConstraint c p, WitnessConstraint c q) => WitnessConstraint c (EitherWitness p q) where
-    witnessConstraint (LeftWitness rt) =
+instance (WitnessConstraint c p, WitnessConstraint c q) => WitnessConstraint c (EitherType p q) where
+    witnessConstraint (LeftType rt) =
         case witnessConstraint @_ @c rt of
             Dict -> Dict
-    witnessConstraint (RightWitness rt) =
+    witnessConstraint (RightType rt) =
         case witnessConstraint @_ @c rt of
             Dict -> Dict
 
-instance (Show (p t), Show (q t)) => Show (EitherWitness p q t) where
-    show (LeftWitness rt) = show rt
-    show (RightWitness rt) = show rt
+instance (Show (p t), Show (q t)) => Show (EitherType p q t) where
+    show (LeftType rt) = show rt
+    show (RightType rt) = show rt
 
-instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) => AllWitnessConstraint Show (EitherWitness p q) where
-    allWitnessConstraint :: forall t. Dict (Show (EitherWitness p q t))
+instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) => AllWitnessConstraint Show (EitherType p q) where
+    allWitnessConstraint :: forall t. Dict (Show (EitherType p q t))
     allWitnessConstraint =
         case allWitnessConstraint @_ @_ @Show @p @t of
             Dict ->
                 case allWitnessConstraint @_ @_ @Show @q @t of
                     Dict -> Dict
 
-eitherAll :: AllValue sel1 -> AllValue sel2 -> AllValue (EitherWitness sel1 sel2)
+eitherAll :: AllValue sel1 -> AllValue sel2 -> AllValue (EitherType sel1 sel2)
 eitherAll (MkAllValue tup1) (MkAllValue tup2) =
     MkAllValue $ \esel ->
         case esel of
-            LeftWitness sel -> tup1 sel
-            RightWitness sel -> tup2 sel
+            LeftType sel -> tup1 sel
+            RightType sel -> tup2 sel
 
-eitherAllF :: AllF sel1 f -> AllF sel2 f -> AllF (EitherWitness sel1 sel2) f
+eitherAllF :: AllF sel1 f -> AllF sel2 f -> AllF (EitherType sel1 sel2) f
 eitherAllF (MkAllF tup1) (MkAllF tup2) =
     MkAllF $ \esel ->
         case esel of
-            LeftWitness sel -> tup1 sel
-            RightWitness sel -> tup2 sel
+            LeftType sel -> tup1 sel
+            RightType sel -> tup2 sel

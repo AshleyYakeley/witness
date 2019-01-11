@@ -3,6 +3,7 @@ module Data.Witness.Cons where
 import Data.Constraint
 import Data.Countable
 import Data.Empty
+import Data.Kind
 import Data.Proxy
 import Data.Searchable
 import Data.Type.Equality
@@ -14,81 +15,81 @@ import Data.Witness.ListElement
 import Data.Witness.Representative
 import Prelude
 
-newtype EmptyWitness t =
-    MkEmptyWitness None
+newtype EmptyType t =
+    MkEmptyType None
     deriving (Eq, Countable, Searchable, Empty)
 
-instance Finite (EmptyWitness t) where
+instance Finite (EmptyType t) where
     allValues = []
     assemble _ = pure never
 
-instance TestEquality EmptyWitness where
+instance TestEquality EmptyType where
     testEquality = never
 
-instance FiniteWitness EmptyWitness where
+instance FiniteWitness EmptyType where
     assembleWitnessF _ = pure emptyAllF
 
-instance WitnessConstraint c EmptyWitness where
+instance WitnessConstraint c EmptyType where
     witnessConstraint = never
 
-emptyAll :: AllValue EmptyWitness
+emptyAll :: AllValue EmptyType
 emptyAll = MkAllValue never
 
-emptyAllF :: AllF EmptyWitness f
+emptyAllF :: AllF EmptyType f
 emptyAllF = MkAllF never
 
-data ConsWitness a r t where
-    FirstWitness :: ConsWitness t r t
-    RestWitness :: r t -> ConsWitness a r t
+data ConsType a r t where
+    FirstType :: ConsType t r t
+    RestType :: r t -> ConsType a r t
 
-instance TestEquality r => TestEquality (ConsWitness a r) where
-    testEquality FirstWitness FirstWitness = return Refl
-    testEquality (RestWitness r1) (RestWitness r2) = do
+instance TestEquality r => TestEquality (ConsType a r) where
+    testEquality FirstType FirstType = return Refl
+    testEquality (RestType r1) (RestType r2) = do
         Refl <- testEquality r1 r2
         return Refl
     testEquality _ _ = Nothing
 
-instance FiniteWitness r => FiniteWitness (ConsWitness a r) where
+instance FiniteWitness r => FiniteWitness (ConsType a r) where
     assembleWitnessF getsel =
         (\f (MkAllF r) ->
              MkAllF $ \wt ->
                  case wt of
-                     FirstWitness -> f
-                     RestWitness rt -> r rt) <$>
-        getsel FirstWitness <*>
-        assembleWitnessF (getsel . RestWitness)
+                     FirstType -> f
+                     RestType rt -> r rt) <$>
+        getsel FirstType <*>
+        assembleWitnessF (getsel . RestType)
 
-instance (c a, WitnessConstraint c r) => WitnessConstraint c (ConsWitness a r) where
-    witnessConstraint FirstWitness = Dict
-    witnessConstraint (RestWitness rt) =
+instance (c a, WitnessConstraint c r) => WitnessConstraint c (ConsType a r) where
+    witnessConstraint FirstType = Dict
+    witnessConstraint (RestType rt) =
         case witnessConstraint @_ @c rt of
             Dict -> Dict
 
-consAll :: a -> AllValue r -> AllValue (ConsWitness a r)
+consAll :: a -> AllValue r -> AllValue (ConsType a r)
 consAll a (MkAllValue tup) =
     MkAllValue $ \esel ->
         case esel of
-            FirstWitness -> a
-            RestWitness sel -> tup sel
+            FirstType -> a
+            RestType sel -> tup sel
 
-class Is (ListType Proxy) (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> *) where
+class Is (ListType Proxy) (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> Type) where
     type FiniteConsWitness sel :: [k]
-    toLTW :: forall t. sel t -> ListElementWitness (FiniteConsWitness sel) t
-    fromLTW :: forall t. ListElementWitness (FiniteConsWitness sel) t -> sel t
+    toLTW :: forall t. sel t -> ListElementType (FiniteConsWitness sel) t
+    fromLTW :: forall t. ListElementType (FiniteConsWitness sel) t -> sel t
 
-instance Is (ListType Proxy) edits => IsFiniteConsWitness (ListElementWitness edits) where
-    type FiniteConsWitness (ListElementWitness edits) = edits
+instance Is (ListType Proxy) edits => IsFiniteConsWitness (ListElementType edits) where
+    type FiniteConsWitness (ListElementType edits) = edits
     toLTW = id
     fromLTW = id
 
-instance IsFiniteConsWitness EmptyWitness where
-    type FiniteConsWitness EmptyWitness = '[]
+instance IsFiniteConsWitness EmptyType where
+    type FiniteConsWitness EmptyType = '[]
     toLTW wit = never wit
     fromLTW lt = never lt
 
-instance IsFiniteConsWitness lt => IsFiniteConsWitness (ConsWitness a lt) where
-    type FiniteConsWitness (ConsWitness a lt) = a : (FiniteConsWitness lt)
-    toLTW FirstWitness = FirstListElementWitness
-    toLTW (RestWitness sel) = RestListElementWitness $ toLTW sel
-    fromLTW FirstListElementWitness = FirstWitness
-    fromLTW (RestListElementWitness lt) = RestWitness $ fromLTW lt
+instance IsFiniteConsWitness lt => IsFiniteConsWitness (ConsType a lt) where
+    type FiniteConsWitness (ConsType a lt) = a : (FiniteConsWitness lt)
+    toLTW FirstType = FirstElementType
+    toLTW (RestType sel) = RestElementType $ toLTW sel
+    fromLTW FirstElementType = FirstType
+    fromLTW (RestElementType lt) = RestType $ fromLTW lt

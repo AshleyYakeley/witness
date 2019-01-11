@@ -1,5 +1,6 @@
 module Data.Witness.WitnessFDict where
 
+import Data.Kind
 import Data.Maybe
 import Data.Type.Equality
 import Data.Witness.Any
@@ -7,7 +8,7 @@ import Prelude
 
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
-newtype WitnessFDict (w :: k -> *) (f :: k -> *) =
+newtype WitnessFDict (w :: k -> Type) (f :: k -> Type) =
     MkWitnessFDict [AnyF w f]
 
 -- | An empty dictionary.

@@ -11,28 +11,27 @@ import Data.Witness.Constraint
 import GHC.TypeLits
 import Prelude
 
-data SymbolWitness (symbol :: Symbol) where
-    MkSymbolWitness :: KnownSymbol symbol => SymbolWitness symbol
+data SymbolType (symbol :: Symbol) where
+    MkSymbolType :: KnownSymbol symbol => SymbolType symbol
 
-fromSymbolWitness :: forall (symbol :: Symbol). SymbolWitness symbol -> String
-fromSymbolWitness MkSymbolWitness = symbolVal (Proxy :: Proxy symbol)
+fromSymbolWitness :: forall (symbol :: Symbol). SymbolType symbol -> String
+fromSymbolWitness MkSymbolType = symbolVal (Proxy :: Proxy symbol)
 
-toSymbolWitness :: String -> (forall (symbol :: Symbol). SymbolWitness symbol -> r) -> r
+toSymbolWitness :: String -> (forall (symbol :: Symbol). SymbolType symbol -> r) -> r
 toSymbolWitness s cont =
     case someSymbolVal s of
         SomeSymbol p -> let
             psw :: forall (symbol :: Symbol). KnownSymbol symbol
                 => Proxy symbol
-                -> SymbolWitness symbol
-            psw _ = MkSymbolWitness
+                -> SymbolType symbol
+            psw _ = MkSymbolType
             in cont $ psw p
 
-instance TestEquality SymbolWitness where
-    testEquality (MkSymbolWitness :: SymbolWitness a) (MkSymbolWitness :: SymbolWitness b) =
-        sameSymbol (Proxy @a) (Proxy @b)
+instance TestEquality SymbolType where
+    testEquality (MkSymbolType :: SymbolType a) (MkSymbolType :: SymbolType b) = sameSymbol (Proxy @a) (Proxy @b)
 
-instance Show (SymbolWitness symbol) where
+instance Show (SymbolType symbol) where
     show = fromSymbolWitness
 
-instance AllWitnessConstraint Show SymbolWitness where
+instance AllWitnessConstraint Show SymbolType where
     allWitnessConstraint = Dict

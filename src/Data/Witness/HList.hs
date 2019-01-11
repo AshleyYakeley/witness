@@ -4,13 +4,14 @@ import Control.Applicative
 import Control.Category
 import Control.Category.Tensor
 import Data.Functor.Identity as Import
+import Data.Kind
 import Data.Type.Equality
 import Data.Witness.Either
 import Data.Witness.List
 import Data.Witness.ListElement
 import Prelude hiding ((.), id)
 
-type family HList (w :: [*]) = r | r -> w where
+type family HList (w :: [Type]) = r | r -> w where
     HList '[] = ()
     HList (t : tt) = (t, HList tt)
 
@@ -42,15 +43,15 @@ listSequence :: (Applicative f) => ListType f lt -> f (HList lt)
 listSequence NilListType = pure ()
 listSequence (ConsListType fa rest) = liftA2 (,) fa (listSequence rest)
 
-getListElement :: ListElementWitness list t -> HList list -> t
-getListElement FirstListElementWitness (a, _) = a
-getListElement (RestListElementWitness lw) (_, r) = getListElement lw r
+getListElement :: ListElementType list t -> HList list -> t
+getListElement FirstElementType (a, _) = a
+getListElement (RestElementType lw) (_, r) = getListElement lw r
 
-putListElement :: ListElementWitness list t -> t -> HList list -> HList list
-putListElement FirstListElementWitness t (_, r) = (t, r)
-putListElement (RestListElementWitness lw) t (a, r) = (a, putListElement lw t r)
+putListElement :: ListElementType list t -> t -> HList list -> HList list
+putListElement FirstElementType t (_, r) = (t, r)
+putListElement (RestElementType lw) t (a, r) = (a, putListElement lw t r)
 
-modifyListElement :: ListElementWitness list t -> (t -> t) -> HList list -> HList list
+modifyListElement :: ListElementType list t -> (t -> t) -> HList list -> HList list
 modifyListElement n aa t = putListElement n (aa (getListElement n t)) t
 
 data AppendList w la lb = forall lr. MkAppendList
@@ -220,7 +221,7 @@ data PartitionList wit1 wit2 l = forall l1 l2. MkPartitionList
     , listToPartition2 :: HList l -> HList l2
     }
 
-partitionList :: ListType (EitherWitness w1 w2) l -> PartitionList w1 w2 l
+partitionList :: ListType (EitherType w1 w2) l -> PartitionList w1 w2 l
 partitionList NilListType =
     MkPartitionList
         { listPartitionWitness1 = NilListType
@@ -229,7 +230,7 @@ partitionList NilListType =
         , listToPartition1 = \() -> ()
         , listToPartition2 = \() -> ()
         }
-partitionList (ConsListType (LeftWitness w1a) rest) =
+partitionList (ConsListType (LeftType w1a) rest) =
     case partitionList rest of
         MkPartitionList pw1 pw2 fp tp1 tp2 ->
             MkPartitionList
@@ -239,7 +240,7 @@ partitionList (ConsListType (LeftWitness w1a) rest) =
                 , listToPartition1 = \(a, l) -> (a, tp1 l)
                 , listToPartition2 = \(_, l) -> tp2 l
                 }
-partitionList (ConsListType (RightWitness w2a) rest) =
+partitionList (ConsListType (RightType w2a) rest) =
     case partitionList rest of
         MkPartitionList pw1 pw2 fp tp1 tp2 ->
             MkPartitionList

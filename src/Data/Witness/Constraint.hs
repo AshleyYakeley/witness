@@ -1,6 +1,7 @@
 module Data.Witness.Constraint where
 
 import Data.Constraint
+import Data.Kind
 import Data.Type.Equality
 import Prelude
 
@@ -18,5 +19,5 @@ showAllWitness wt =
     case allWitnessConstraint @_ @_ @Show @w @t of
         Dict -> show wt
 
-class WitnessConstraint (c :: k -> Constraint) (w :: k -> *) where
+class WitnessConstraint (c :: k -> Constraint) (w :: k -> Type) where
     witnessConstraint :: forall (t :: k). w t -> Dict (c t)

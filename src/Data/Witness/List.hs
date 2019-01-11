@@ -1,6 +1,7 @@
 module Data.Witness.List where
 
 import Data.Constraint (Dict(..))
+import Data.Kind
 import Data.Nat
 import Data.Type.Equality
 import Data.Witness.Representative
@@ -8,7 +9,7 @@ import Prelude hiding ((.), id)
 
 -- | a witness type for lists of types
 -- The @w@ parameter is the witness type of the elements.
-data ListType (w :: k -> *) (lt :: [k]) where
+data ListType (w :: k -> Type) (lt :: [k]) where
     NilListType :: ListType w '[]
     ConsListType :: w a -> ListType w lt -> ListType w (a : lt)
 

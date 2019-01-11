@@ -9,16 +9,16 @@ import Data.Witness.Constraint
 import Data.Witness.Finite
 import Prelude
 
-type SingleWitness = (:~:)
+type SingleType = (:~:)
 
-instance FiniteWitness (SingleWitness t) where
+instance FiniteWitness (SingleType t) where
     assembleWitnessF getsel = fmap (\ft -> MkAllF $ \Refl -> ft) $ getsel Refl
 
-instance c t => WitnessConstraint c (SingleWitness t) where
+instance c t => WitnessConstraint c (SingleType t) where
     witnessConstraint Refl = Dict
 
-singleAll :: t -> AllValue (SingleWitness t)
+singleAll :: t -> AllValue (SingleType t)
 singleAll t = MkAllValue $ \Refl -> t
 
-getSingleAll :: AllValue (SingleWitness t) -> t
+getSingleAll :: AllValue (SingleType t) -> t
 getSingleAll (MkAllValue f) = f Refl

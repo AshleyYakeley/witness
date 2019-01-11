@@ -2,13 +2,14 @@ module Data.Witness.Any where
 
 import Data.Functor.Const
 import Data.Functor.Identity
+import Data.Kind
 import Data.Maybe
 import Data.Type.Equality
 import Data.Witness.Constraint
 import Prelude
 
 -- | Any value with a witness to a parameter of its type.
-data AnyF (w :: k -> *) (f :: k -> *) =
+data AnyF (w :: k -> Type) (f :: k -> Type) =
     forall (a :: k). MkAnyF (w a)
                             (f a)
 
