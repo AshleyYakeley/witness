@@ -26,6 +26,9 @@ instance Finite (EmptyType t) where
 instance TestEquality EmptyType where
     testEquality = never
 
+instance Representative EmptyType where
+    getRepWitness = never
+
 instance FiniteWitness EmptyType where
     assembleWitnessF _ = pure emptyAllF
 
