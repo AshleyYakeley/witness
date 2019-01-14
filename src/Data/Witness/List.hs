@@ -33,6 +33,10 @@ instance TestEquality w => TestEquality (ListType w) where
         return Refl
     testEquality _ _ = Nothing
 
+mapMListType :: Applicative m => (forall t'. wita t' -> m (witb t')) -> ListType wita t -> m (ListType witb t)
+mapMListType _ff NilListType = pure NilListType
+mapMListType ff (ConsListType t tt) = ConsListType <$> ff t <*> mapMListType ff tt
+
 type family ListElement (n :: Nat) (list :: [k]) :: k where
     ListElement 'Zero (a : aa) = a
     ListElement ('Succ n) (a : aa) = ListElement n aa

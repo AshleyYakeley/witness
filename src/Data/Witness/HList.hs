@@ -15,6 +15,9 @@ type family HList (w :: [Type]) = r | r -> w where
     HList '[] = ()
     HList (t : tt) = (t, HList tt)
 
+data HListWit wit t where
+    MkHListWit :: ListType wit t -> HListWit wit (HList t)
+
 listFill :: ListType w t -> (forall a. w a -> a) -> HList t
 listFill NilListType _f = ()
 listFill (ConsListType wa wr) f = (f wa, listFill wr f)
