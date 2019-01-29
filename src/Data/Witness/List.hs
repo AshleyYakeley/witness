@@ -40,3 +40,7 @@ mapMListType ff (ConsListType t tt) = ConsListType <$> ff t <*> mapMListType ff 
 type family ListElement (n :: Nat) (list :: [k]) :: k where
     ListElement 'Zero (a : aa) = a
     ListElement ('Succ n) (a : aa) = ListElement n aa
+
+listTypeLength :: ListType w lt -> Int
+listTypeLength NilListType = 0
+listTypeLength (ConsListType _ lt) = succ $ listTypeLength lt
