@@ -1,6 +1,7 @@
 module Data.Witness.List where
 
 import Data.Constraint (Dict(..))
+import Data.Functor.Identity
 import Data.Kind
 import Data.Nat
 import Data.Type.Equality
@@ -36,6 +37,9 @@ instance TestEquality w => TestEquality (ListType w) where
 mapMListType :: Applicative m => (forall t'. wita t' -> m (witb t')) -> ListType wita t -> m (ListType witb t)
 mapMListType _ff NilListType = pure NilListType
 mapMListType ff (ConsListType t tt) = ConsListType <$> ff t <*> mapMListType ff tt
+
+mapListType :: (forall t'. wita t' -> witb t') -> ListType wita t -> ListType witb t
+mapListType ff l = runIdentity $ mapMListType (\wt -> Identity $ ff wt) l
 
 type family ListElement (n :: Nat) (list :: [k]) :: k where
     ListElement 'Zero (a : aa) = a

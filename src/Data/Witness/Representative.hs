@@ -3,6 +3,7 @@ module Data.Witness.Representative where
 import Data.Constraint
 import Data.Kind
 import Data.Proxy
+import Data.Type.Equality
 import Data.Witness.Any
 
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
@@ -44,3 +45,9 @@ mkAny a = MkAnyValue representative a
 
 mkAnyF :: (Is rep a) => f a -> AnyF rep f
 mkAnyF fa = MkAnyF representative fa
+
+instance Representative ((:~:) (t :: k)) where
+    getRepWitness Refl = Dict
+
+instance Is ((:~:) (t :: k)) (t :: k) where
+    representative = Refl
