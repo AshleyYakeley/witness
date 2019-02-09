@@ -3,6 +3,7 @@ module Data.Witness.HList where
 import Control.Applicative
 import Control.Category
 import Control.Category.Tensor
+import Data.Constraint (Dict(..))
 import Data.Functor.Identity as Import
 import Data.Kind
 import Data.Type.Equality
@@ -14,6 +15,12 @@ import Prelude hiding ((.), id)
 type family HList (w :: [Type]) = r | r -> w where
     HList '[] = ()
     HList (t : tt) = (t, HList tt)
+
+hListEq :: (forall a. w a -> Dict (Eq a)) -> ListType w t -> Dict (Eq (HList t))
+hListEq _ NilListType = Dict
+hListEq f (ConsListType t tt) =
+    case (f t, hListEq f tt) of
+        (Dict, Dict) -> Dict
 
 data HListWit wit t where
     MkHListWit :: ListType wit t -> HListWit wit (HList t)

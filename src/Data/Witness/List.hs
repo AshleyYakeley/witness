@@ -5,6 +5,7 @@ import Data.Functor.Identity
 import Data.Kind
 import Data.Nat
 import Data.Type.Equality
+import Data.Witness.Any
 import Data.Witness.Representative
 import Prelude hiding ((.), id)
 
@@ -33,6 +34,12 @@ instance TestEquality w => TestEquality (ListType w) where
         Refl <- testEquality wpb wqb
         return Refl
     testEquality _ _ = Nothing
+
+assembleListType :: [AnyW w] -> AnyW (ListType w)
+assembleListType [] = MkAnyW NilListType
+assembleListType ((MkAnyW wa):ww) =
+    case assembleListType ww of
+        MkAnyW wwa -> MkAnyW $ ConsListType wa wwa
 
 mapMListType :: Applicative m => (forall t'. wita t' -> m (witb t')) -> ListType wita t -> m (ListType witb t)
 mapMListType _ff NilListType = pure NilListType
