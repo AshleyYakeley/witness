@@ -14,11 +14,11 @@ import Prelude
 data SymbolType (symbol :: Symbol) where
     MkSymbolType :: KnownSymbol symbol => SymbolType symbol
 
-fromSymbolWitness :: forall (symbol :: Symbol). SymbolType symbol -> String
-fromSymbolWitness MkSymbolType = symbolVal (Proxy :: Proxy symbol)
+fromSymbolType :: forall (symbol :: Symbol). SymbolType symbol -> String
+fromSymbolType MkSymbolType = symbolVal (Proxy :: Proxy symbol)
 
-toSymbolWitness :: String -> (forall (symbol :: Symbol). SymbolType symbol -> r) -> r
-toSymbolWitness s cont =
+toSymbolType :: String -> (forall (symbol :: Symbol). SymbolType symbol -> r) -> r
+toSymbolType s cont =
     case someSymbolVal s of
         SomeSymbol p -> let
             psw :: forall (symbol :: Symbol). KnownSymbol symbol
@@ -31,7 +31,7 @@ instance TestEquality SymbolType where
     testEquality (MkSymbolType :: SymbolType a) (MkSymbolType :: SymbolType b) = sameSymbol (Proxy @a) (Proxy @b)
 
 instance Show (SymbolType symbol) where
-    show = fromSymbolWitness
+    show = fromSymbolType
 
 instance AllWitnessConstraint Show SymbolType where
     allWitnessConstraint = Dict
