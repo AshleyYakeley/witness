@@ -82,6 +82,7 @@ library:
       - Data.Witness.Any
       - Data.Witness.All
       - Data.Witness.Constraint
+      - Data.Witness.WitnessValue
       - Data.Witness.Symbol
       - Data.Witness.Finite
       - Data.Witness.Single
@@ -91,6 +92,7 @@ library:
       - Data.Witness.WitnessDict
       - Data.Witness.WitnessFDict
       - Data.Witness.Nat
+      - Data.Witness.BigNat
       - Data.Witness.ListElement
       - Data.Witness.List
       - Data.Witness.HList

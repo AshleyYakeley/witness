@@ -8,6 +8,7 @@ import Data.Proxy as I
 import Data.Type.Equality as I
 import Data.Witness.All as I
 import Data.Witness.Any as I
+import Data.Witness.BigNat as I
 import Data.Witness.Cons as I
 import Data.Witness.Constraint as I
 import Data.Witness.Either as I
@@ -23,6 +24,7 @@ import Data.Witness.Submap as I
 import Data.Witness.Symbol as I
 import Data.Witness.WitnessDict as I
 import Data.Witness.WitnessFDict as I
+import Data.Witness.WitnessValue as I
 import Prelude
 
 -- | See whether two represented and witnessed types are the same.

@@ -8,30 +8,38 @@ import Data.Constraint
 import Data.Proxy
 import Data.Type.Equality
 import Data.Witness.Constraint
+import Data.Witness.Representative
+import Data.Witness.WitnessValue
 import GHC.TypeLits
 import Prelude
 
 data SymbolType (symbol :: Symbol) where
     MkSymbolType :: KnownSymbol symbol => SymbolType symbol
 
-fromSymbolType :: forall (symbol :: Symbol). SymbolType symbol -> String
-fromSymbolType MkSymbolType = symbolVal (Proxy :: Proxy symbol)
-
-toSymbolType :: String -> (forall (symbol :: Symbol). SymbolType symbol -> r) -> r
-toSymbolType s cont =
-    case someSymbolVal s of
-        SomeSymbol p -> let
-            psw :: forall (symbol :: Symbol). KnownSymbol symbol
-                => Proxy symbol
-                -> SymbolType symbol
-            psw _ = MkSymbolType
-            in cont $ psw p
+instance WitnessValue SymbolType where
+    type WitnessValueType SymbolType = String
+    witnessToValue :: forall t. SymbolType t -> String
+    witnessToValue MkSymbolType = symbolVal (Proxy :: Proxy t)
+    valueToWitness s cont =
+        case someSymbolVal s of
+            SomeSymbol p -> let
+                psw :: forall (t :: Symbol). KnownSymbol t
+                    => Proxy t
+                    -> SymbolType t
+                psw _ = MkSymbolType
+                in cont $ psw p
 
 instance TestEquality SymbolType where
     testEquality (MkSymbolType :: SymbolType a) (MkSymbolType :: SymbolType b) = sameSymbol (Proxy @a) (Proxy @b)
 
+instance Representative SymbolType where
+    getRepWitness MkSymbolType = Dict
+
+instance KnownSymbol symbol => Is SymbolType symbol where
+    representative = MkSymbolType
+
 instance Show (SymbolType symbol) where
-    show = fromSymbolType
+    show = witnessToValue
 
 instance AllWitnessConstraint Show SymbolType where
     allWitnessConstraint = Dict
