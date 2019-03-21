@@ -14,6 +14,13 @@ newtype AllValue (w :: Type -> Type) = MkAllValue
     { getAllValue :: forall t. w t -> t
     }
 
+setAllValue :: TestEquality wit => wit a -> a -> AllValue wit -> AllValue wit
+setAllValue wa a (MkAllValue wtt) =
+    MkAllValue $ \wa' ->
+        case testEquality wa wa' of
+            Just Refl -> a
+            Nothing -> wtt wa'
+
 allFToAllValue :: AllF w Identity -> AllValue w
 allFToAllValue (MkAllF wtit) = MkAllValue $ \wt -> runIdentity $ wtit wt
 
