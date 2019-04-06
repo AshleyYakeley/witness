@@ -46,6 +46,7 @@ library:
       - PatternGuards
       - PatternSynonyms
       - PolyKinds
+      - QuantifiedConstraints
       - RankNTypes
       - RecordWildCards
       - RecursiveDo

@@ -11,10 +11,17 @@ import Data.Witness.Either
 import Data.Witness.List
 import Data.Witness.ListElement
 import Prelude hiding ((.), id)
+import Unsafe.Coerce
 
-type family HList (w :: [Type]) = r | r -> w where
+type family HList (w :: [Type]) = (r :: Type) | r -> w where
     HList '[] = ()
     HList (t : tt) = (t, HList tt)
+
+-- workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
+injectiveHList ::
+       forall (a :: [Type]) (b :: [Type]). HList a ~ HList b
+    => a :~: b
+injectiveHList = unsafeCoerce Refl
 
 hListEq :: (forall a. w a -> Dict (Eq a)) -> ListType w t -> Dict (Eq (HList t))
 hListEq _ NilListType = Dict
@@ -22,8 +29,8 @@ hListEq f (ConsListType t tt) =
     case (f t, hListEq f tt) of
         (Dict, Dict) -> Dict
 
-data HListWit wit t where
-    MkHListWit :: ListType wit t -> HListWit wit (HList t)
+data HListWit (wit :: Type -> Type) (t :: Type) where
+    MkHListWit :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> HListWit wit (HList lt)
 
 listFill :: ListType w t -> (forall a. w a -> a) -> HList t
 listFill NilListType _f = ()
