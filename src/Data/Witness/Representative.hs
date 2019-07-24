@@ -1,6 +1,7 @@
 module Data.Witness.Representative where
 
 import Data.Constraint
+import Data.Functor.Compose
 import Data.Kind
 import Data.Proxy
 import Data.Type.Equality
@@ -34,16 +35,16 @@ class Representative rep => Is (rep :: k -> Type) (a :: k) where
 instance Is Proxy a where
     representative = Proxy
 
-getRepresentative :: (Is rep a) => a -> rep a
+getRepresentative :: Is rep a => a -> rep a
 getRepresentative _ = representative
 
-rerepresentative :: (Is rep a) => p a -> rep a
+rerepresentative :: Is rep a => p a -> rep a
 rerepresentative _ = representative
 
-mkAny :: (Is rep a) => a -> AnyValue rep
+mkAny :: Is rep a => a -> AnyValue rep
 mkAny a = MkAnyValue representative a
 
-mkAnyF :: (Is rep a) => f a -> AnyF rep f
+mkAnyF :: Is rep a => f a -> AnyF rep f
 mkAnyF fa = MkAnyF representative fa
 
 instance Representative ((:~:) (t :: k)) where
@@ -51,3 +52,9 @@ instance Representative ((:~:) (t :: k)) where
 
 instance Is ((:~:) (t :: k)) (t :: k) where
     representative = Refl
+
+instance Representative (Compose Dict c) where
+    getRepWitness (Compose Dict) = Dict
+
+instance c t => Is (Compose Dict c) t where
+    representative = Compose Dict
