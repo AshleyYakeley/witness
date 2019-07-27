@@ -2,7 +2,9 @@ module Data.Witness.Kind where
 
 import Data.Constraint
 import Data.Kind
+import Data.Witness.Constraint
 import Data.Witness.Representative
+import Prelude
 
 type family KindWitness k :: k -> Type
 
@@ -69,3 +71,6 @@ type instance KindWitness (kp, kq) =
 
 data AnyInKind (wit :: k -> Type) =
     forall (t :: k). InKind t => MkAnyInKind (wit t)
+
+instance AllWitnessConstraint Show w => Show (AnyInKind w) where
+    show (MkAnyInKind wa) = showAllWitness wa
