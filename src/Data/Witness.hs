@@ -8,7 +8,9 @@ import Data.Proxy as I
 import Data.Type.Equality as I
 import Data.Witness.All as I
 import Data.Witness.Any as I
+import Data.Witness.ApplyStack as I
 import Data.Witness.BigNat as I
+import Data.Witness.Concat as I
 import Data.Witness.Cons as I
 import Data.Witness.Constraint as I
 import Data.Witness.Either as I
