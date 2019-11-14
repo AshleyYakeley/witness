@@ -1,7 +1,6 @@
 module Data.Witness.Concat where
 
 import Data.Constraint (Dict(..))
-import Data.Kind
 import Data.Type.Equality
 import Data.Witness.List
 import Data.Witness.Representative
@@ -30,6 +29,6 @@ concatIsDict = let
                     Dict -> Dict
     in build $ representative @_ @(ListType w) @aa
 
-class ConcatMonoid (f :: [k] -> Type) where
-    cmEmpty :: f '[]
-    cmAppend :: f a -> f b -> f (Concat a b)
+appendListType :: ListType w a -> ListType w b -> ListType w (Concat a b)
+appendListType NilListType lb = lb
+appendListType (ConsListType wa la) lb = ConsListType wa $ appendListType la lb
