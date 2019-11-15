@@ -29,6 +29,6 @@ concatIsDict = let
                     Dict -> Dict
     in build $ representative @_ @(ListType w) @aa
 
-appendListType :: ListType w a -> ListType w b -> ListType w (Concat a b)
-appendListType NilListType lb = lb
-appendListType (ConsListType wa la) lb = ConsListType wa $ appendListType la lb
+concatListType :: ListType w a -> ListType w b -> ListType w (Concat a b)
+concatListType NilListType lb = lb
+concatListType (ConsListType wa la) lb = ConsListType wa $ concatListType la lb
