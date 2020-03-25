@@ -38,7 +38,6 @@ library:
       - InstanceSigs
       - KindSignatures
       - LambdaCase
-      - MonadFailDesugaring
       - MultiParamTypeClasses
       - OverloadedLabels
       - OverloadedStrings
@@ -69,7 +68,6 @@ library:
       - -Wincomplete-record-updates
       - -Wcompat
       - -Wnoncanonical-monad-instances
-      - -Wnoncanonical-monadfail-instances
     dependencies:
       - base >= 4.12
       - transformers
