@@ -4,6 +4,7 @@ import Data.Constraint
 import Data.Kind
 import Data.Witness.Constraint
 import Data.Witness.Representative
+import GHC.TypeLits
 import Prelude
 
 type family KindWitness k :: k -> Type
@@ -30,6 +31,9 @@ type instance KindWitness Type = NoWitness
 
 -- Constraint
 type instance KindWitness Constraint = NoWitness
+
+-- Nat
+type instance KindWitness Nat = NoWitness
 
 -- kp -> kq
 data FunctionKindWitness (wp :: kp -> Type) (wq :: kq -> Type) (t :: kp -> kq) where
