@@ -55,3 +55,11 @@ type family ListElement (n :: Nat) (list :: [k]) :: k where
 listTypeLength :: ListType w lt -> Int
 listTypeLength NilListType = 0
 listTypeLength (ConsListType _ lt) = succ $ listTypeLength lt
+
+listTypeToList :: (forall a. w a -> r) -> ListType w t -> [r]
+listTypeToList _wr NilListType = []
+listTypeToList wr (ConsListType wa rest) = (wr wa) : (listTypeToList wr rest)
+
+listTypeMap :: (forall a. w1 a -> w2 a) -> ListType w1 t -> ListType w2 t
+listTypeMap _ww NilListType = NilListType
+listTypeMap ww (ConsListType wa rest) = ConsListType (ww wa) (listTypeMap ww rest)

@@ -44,14 +44,6 @@ listLift2 :: ListType w t -> (forall a. w a -> a -> a -> a) -> HList t -> HList 
 listLift2 NilListType _f () () = ()
 listLift2 (ConsListType wa wr) f (a, resta) (b, restb) = (f wa a b, listLift2 wr f resta restb)
 
-listTypeToList :: (forall a. w a -> r) -> ListType w t -> [r]
-listTypeToList _wr NilListType = []
-listTypeToList wr (ConsListType wa rest) = (wr wa) : (listTypeToList wr rest)
-
-listTypeMap :: (forall a. w1 a -> w2 a) -> ListType w1 t -> ListType w2 t
-listTypeMap _ww NilListType = NilListType
-listTypeMap ww (ConsListType wa rest) = ConsListType (ww wa) (listTypeMap ww rest)
-
 listIdentity :: ListType Identity lt -> HList lt
 listIdentity NilListType = ()
 listIdentity (ConsListType (Identity a) rest) = (a, listIdentity rest)
