@@ -75,6 +75,8 @@ library:
       - semigroupoids
       - constraints
     exposed-modules:
+      - Data.Type.Apply
+      - Data.Type.Heterogeneous
       - Data.Nat
       - Control.Category.Tensor
       - Data.Witness.Kind
