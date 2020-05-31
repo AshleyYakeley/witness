@@ -7,7 +7,7 @@ import Data.Countable
 import Data.Functor.Const
 import Data.Functor.Identity
 import Data.Kind
-import Data.List
+import Data.List (intercalate)
 import Data.Searchable
 import Data.Type.Equality
 import Data.Witness.All
