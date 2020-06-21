@@ -2,9 +2,11 @@ module Data.Witness.ListElement where
 
 import Data.Countable
 import Data.Empty
+import Data.Kind
 import Data.Maybe
 import Data.Searchable
 import Data.Type.Equality
+import Data.Witness.List
 import Prelude
 
 data ListElementType (kk :: [k]) (t :: k) where
@@ -33,3 +35,15 @@ instance Finite (ListElementType '[] t) where
 
 instance Empty (ListElementType '[] t) where
     never lt = case lt of {}
+
+lookUpListElement ::
+       forall k (w :: k -> Type) (t :: k) (lt :: [k]). TestEquality w
+    => w t
+    -> ListType w lt
+    -> Maybe (ListElementType lt t)
+lookUpListElement _ NilListType = Nothing
+lookUpListElement wt (ConsListType wt' _)
+    | Just Refl <- testEquality wt wt' = Just FirstElementType
+lookUpListElement wt (ConsListType _ lt) = do
+    et <- lookUpListElement wt lt
+    return $ RestElementType et
