@@ -53,8 +53,8 @@ listSequence NilListType = pure ()
 listSequence (ConsListType fa rest) = liftA2 (,) fa (listSequence rest)
 
 getListElement :: ListElementType list t -> HList list -> t
-getListElement FirstElementType (a, _) = a
-getListElement (RestElementType lw) (_, r) = getListElement lw r
+getListElement FirstElementType = fst -- using fst and snd for irrefutable matching
+getListElement (RestElementType lw) = getListElement lw . snd
 
 putListElement :: ListElementType list t -> t -> HList list -> HList list
 putListElement FirstElementType t (_, r) = (t, r)
