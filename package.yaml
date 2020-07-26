@@ -75,6 +75,7 @@ library:
       - semigroupoids
       - constraints
     exposed-modules:
+      - Data.Type.With
       - Data.Type.Apply
       - Data.Type.Heterogeneous
       - Data.Nat

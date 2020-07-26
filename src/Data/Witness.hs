@@ -8,6 +8,7 @@ import Data.Proxy as I
 import Data.Type.Apply as I
 import Data.Type.Equality as I
 import Data.Type.Heterogeneous as I
+import Data.Type.With as I
 import Data.Witness.All as I
 import Data.Witness.Any as I
 import Data.Witness.ApplyStack as I

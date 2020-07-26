@@ -4,6 +4,9 @@ import Data.Kind
 import Data.Type.Equality
 import Prelude
 
+withHRefl :: forall ka (a :: ka) kb (b :: kb) (r :: Type). a :~~: b -> ((a ~~ b) => r) -> r
+withHRefl HRefl r = r
+
 -- | somewhat awkwardly named
 homoHetEq :: forall (k :: Type) (a :: k) (b :: k). a :~~: b -> a :~: b
 homoHetEq HRefl = Refl
