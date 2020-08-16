@@ -3,6 +3,7 @@ module Data.Witness.List where
 import Data.Constraint (Dict(..))
 import Data.Functor.Identity
 import Data.Kind
+import Data.List (intercalate)
 import Data.Nat
 import Data.Type.Equality
 import Data.Witness.Any
@@ -35,6 +36,13 @@ instance TestEquality w => TestEquality (ListType w) where
         return Refl
     testEquality _ _ = Nothing
 
+instance (forall a. Show (w a)) => Show (ListType w lt) where
+    show s = "[" <> intercalate "," (showAll s) <> "]"
+      where
+        showAll :: forall t. ListType w t -> [String]
+        showAll NilListType = []
+        showAll (ConsListType t1 tr) = show t1 : showAll tr
+
 assembleListType :: [AnyW w] -> AnyW (ListType w)
 assembleListType [] = MkAnyW NilListType
 assembleListType ((MkAnyW wa):ww) =
@@ -60,6 +68,6 @@ listTypeToList :: (forall a. w a -> r) -> ListType w t -> [r]
 listTypeToList _wr NilListType = []
 listTypeToList wr (ConsListType wa rest) = (wr wa) : (listTypeToList wr rest)
 
-listTypeMap :: (forall a. w1 a -> w2 a) -> ListType w1 t -> ListType w2 t
-listTypeMap _ww NilListType = NilListType
-listTypeMap ww (ConsListType wa rest) = ConsListType (ww wa) (listTypeMap ww rest)
+listTypeFor_ :: Applicative m => ListType w t -> (forall a. w a -> m ()) -> m ()
+listTypeFor_ NilListType _ = pure ()
+listTypeFor_ (ConsListType t tt) f = f t *> listTypeFor_ tt f

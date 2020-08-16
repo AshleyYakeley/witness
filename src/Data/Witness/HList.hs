@@ -29,6 +29,12 @@ hListEq f (ConsListType t tt) =
     case (f t, hListEq f tt) of
         (Dict, Dict) -> Dict
 
+hListShow :: (forall a. w a -> Dict (Show a)) -> ListType w t -> Dict (Show (HList t))
+hListShow _ NilListType = Dict
+hListShow f (ConsListType t tt) =
+    case (f t, hListShow f tt) of
+        (Dict, Dict) -> Dict
+
 data HListWit (wit :: Type -> Type) (t :: Type) where
     MkHListWit :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> HListWit wit (HList lt)
 
