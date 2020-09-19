@@ -1,4 +1,4 @@
-resolver: lts-16.8
+resolver: lts-16.15
 compiler: ghc-8.10.2
 packages: [.]
 ghc-options:
