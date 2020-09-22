@@ -69,7 +69,7 @@ library:
       - -Wcompat
       - -Wnoncanonical-monad-instances
     dependencies:
-      - base >= 4.12
+      - base >= 4.14 && < 5
       - transformers
       - countable
       - semigroupoids
