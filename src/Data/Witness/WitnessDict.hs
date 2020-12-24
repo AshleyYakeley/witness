@@ -10,6 +10,7 @@ import Prelude
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
 newtype WitnessDict (w :: Type -> Type) =
     MkWitnessDict [AnyValue w]
+    deriving (Semigroup, Monoid)
 
 -- | An empty dictionary.
 emptyWitnessDict :: WitnessDict w
@@ -35,9 +36,15 @@ witnessDictModify wit amap (MkWitnessDict cells) =
 witnessDictReplace :: (TestEquality w) => w a -> a -> WitnessDict w -> WitnessDict w
 witnessDictReplace wit newa = witnessDictModify wit (const newa)
 
+witnessDictSingle :: w a -> a -> WitnessDict w
+witnessDictSingle wit a = MkWitnessDict $ pure $ MkAnyValue wit a
+
+witnessDictFold :: Monoid m => WitnessDict w -> (forall a. w a -> a -> m) -> m
+witnessDictFold (MkWitnessDict cells) f = mconcat $ fmap (\(MkAnyValue wit a) -> f wit a) cells
+
 -- | Add a witness and value as the first entry in the dictionary.
 witnessDictAdd :: w a -> a -> WitnessDict w -> WitnessDict w
-witnessDictAdd wit a (MkWitnessDict cells) = MkWitnessDict ((MkAnyValue wit a) : cells)
+witnessDictAdd wit a (MkWitnessDict cells) = MkWitnessDict $ (MkAnyValue wit a) : cells
 
 -- | Remove the first entry in the dictionary that matches the given witness.
 witnessDictRemove :: (TestEquality w) => w a -> WitnessDict w -> WitnessDict w
