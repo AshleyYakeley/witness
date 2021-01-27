@@ -1,5 +1,4 @@
-resolver: lts-16.26
-compiler: ghc-8.10.2
+resolver: lts-17.0
 packages: [.]
 ghc-options:
     "$locals": -Werror
