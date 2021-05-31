@@ -51,6 +51,7 @@ library:
       - RecursiveDo
       - ScopedTypeVariables
       - StandaloneDeriving
+      - StandaloneKindSignatures
       - NoStarIsType
       - TemplateHaskell
       - TypeApplications
@@ -101,4 +102,5 @@ library:
       - Data.Witness.ApplyStack
       - Data.Witness.HList
       - Data.Witness.Representative
+      - Data.Witness.Saturate
       - Data.Witness
