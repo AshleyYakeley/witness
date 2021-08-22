@@ -1,4 +1,4 @@
-resolver: lts-17.13
+resolver: lts-18.7
 packages: [.]
 ghc-options:
     "$locals": -Werror
