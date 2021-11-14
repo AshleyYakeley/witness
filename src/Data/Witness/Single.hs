@@ -3,12 +3,14 @@
 module Data.Witness.Single where
 
 import Data.Constraint
+import Data.Kind
 import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
 import Prelude
 
+type SingleType :: forall k. k -> k -> Type
 type SingleType = (:~:)
 
 instance FiniteWitness (SingleType t) where

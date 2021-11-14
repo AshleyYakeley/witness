@@ -7,9 +7,10 @@ import Data.Witness.Either
 import Data.Witness.Finite
 import Prelude
 
-data SubmapWitness (w :: k -> Type) (f :: k -> Type) = MkSubmapWitness
+type SubmapWitness :: forall k. (k -> Type) -> (k -> Type) -> Type
+data SubmapWitness w f = MkSubmapWitness
     { subWitnessDomain :: [AnyW w]
-    , subWitnessMap :: forall (t :: k). w t -> f t
+    , subWitnessMap :: forall t. w t -> f t
     }
 
 subWitnessCodomain :: SubmapWitness w f -> [AnyW f]

@@ -1,13 +1,15 @@
 module Data.Witness.Nat where
 
 import Data.Constraint (Dict(..))
+import Data.Kind
 import Data.Maybe
 import Data.Nat
 import Data.Type.Equality
 import Data.Witness.Representative
 import Prelude hiding ((.), id)
 
-data NatType (t :: Nat) where
+type NatType :: Nat -> Type
+data NatType t where
     ZeroType :: NatType 'Zero
     SuccType :: NatType t -> NatType ('Succ t)
 
@@ -30,7 +32,8 @@ instance Is NatType 'Zero where
 instance (Is NatType n) => Is NatType ('Succ n) where
     representative = SuccType representative
 
-data GreaterEqual (a :: Nat) (b :: Nat) where
+type GreaterEqual :: Nat -> Nat -> Type
+data GreaterEqual a b where
     ZeroGreaterEqual :: GreaterEqual a 'Zero
     SuccGreaterEqual :: GreaterEqual a b -> GreaterEqual ('Succ a) ('Succ b)
 
@@ -49,7 +52,8 @@ natGreaterEqual (SuccType a) (SuccType b) = do
     al <- natGreaterEqual a b
     return $ SuccGreaterEqual al
 
-type family Add (a :: Nat) (b :: Nat) :: Nat where
+type Add :: Nat -> Nat -> Nat
+type family Add a b where
     Add 'Zero b = b
     Add ('Succ a) b = 'Succ (Add a b)
 

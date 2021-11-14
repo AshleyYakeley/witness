@@ -15,8 +15,12 @@ import Data.Witness.Any
 import Data.Witness.Constraint
 import Prelude
 
+type FiniteWitness :: forall k. (k -> Type) -> Constraint
 class FiniteWitness (w :: k -> Type) where
-    assembleWitnessF :: Applicative m => (forall t. w t -> m (f t)) -> m (AllF w f)
+    assembleWitnessF ::
+           forall (m :: Type -> Type) (f :: k -> Type). Applicative m
+        => (forall (t :: k). w t -> m (f t))
+        -> m (AllF w f)
 
 instance (TestEquality w, FiniteWitness w) => Countable (AnyW w) where
     countPrevious = finiteCountPrevious

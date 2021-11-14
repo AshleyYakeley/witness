@@ -13,7 +13,8 @@ import Data.Witness.ListElement
 import Prelude hiding ((.), id)
 import Unsafe.Coerce
 
-type family HList (w :: [Type]) = (r :: Type) | r -> w where
+type HList :: [Type] -> Type
+type family HList w = r | r -> w where
     HList '[] = ()
     HList (t : tt) = (t, HList tt)
 
@@ -35,7 +36,8 @@ hListShow f (ConsListType t tt) =
     case (f t, hListShow f tt) of
         (Dict, Dict) -> Dict
 
-data HListWit (wit :: Type -> Type) (t :: Type) where
+type HListWit :: (Type -> Type) -> (Type -> Type)
+data HListWit wit t where
     MkHListWit :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> HListWit wit (HList lt)
 
 listFill :: ListType w t -> (forall a. w a -> a) -> HList t

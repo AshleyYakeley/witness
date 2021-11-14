@@ -6,7 +6,8 @@ import Data.Witness.List
 import Data.Witness.Representative
 import Prelude hiding ((.), id)
 
-type family ApplyStack (f :: [k -> k]) (a :: k) :: k where
+type ApplyStack :: forall k. [k -> k] -> k -> k
+type family ApplyStack f a where
     ApplyStack '[] a = a
     ApplyStack (t ': tt) a = t (ApplyStack tt a)
 

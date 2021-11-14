@@ -12,7 +12,8 @@ import Prelude hiding ((.), id)
 
 -- | a witness type for lists of types
 -- The @w@ parameter is the witness type of the elements.
-data ListType (w :: k -> Type) (lt :: [k]) where
+type ListType :: (k -> Type) -> ([k] -> Type)
+data ListType w lt where
     NilListType :: ListType w '[]
     ConsListType :: w a -> ListType w lt -> ListType w (a : lt)
 
@@ -56,7 +57,8 @@ mapMListType ff (ConsListType t tt) = ConsListType <$> ff t <*> mapMListType ff 
 mapListType :: (forall t'. wita t' -> witb t') -> ListType wita t -> ListType witb t
 mapListType ff l = runIdentity $ mapMListType (\wt -> Identity $ ff wt) l
 
-type family ListElement (n :: Nat) (list :: [k]) :: k where
+type ListElement :: Nat -> forall k. [k] -> k
+type family ListElement n list where
     ListElement 'Zero (a : aa) = a
     ListElement ('Succ n) (a : aa) = ListElement n aa
 

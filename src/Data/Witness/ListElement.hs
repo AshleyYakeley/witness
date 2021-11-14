@@ -9,7 +9,8 @@ import Data.Type.Equality
 import Data.Witness.List
 import Prelude
 
-data ListElementType (kk :: [k]) (t :: k) where
+type ListElementType :: forall k. [k] -> k -> Type
+data ListElementType kk t where
     FirstElementType :: ListElementType (t : tt) t
     RestElementType :: ListElementType aa t -> ListElementType (a : aa) t
 

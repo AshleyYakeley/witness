@@ -5,19 +5,21 @@ import Data.Kind
 import Data.Type.Equality
 import Prelude
 
-class AllWitnessConstraint (c :: kw -> Constraint) (w :: kt -> kw) where
-    allWitnessConstraint :: forall (t :: kt). Dict (c (w t))
+type AllWitnessConstraint :: forall kw kt. (kw -> Constraint) -> (kt -> kw) -> Constraint
+class AllWitnessConstraint c w where
+    allWitnessConstraint :: forall t. Dict (c (w t))
 
 instance AllWitnessConstraint Show ((:~:) t) where
     allWitnessConstraint = Dict
 
 showAllWitness ::
-       forall w t. AllWitnessConstraint Show w
+       forall k (w :: k -> Type) (t :: k). AllWitnessConstraint Show w
     => w t
     -> String
 showAllWitness wt =
     case allWitnessConstraint @_ @_ @Show @w @t of
         Dict -> show wt
 
-class WitnessConstraint (c :: k -> Constraint) (w :: k -> Type) where
-    witnessConstraint :: forall (t :: k). w t -> Dict (c t)
+type WitnessConstraint :: forall k. (k -> Constraint) -> (k -> Type) -> Constraint
+class WitnessConstraint c w where
+    witnessConstraint :: forall t. w t -> Dict (c t)

@@ -16,6 +16,7 @@ import Data.Witness.ListElement
 import Data.Witness.Representative
 import Prelude
 
+type EmptyType :: forall k. k -> Type
 newtype EmptyType t =
     MkEmptyType Void
     deriving (Eq, Countable, Searchable, Empty)
@@ -42,6 +43,7 @@ emptyAll = MkAllValue never
 emptyAllF :: AllF EmptyType f
 emptyAllF = MkAllF never
 
+type ConsType :: forall k. k -> (k -> Type) -> k -> Type
 data ConsType a r t where
     FirstType :: ConsType t r t
     RestType :: r t -> ConsType a r t
@@ -76,6 +78,7 @@ consAll a (MkAllValue tup) =
             FirstType -> a
             RestType sel -> tup sel
 
+type IsFiniteConsWitness :: forall k. (k -> Type) -> Constraint
 class Is (ListType Proxy) (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> Type) where
     type FiniteConsWitness sel :: [k]
     toLTW :: forall t. sel t -> ListElementType (FiniteConsWitness sel) t

@@ -6,31 +6,42 @@ import Data.Type.Equality
 import Data.Witness.Any
 import Prelude
 
-newtype AllF (w :: k -> Type) (f :: k -> Type) = MkAllF
-    { getAllF :: forall (t :: k). w t -> f t
+type AllF :: forall k. (k -> Type) -> (k -> Type) -> Type
+newtype AllF w f = MkAllF
+    { getAllF :: forall t. w t -> f t
     }
 
-newtype AllValue (w :: Type -> Type) = MkAllValue
+type AllValue :: (Type -> Type) -> Type
+newtype AllValue w = MkAllValue
     { getAllValue :: forall t. w t -> t
     }
 
-setAllValue :: TestEquality wit => wit a -> a -> AllValue wit -> AllValue wit
+setAllValue ::
+       forall (w :: Type -> Type) (a :: Type). TestEquality w
+    => w a
+    -> a
+    -> AllValue w
+    -> AllValue w
 setAllValue wa a (MkAllValue wtt) =
     MkAllValue $ \wa' ->
         case testEquality wa wa' of
             Just Refl -> a
             Nothing -> wtt wa'
 
-allFToAllValue :: AllF w Identity -> AllValue w
+allFToAllValue :: forall (w :: Type -> Type). AllF w Identity -> AllValue w
 allFToAllValue (MkAllF wtit) = MkAllValue $ \wt -> runIdentity $ wtit wt
 
-allValueToAllF :: AllValue w -> AllF w Identity
+allValueToAllF :: forall (w :: Type -> Type). AllValue w -> AllF w Identity
 allValueToAllF (MkAllValue wtt) = MkAllF $ \wt -> Identity $ wtt wt
 
-type family UnAllValue (aw :: Type) :: Type -> Type where
+type UnAllValue :: Type -> Type -> Type
+type family UnAllValue aw where
     UnAllValue (AllValue w) = w
 
-splitWitnessList :: TestEquality w => [AnyValue w] -> AllF w []
+splitWitnessList ::
+       forall (w :: Type -> Type). TestEquality w
+    => [AnyValue w]
+    -> AllF w []
 splitWitnessList [] = MkAllF $ \_ -> []
 splitWitnessList ((MkAnyValue wt t):rr) =
     MkAllF $ \wt' ->

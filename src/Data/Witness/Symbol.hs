@@ -5,6 +5,7 @@ module Data.Witness.Symbol
     ) where
 
 import Data.Constraint
+import Data.Kind
 import Data.Proxy
 import Data.Type.Equality
 import Data.Witness.Constraint
@@ -13,7 +14,8 @@ import Data.Witness.WitnessValue
 import GHC.TypeLits
 import Prelude
 
-data SymbolType (symbol :: Symbol) where
+type SymbolType :: Symbol -> Type
+data SymbolType symbol where
     MkSymbolType :: KnownSymbol symbol => SymbolType symbol
 
 instance WitnessValue SymbolType where

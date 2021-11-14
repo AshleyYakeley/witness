@@ -8,7 +8,8 @@ import Data.Witness.Constraint
 import Data.Witness.Finite
 import Prelude
 
-data EitherType (colsel1 :: k -> Type) (colsel2 :: k -> Type) (t :: k)
+type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)
+data EitherType colsel1 colsel2 t
     = LeftType (colsel1 t)
     | RightType (colsel2 t)
 

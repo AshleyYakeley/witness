@@ -8,7 +8,8 @@ import Prelude
 
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
-newtype WitnessFDict (w :: k -> Type) (f :: k -> Type) =
+type WitnessFDict :: forall k. (k -> Type) -> (k -> Type) -> Type
+newtype WitnessFDict w f =
     MkWitnessFDict [AnyF w f]
 
 -- | An empty dictionary.

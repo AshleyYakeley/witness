@@ -4,6 +4,7 @@ module Data.Witness.BigNat
     ) where
 
 import Data.Constraint
+import Data.Kind
 import Data.Proxy
 import Data.Type.Equality
 import Data.Witness.Constraint
@@ -15,7 +16,8 @@ import Prelude
 
 type BigNat = Nat
 
-data BigNatType (bn :: BigNat) where
+type BigNatType :: BigNat -> Type
+data BigNatType bn where
     MkBigNatType :: KnownNat bn => BigNatType bn
 
 instance WitnessValue BigNatType where

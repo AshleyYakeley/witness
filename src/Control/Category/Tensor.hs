@@ -1,9 +1,12 @@
 module Control.Category.Tensor where
 
+import Data.Constraint
+import Data.Kind
 import Data.Semigroupoid.Dual
 import Prelude
 
 -- could use data-lens:Control.Category.Product(Tensor)
+type Tensor :: (Type -> Type -> Type) -> Constraint
 class Tensor cc where
     tensorUnit :: cc () ()
     tensorPair :: cc a1 b1 -> cc a2 b2 -> cc (a1, a2) (b1, b2)

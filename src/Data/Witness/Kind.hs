@@ -7,7 +7,8 @@ import Data.Witness.Representative
 import GHC.TypeLits
 import Prelude
 
-type family KindWitness k :: k -> Type
+type KindWitness :: forall k -> k -> Type
+type family KindWitness k
 
 type InKind (a :: k) = Is (KindWitness k) a
 
@@ -17,7 +18,8 @@ inKind ::
 inKind = representative
 
 -- NoWitness
-data NoWitness (t :: k) =
+type NoWitness :: forall k. k -> Type
+data NoWitness t =
     MkNoWitness
 
 instance Representative NoWitness where
@@ -36,7 +38,8 @@ type instance KindWitness Constraint = NoWitness
 type instance KindWitness Nat = NoWitness
 
 -- kp -> kq
-data FunctionKindWitness (wp :: kp -> Type) (wq :: kq -> Type) (t :: kp -> kq) where
+type FunctionKindWitness :: forall kp kq. (kp -> Type) -> (kq -> Type) -> ((kp -> kq) -> Type)
+data FunctionKindWitness wp wq t where
     MkFunctionKindWitness
         :: forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (t :: kp -> kq).
            (forall (p :: kp). Is wp p => Is wq (t p))
@@ -61,7 +64,8 @@ instance (forall p. Is wp p => Is wq (f p)) =>
     representative = MkFunctionKindWitness
 
 -- (kp,kq)
-data PairWitness (wp :: kp -> Type) (wq :: kq -> Type) (t :: (kp, kq)) where
+type PairWitness :: forall kp kq. (kp -> Type) -> (kq -> Type) -> ((kp, kq) -> Type)
+data PairWitness wp wq t where
     MkPairWitness :: (Is wp p, Is wq q) => PairWitness wp wq '( p, q)
 
 instance (Representative wp, Representative wq) => Representative (PairWitness wp wq) where
@@ -73,8 +77,9 @@ instance (Is wp p, Is wq q) => Is (PairWitness wp wq) '( p, q) where
 type instance KindWitness (kp, kq) =
      PairWitness (KindWitness kp) (KindWitness kq)
 
-data AnyInKind (wit :: k -> Type) =
-    forall (t :: k). InKind t => MkAnyInKind (wit t)
+type AnyInKind :: forall k. (k -> Type) -> Type
+data AnyInKind wit =
+    forall t. InKind t => MkAnyInKind (wit t)
 
 instance AllWitnessConstraint Show w => Show (AnyInKind w) where
     show (MkAnyInKind wa) = showAllWitness wa

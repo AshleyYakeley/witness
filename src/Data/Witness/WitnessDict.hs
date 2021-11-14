@@ -8,7 +8,8 @@ import Prelude
 
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
-newtype WitnessDict (w :: Type -> Type) =
+type WitnessDict :: (Type -> Type) -> Type
+newtype WitnessDict w =
     MkWitnessDict [AnyValue w]
     deriving (Semigroup, Monoid)
 

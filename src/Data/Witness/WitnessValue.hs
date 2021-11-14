@@ -3,10 +3,11 @@ module Data.Witness.WitnessValue where
 import Data.Kind
 import Data.Witness.Any
 
-class WitnessValue (w :: k -> Type) where
+type WitnessValue :: forall k. (k -> Type) -> Constraint
+class WitnessValue w where
     type WitnessValueType w :: Type
-    witnessToValue :: forall (t :: k). w t -> WitnessValueType w
-    valueToWitness :: forall r. WitnessValueType w -> (forall (t :: k). w t -> r) -> r
+    witnessToValue :: forall t. w t -> WitnessValueType w
+    valueToWitness :: forall r. WitnessValueType w -> (forall t. w t -> r) -> r
 
 anyToValue ::
        forall k (w :: k -> Type). WitnessValue w
