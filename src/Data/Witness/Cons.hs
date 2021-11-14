@@ -7,6 +7,7 @@ import Data.Kind
 import Data.Proxy
 import Data.Searchable
 import Data.Type.Equality
+import Data.Void
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
@@ -16,7 +17,7 @@ import Data.Witness.Representative
 import Prelude
 
 newtype EmptyType t =
-    MkEmptyType None
+    MkEmptyType Void
     deriving (Eq, Countable, Searchable, Empty)
 
 instance Finite (EmptyType t) where
