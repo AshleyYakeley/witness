@@ -63,6 +63,11 @@ instance (forall p. Is wp p => Is wq (f p)) =>
              Is (FunctionKindWitness (wp :: kp -> Type) (wq :: kq -> Type)) (f :: kp -> kq) where
     representative = MkFunctionKindWitness
 
+deriveIsFunctionKindWitness ::
+       forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (f :: kp -> kq). (forall p. Is wp p => Is wq (f p))
+    => Dict (Is (FunctionKindWitness wp wq) f)
+deriveIsFunctionKindWitness = Dict
+
 -- (kp,kq)
 type PairWitness :: forall kp kq. (kp -> Type) -> (kq -> Type) -> ((kp, kq) -> Type)
 data PairWitness wp wq t where
@@ -83,3 +88,30 @@ data AnyInKind wit =
 
 instance AllWitnessConstraint Show w => Show (AnyInKind w) where
     show (MkAnyInKind wa) = showAllWitness wa
+
+-- AllInKind
+type AllInKind :: Type -> Constraint
+class AllInKind k where
+    withAllInKind ::
+           forall kw r. (kw ~ KindWitness k)
+        => ((forall (a :: k). Is kw a) => r)
+        -> r
+
+allInKind ::
+       forall k (a :: k). AllInKind k
+    => Dict (InKind a)
+allInKind = let
+    helper ::
+           forall kw. kw ~ KindWitness k
+        => Dict (Is kw a)
+    helper = withAllInKind @k Dict
+    in helper
+
+instance AllInKind Type where
+    withAllInKind r = r
+
+instance AllInKind Constraint where
+    withAllInKind r = r
+
+instance AllInKind kq => AllInKind (kp -> kq) where
+    withAllInKind r = withAllInKind @kq r
