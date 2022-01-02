@@ -43,6 +43,9 @@ getRepresentative _ = representative
 rerepresentative :: Is rep a => p a -> rep a
 rerepresentative _ = representative
 
+fromRepWitness :: Dict (Is rep a) -> rep a
+fromRepWitness Dict = representative
+
 mkAny :: Is rep a => a -> AnyValue rep
 mkAny a = MkAnyValue representative a
 

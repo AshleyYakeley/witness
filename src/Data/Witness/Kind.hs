@@ -6,6 +6,7 @@ import Data.Witness.Constraint
 import Data.Witness.Representative
 import GHC.TypeLits
 import Prelude
+import Unsafe.Coerce
 
 type KindWitness :: forall k -> k -> Type
 type family KindWitness k
@@ -39,32 +40,52 @@ type instance KindWitness Nat = NoWitness
 
 -- kp -> kq
 type FunctionKindWitness :: forall kp kq. (kp -> Type) -> (kq -> Type) -> ((kp -> kq) -> Type)
-data FunctionKindWitness wp wq t where
-    MkFunctionKindWitness
-        :: forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (t :: kp -> kq).
-           (forall (p :: kp). Is wp p => Is wq (t p))
-        => FunctionKindWitness wp wq t
+newtype FunctionKindWitness (wp :: kp -> Type) wq t =
+    MkFunctionKindWitness (forall (p :: kp). wq (t p))
 
 applyFunctionKindWitness ::
-       forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (t :: kp -> kq) (p :: kp) (proxy :: kp -> Type). Is wp p
+       forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (t :: kp -> kq) (p :: kp) (proxy :: kp -> Type).
+       (Representative wq)
     => FunctionKindWitness wp wq t
     -> proxy p
     -> Dict (Is wq (t p))
-applyFunctionKindWitness MkFunctionKindWitness _ = Dict
+applyFunctionKindWitness (MkFunctionKindWitness f) _ = withRepresentative (f @p) Dict
 
 type instance KindWitness (kp -> kq) =
      FunctionKindWitness (KindWitness kp) (KindWitness kq)
 
-instance forall kp kq (wp :: kp -> Type) (wq :: kq -> Type). Representative (FunctionKindWitness wp wq) {- Representative wq => -}
-                                                                                                                                   where
-    getRepWitness MkFunctionKindWitness = Dict
+newtype DT1 (cq :: kq -> Constraint) (f :: kp -> kq) r =
+    MkDT1 ((forall (p :: kp). cq (f p)) => r)
 
-instance (forall p. Is wp p => Is wq (f p)) =>
+newtype DT2 (cq :: kq -> Constraint) (f :: kp -> kq) r =
+    MkDT2 ((forall (p :: kp). Dict (cq (f p))) -> r)
+
+dictThing ::
+       forall kp kq (cq :: kq -> Constraint) (f :: kp -> kq) r.
+       ((forall (p :: kp). cq (f p)) => r)
+    -> ((forall (p :: kp). Dict (cq (f p))) -> r)
+dictThing f =
+    case unsafeCoerce @(DT1 cq f r) @(DT2 cq f r) $ MkDT1 f of
+        MkDT2 f' -> f'
+
+functionKindWitness ::
+       forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (f :: kp -> kq) r. (Representative wq)
+    => FunctionKindWitness wp wq f
+    -> ((forall (p :: kp). Is wq (f p)) => r)
+    -> r
+functionKindWitness (MkFunctionKindWitness f) call = dictThing @kp @kq @(Is wq) call $ getRepWitness f
+
+instance forall kp kq (wp :: kp -> Type) (wq :: kq -> Type). Representative wq =>
+             Representative (FunctionKindWitness wp wq) where
+    getRepWitness :: forall (p :: kp -> kq). FunctionKindWitness wp wq p -> Dict (Is (FunctionKindWitness wp wq) p)
+    getRepWitness fw = functionKindWitness fw Dict
+
+instance (Representative wq, forall p. Is wq (f p)) =>
              Is (FunctionKindWitness (wp :: kp -> Type) (wq :: kq -> Type)) (f :: kp -> kq) where
-    representative = MkFunctionKindWitness
+    representative = MkFunctionKindWitness representative
 
 deriveIsFunctionKindWitness ::
-       forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (f :: kp -> kq). (forall p. Is wp p => Is wq (f p))
+       forall kp kq (wp :: kp -> Type) (wq :: kq -> Type) (f :: kp -> kq). (Representative wq, forall p. Is wq (f p))
     => Dict (Is (FunctionKindWitness wp wq) f)
 deriveIsFunctionKindWitness = Dict
 
