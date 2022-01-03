@@ -19,7 +19,6 @@ import Data.Witness.Constraint as I
 import Data.Witness.Either as I
 import Data.Witness.Finite as I
 import Data.Witness.HList as I
-import Data.Witness.Kind as I
 import Data.Witness.List as I
 import Data.Witness.ListElement as I
 import Data.Witness.Nat as I
