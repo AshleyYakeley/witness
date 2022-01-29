@@ -15,7 +15,7 @@ newtype WitnessDict w =
 
 -- | An empty dictionary.
 emptyWitnessDict :: WitnessDict w
-emptyWitnessDict = MkWitnessDict []
+emptyWitnessDict = mempty
 
 -- | Look up the first value in the dictionary that matches the given witness.
 witnessDictLookup :: (TestEquality w) => w a -> WitnessDict w -> Maybe a

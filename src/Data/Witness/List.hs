@@ -54,8 +54,20 @@ mapMListType :: Applicative m => (forall t'. wita t' -> m (witb t')) -> ListType
 mapMListType _ff NilListType = pure NilListType
 mapMListType ff (ConsListType t tt) = ConsListType <$> ff t <*> mapMListType ff tt
 
+joinMListType ::
+       Applicative m
+    => (forall t'. wita t' -> witb t' -> m (witc t'))
+    -> ListType wita t
+    -> ListType witb t
+    -> m (ListType witc t)
+joinMListType _ff NilListType NilListType = pure NilListType
+joinMListType ff (ConsListType t1 t1t) (ConsListType t2 t2t) = ConsListType <$> ff t1 t2 <*> joinMListType ff t1t t2t
+
 mapListType :: (forall t'. wita t' -> witb t') -> ListType wita t -> ListType witb t
 mapListType ff l = runIdentity $ mapMListType (\wt -> Identity $ ff wt) l
+
+joinListType :: (forall t'. wita t' -> witb t' -> witc t') -> ListType wita t -> ListType witb t -> ListType witc t
+joinListType ff la lb = runIdentity $ joinMListType (\wta wtb -> Identity $ ff wta wtb) la lb
 
 type ListElement :: Nat -> forall k. [k] -> k
 type family ListElement n list where

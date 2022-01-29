@@ -2,6 +2,7 @@ module Data.Witness.WitnessFDict where
 
 import Data.Kind
 import Data.Maybe
+import Data.Traversable
 import Data.Type.Equality
 import Data.Witness.Any
 import Prelude
@@ -11,10 +12,11 @@ import Prelude
 type WitnessFDict :: forall k. (k -> Type) -> (k -> Type) -> Type
 newtype WitnessFDict w f =
     MkWitnessFDict [AnyF w f]
+    deriving (Semigroup, Monoid)
 
 -- | An empty dictionary.
 emptyWitnessFDict :: WitnessFDict w f
-emptyWitnessFDict = MkWitnessFDict []
+emptyWitnessFDict = mempty
 
 -- | Look up the first value in the dictionary that matches the given witness.
 witnessFDictLookup :: (TestEquality w) => w a -> WitnessFDict w f -> Maybe (f a)
@@ -40,6 +42,10 @@ witnessFDictReplace wit newfa = witnessFDictModify wit (const newfa)
 witnessFDictAdd :: w a -> f a -> WitnessFDict w f -> WitnessFDict w f
 witnessFDictAdd wit fa (MkWitnessFDict cells) = MkWitnessFDict ((MkAnyF wit fa) : cells)
 
+-- | A dictionary for a single witness and value
+witnessFDictSingle :: w a -> f a -> WitnessFDict w f
+witnessFDictSingle wit fa = MkWitnessFDict $ pure $ MkAnyF wit fa
+
 -- | Remove the first entry in the dictionary that matches the given witness.
 witnessFDictRemove :: (TestEquality w) => w a -> WitnessFDict w f -> WitnessFDict w f
 witnessFDictRemove wit (MkWitnessFDict cells) =
@@ -54,3 +60,7 @@ witnessFDictRemove wit (MkWitnessFDict cells) =
 -- | Create a dictionary from a list of witness\/value pairs
 witnessFDictFromList :: [AnyF w f] -> WitnessFDict w f
 witnessFDictFromList = MkWitnessFDict
+
+witnessFDictMapM :: Applicative m => (forall a. f a -> m (g a)) -> WitnessFDict w f -> m (WitnessFDict w g)
+witnessFDictMapM fmg (MkWitnessFDict cells) =
+    fmap MkWitnessFDict $ for cells $ \(MkAnyF wit fa) -> fmap (MkAnyF wit) $ fmg fa
