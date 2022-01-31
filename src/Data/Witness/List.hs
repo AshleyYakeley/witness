@@ -7,6 +7,7 @@ import Data.List (intercalate)
 import Data.Nat
 import Data.Type.Equality
 import Data.Witness.Any
+import Data.Witness.Pair
 import Data.Witness.Representative
 import Prelude hiding ((.), id)
 
@@ -68,6 +69,9 @@ mapListType ff l = runIdentity $ mapMListType (\wt -> Identity $ ff wt) l
 
 joinListType :: (forall t'. wita t' -> witb t' -> witc t') -> ListType wita t -> ListType witb t -> ListType witc t
 joinListType ff la lb = runIdentity $ joinMListType (\wta wtb -> Identity $ ff wta wtb) la lb
+
+pairListType :: ListType wita t -> ListType witb t -> ListType (PairType wita witb) t
+pairListType = joinListType MkPairType
 
 type ListElement :: Nat -> forall k. [k] -> k
 type family ListElement n list where

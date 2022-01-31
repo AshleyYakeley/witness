@@ -88,6 +88,7 @@ library:
       - Data.Witness.Symbol
       - Data.Witness.Finite
       - Data.Witness.Single
+      - Data.Witness.Pair
       - Data.Witness.Cons
       - Data.Witness.Either
       - Data.Witness.Submap
@@ -100,6 +101,7 @@ library:
       - Data.Witness.Concat
       - Data.Witness.ApplyStack
       - Data.Witness.HList
+      - Data.Witness.ListSum
       - Data.Witness.Representative
       - Data.Witness.Saturate
       - Data.Witness

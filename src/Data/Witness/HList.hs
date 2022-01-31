@@ -7,6 +7,7 @@ import Data.Constraint (Dict(..))
 import Data.Functor.Identity as Import
 import Data.Kind
 import Data.Type.Equality
+import Data.Witness.Constraint
 import Data.Witness.Either
 import Data.Witness.List
 import Data.Witness.ListElement
@@ -39,6 +40,9 @@ hListShow f (ConsListType t tt) =
 type HListWit :: (Type -> Type) -> (Type -> Type)
 data HListWit wit t where
     MkHListWit :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> HListWit wit (HList lt)
+
+instance WitnessConstraint Eq w => WitnessConstraint Eq (HListWit w) where
+    witnessConstraint (MkHListWit lt) = hListEq witnessConstraint lt
 
 listFill :: ListType w t -> (forall a. w a -> a) -> HList t
 listFill NilListType _f = ()

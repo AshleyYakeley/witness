@@ -1,5 +1,6 @@
 module Data.Witness.Any where
 
+import Data.Constraint (Dict(..))
 import Data.Functor.Const
 import Data.Functor.Identity
 import Data.Kind
@@ -27,6 +28,14 @@ pattern MkAnyValue :: w a -> a -> AnyValue w
 pattern MkAnyValue wa a = MkAnyF wa (Identity a)
 
 {-# COMPLETE MkAnyValue #-}
+
+instance (TestEquality w, WitnessConstraint Eq w) => Eq (AnyValue w) where
+    MkAnyValue wa a == MkAnyValue wb b =
+        case testEquality wa wb of
+            Nothing -> False
+            Just Refl ->
+                case witnessConstraint @_ @Eq wa of
+                    Dict -> a == b
 
 matchAnyValue ::
        forall (w :: Type -> Type) (a :: Type). TestEquality w

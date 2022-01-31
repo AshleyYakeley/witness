@@ -21,7 +21,9 @@ import Data.Witness.Finite as I
 import Data.Witness.HList as I
 import Data.Witness.List as I
 import Data.Witness.ListElement as I
+import Data.Witness.ListSum as I
 import Data.Witness.Nat as I
+import Data.Witness.Pair as I
 import Data.Witness.Representative as I
 import Data.Witness.Saturate as I
 import Data.Witness.Single as I
