@@ -11,6 +11,7 @@ import Data.Witness.Constraint
 import Data.Witness.Either
 import Data.Witness.List
 import Data.Witness.ListElement
+import Data.Witness.Representative
 import Prelude hiding ((.), id)
 import Unsafe.Coerce
 
@@ -41,8 +42,28 @@ type HListWit :: (Type -> Type) -> (Type -> Type)
 data HListWit wit t where
     MkHListWit :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> HListWit wit (HList lt)
 
+instance TestEquality wit => TestEquality (HListWit wit) where
+    testEquality (MkHListWit lt1) (MkHListWit lt2) =
+        case testEquality lt1 lt2 of
+            Just Refl -> Just Refl
+            Nothing -> Nothing
+
 instance WitnessConstraint Eq w => WitnessConstraint Eq (HListWit w) where
     witnessConstraint (MkHListWit lt) = hListEq witnessConstraint lt
+
+instance Representative w => Representative (HListWit w) where
+    getRepWitness (MkHListWit NilListType) = Dict
+    getRepWitness (MkHListWit (ConsListType a ar)) =
+        case (getRepWitness a, getRepWitness $ MkHListWit ar) of
+            (Dict, Dict) -> Dict
+
+instance Representative w => Is (HListWit w) () where
+    representative = MkHListWit NilListType
+
+instance (Is w a, Is (HListWit w) ar) => Is (HListWit w) (a, ar) where
+    representative =
+        case representative @_ @(HListWit w) @ar of
+            MkHListWit r -> MkHListWit $ ConsListType representative r
 
 listFill :: ListType w t -> (forall a. w a -> a) -> HList t
 listFill NilListType _f = ()

@@ -48,3 +48,7 @@ lookUpListElement wt (ConsListType wt' _)
 lookUpListElement wt (ConsListType _ lt) = do
     et <- lookUpListElement wt lt
     return $ RestElementType et
+
+countListType :: ListType w lt -> ListType (ListElementType lt) lt
+countListType NilListType = NilListType
+countListType (ConsListType _ lt) = ConsListType FirstElementType (mapListType RestElementType $ countListType lt)

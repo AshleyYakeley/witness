@@ -79,7 +79,7 @@ library:
       - Data.Type.With
       - Data.Type.Apply
       - Data.Type.Heterogeneous
-      - Data.Nat
+      - Data.IndNat
       - Control.Category.Tensor
       - Data.Witness.Any
       - Data.Witness.All
@@ -94,8 +94,8 @@ library:
       - Data.Witness.Submap
       - Data.Witness.WitnessDict
       - Data.Witness.WitnessFDict
-      - Data.Witness.Nat
-      - Data.Witness.BigNat
+      - Data.Witness.IndNat
+      - Data.Witness.Natural
       - Data.Witness.ListElement
       - Data.Witness.List
       - Data.Witness.Concat

@@ -4,7 +4,6 @@ import Data.Constraint (Dict(..))
 import Data.Functor.Identity
 import Data.Kind
 import Data.List (intercalate)
-import Data.Nat
 import Data.Type.Equality
 import Data.Witness.Any
 import Data.Witness.Pair
@@ -72,11 +71,6 @@ joinListType ff la lb = runIdentity $ joinMListType (\wta wtb -> Identity $ ff w
 
 pairListType :: ListType wita t -> ListType witb t -> ListType (PairType wita witb) t
 pairListType = joinListType MkPairType
-
-type ListElement :: Nat -> forall k. [k] -> k
-type family ListElement n list where
-    ListElement 'Zero (a : aa) = a
-    ListElement ('Succ n) (a : aa) = ListElement n aa
 
 listTypeLength :: ListType w lt -> Int
 listTypeLength NilListType = 0

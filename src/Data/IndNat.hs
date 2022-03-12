@@ -1,21 +1,22 @@
-module Data.Nat where
+module Data.IndNat where
 
 import Prelude
 
-data Nat
+-- | Inductive natural numbers.
+data IndNat
     = Zero
-    | Succ Nat
+    | Succ IndNat
 
-addNat :: Nat -> Nat -> Nat
+addNat :: IndNat -> IndNat -> IndNat
 addNat Zero b = b
 addNat (Succ a) b = Succ $ addNat a b
 
 -- | subtractFromNat a b = b - a
-subtractFromNat :: Nat -> Nat -> Maybe Nat
+subtractFromNat :: IndNat -> IndNat -> Maybe IndNat
 subtractFromNat Zero b = Just b
 subtractFromNat (Succ a) (Succ b) = subtractFromNat a b
 subtractFromNat (Succ _) Zero = Nothing
 
-multiplyNat :: Nat -> Nat -> Nat
+multiplyNat :: IndNat -> IndNat -> IndNat
 multiplyNat Zero _ = Zero
 multiplyNat (Succ a) b = addNat (multiplyNat a b) b
