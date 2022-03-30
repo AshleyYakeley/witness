@@ -6,6 +6,7 @@ import Data.Kind
 import Data.Proxy
 import Data.Type.Equality
 import Data.Witness.Any
+import Data.Witness.WitnessValue
 
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
 isWitnessRepresentative Dict = representative
@@ -63,3 +64,8 @@ instance Representative (Compose Dict c) where
 
 instance c t => Is (Compose Dict c) t where
     representative = Compose Dict
+
+typeValue ::
+       forall k (rep :: k -> Type) (a :: k). (Is rep a, WitnessValue rep)
+    => WitnessValueType rep
+typeValue = witnessToValue @k @rep (representative @k @rep @a)
