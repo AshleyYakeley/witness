@@ -31,6 +31,14 @@ concatIsDict = let
                     Dict -> Dict
     in build $ representative @_ @(ListType w) @aa
 
+withConcatIs ::
+       forall k (w :: k -> Type) (aa :: [k]) (bb :: [k]) r. (Representative w, Is (ListType w) aa, Is (ListType w) bb)
+    => (Is (ListType w) (Concat aa bb) => r)
+    -> r
+withConcatIs call =
+    case concatIsDict @k @w @aa @bb of
+        Dict -> call
+
 concatListType ::
        forall k (w :: k -> Type) (a :: [k]) (b :: [k]). ListType w a -> ListType w b -> ListType w (Concat a b)
 concatListType NilListType lb = lb
