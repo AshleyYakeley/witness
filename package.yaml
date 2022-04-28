@@ -70,10 +70,10 @@ library:
       - -Wcompat
       - -Wnoncanonical-monad-instances
     dependencies:
-      - base >= 4.15
+      - base >= 4.15 && < 5
       - constraints >= 0.13
       - transformers >= 0.5
-      - countable >= 1.0
+      - countable >= 1.1
       - semigroupoids >= 5.3
     exposed-modules:
       - Data.Type.With
