@@ -80,7 +80,6 @@ library:
       - Data.Type.Apply
       - Data.Type.Heterogeneous
       - Data.IndNat
-      - Control.Category.Tensor
       - Data.Witness.Any
       - Data.Witness.All
       - Data.Witness.Constraint
