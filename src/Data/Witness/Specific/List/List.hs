@@ -1,8 +1,8 @@
-module Data.Witness.List where
+module Data.Witness.Specific.List.List where
 
-import Data.Witness.Any
-import Data.Witness.Pair
-import Data.Witness.Representative
+import Data.Witness.General.Representative
+import Data.Witness.Specific.Any
+import Data.Witness.Specific.Pair
 import Import
 
 -- | a witness type for lists of types

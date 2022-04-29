@@ -1,8 +1,8 @@
-module Data.Witness.Either where
+module Data.Witness.Specific.Either where
 
-import Data.Witness.All
-import Data.Witness.Constraint
-import Data.Witness.Finite
+import Data.Witness.General.Constraint
+import Data.Witness.General.Finite
+import Data.Witness.Specific.All
 import Import
 
 type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)

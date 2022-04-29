@@ -1,7 +1,7 @@
-module Data.Witness.IndNat where
+module Data.Witness.Specific.IndNat where
 
 import Data.IndNat
-import Data.Witness.Representative
+import Data.Witness.General.Representative
 import Import
 
 type IndNatType :: IndNat -> Type

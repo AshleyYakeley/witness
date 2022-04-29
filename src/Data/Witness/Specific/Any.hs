@@ -1,6 +1,6 @@
-module Data.Witness.Any where
+module Data.Witness.Specific.Any where
 
-import Data.Witness.Constraint
+import Data.Witness.General.Constraint
 import Import
 
 -- | Any value with a witness to a parameter of its type.

@@ -80,29 +80,29 @@ library:
       - Data.Type.Apply
       - Data.Type.Heterogeneous
       - Data.IndNat
-      - Data.Witness.Any
-      - Data.Witness.All
-      - Data.Witness.Constraint
-      - Data.Witness.WitnessValue
-      - Data.Witness.Symbol
-      - Data.Witness.Finite
-      - Data.Witness.Single
-      - Data.Witness.Pair
-      - Data.Witness.Cons
-      - Data.Witness.Either
-      - Data.Witness.Submap
-      - Data.Witness.WitnessDict
-      - Data.Witness.WitnessFDict
-      - Data.Witness.IndNat
-      - Data.Witness.Natural
-      - Data.Witness.ListElement
-      - Data.Witness.List
-      - Data.Witness.Concat
-      - Data.Witness.ApplyStack
-      - Data.Witness.ListProduct
-      - Data.Witness.ListSum
-      - Data.Witness.Representative
-      - Data.Witness.Saturate
+      - Data.Witness.Specific.Any
+      - Data.Witness.Specific.All
+      - Data.Witness.General.Constraint
+      - Data.Witness.General.WitnessValue
+      - Data.Witness.Specific.Symbol
+      - Data.Witness.General.Finite
+      - Data.Witness.Specific.Single
+      - Data.Witness.Specific.Pair
+      - Data.Witness.Specific.Cons
+      - Data.Witness.Specific.Either
+      - Data.Witness.Specific.Submap
+      - Data.Witness.Specific.WitnessDict
+      - Data.Witness.Specific.WitnessFDict
+      - Data.Witness.Specific.IndNat
+      - Data.Witness.Specific.Natural
+      - Data.Witness.Specific.List.Element
+      - Data.Witness.Specific.List.List
+      - Data.Witness.Specific.Concat
+      - Data.Witness.Specific.ApplyStack
+      - Data.Witness.Specific.List.Product
+      - Data.Witness.Specific.List.Sum
+      - Data.Witness.General.Representative
+      - Data.Witness.Specific.Saturate
       - Data.Witness
     other-modules:
       - Import

@@ -1,6 +1,6 @@
-module Data.Witness.All where
+module Data.Witness.Specific.All where
 
-import Data.Witness.Any
+import Data.Witness.Specific.Any
 import Import
 
 type AllF :: forall k. (k -> Type) -> (k -> Type) -> Type

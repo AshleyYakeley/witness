@@ -1,4 +1,4 @@
-module Data.Witness.Natural
+module Data.Witness.Specific.Natural
     ( KnownNat
     , type (<=)
     , type (+)
@@ -20,10 +20,10 @@ module Data.Witness.Natural
     , naturalCountListType
     ) where
 
-import Data.Witness.Constraint
-import Data.Witness.List
-import Data.Witness.Representative
-import Data.Witness.WitnessValue
+import Data.Witness.General.Constraint
+import Data.Witness.General.Representative
+import Data.Witness.General.WitnessValue
+import Data.Witness.Specific.List.List
 import GHC.TypeLits as GHC
 import Import
 import Numeric.Natural

@@ -1,7 +1,7 @@
-module Data.Witness.Pair where
+module Data.Witness.Specific.Pair where
 
-import Data.Witness.Constraint
-import Data.Witness.Representative
+import Data.Witness.General.Constraint
+import Data.Witness.General.Representative
 import Import
 
 -- | a witness for pairs of witnesses

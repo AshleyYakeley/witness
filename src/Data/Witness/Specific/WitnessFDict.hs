@@ -1,6 +1,6 @@
-module Data.Witness.WitnessFDict where
+module Data.Witness.Specific.WitnessFDict where
 
-import Data.Witness.Any
+import Data.Witness.Specific.Any
 import Import
 
 -- | A dictionary that is heterogenous up to its simple witness type @w@.

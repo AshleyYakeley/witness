@@ -1,4 +1,4 @@
-module Data.Witness.Constraint where
+module Data.Witness.General.Constraint where
 
 import Import
 

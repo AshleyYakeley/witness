@@ -1,8 +1,8 @@
-module Data.Witness.ListSum where
+module Data.Witness.Specific.List.Sum where
 
-import Data.Witness.Constraint
-import Data.Witness.List
-import Data.Witness.Representative
+import Data.Witness.General.Constraint
+import Data.Witness.General.Representative
+import Data.Witness.Specific.List.List
 import Import
 import Unsafe.Coerce
 

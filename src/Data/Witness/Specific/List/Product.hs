@@ -1,9 +1,9 @@
-module Data.Witness.ListProduct where
+module Data.Witness.Specific.List.Product where
 
-import Data.Witness.Constraint
-import Data.Witness.List
-import Data.Witness.ListElement
-import Data.Witness.Representative
+import Data.Witness.General.Constraint
+import Data.Witness.General.Representative
+import Data.Witness.Specific.List.Element
+import Data.Witness.Specific.List.List
 import Import
 import Unsafe.Coerce
 

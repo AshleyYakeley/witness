@@ -1,10 +1,10 @@
 {-# OPTIONS -fno-warn-orphans #-}
 
-module Data.Witness.Finite where
+module Data.Witness.General.Finite where
 
-import Data.Witness.All
-import Data.Witness.Any
-import Data.Witness.Constraint
+import Data.Witness.General.Constraint
+import Data.Witness.Specific.All
+import Data.Witness.Specific.Any
 import Import
 
 type FiniteWitness :: forall k. (k -> Type) -> Constraint

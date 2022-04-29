@@ -1,9 +1,9 @@
-module Data.Witness.Submap where
+module Data.Witness.Specific.Submap where
 
-import Data.Witness.All
-import Data.Witness.Any
-import Data.Witness.Either
-import Data.Witness.Finite
+import Data.Witness.General.Finite
+import Data.Witness.Specific.All
+import Data.Witness.Specific.Any
+import Data.Witness.Specific.Either
 import Import
 
 type SubmapWitness :: forall k. (k -> Type) -> (k -> Type) -> Type

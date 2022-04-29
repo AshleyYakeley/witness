@@ -1,6 +1,6 @@
-module Data.Witness.WitnessValue where
+module Data.Witness.General.WitnessValue where
 
-import Data.Witness.Any
+import Data.Witness.Specific.Any
 import Import
 
 type WitnessValue :: forall k. (k -> Type) -> Constraint

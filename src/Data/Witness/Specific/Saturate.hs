@@ -1,7 +1,7 @@
-module Data.Witness.Saturate where
+module Data.Witness.Specific.Saturate where
 
-import Data.Witness.Constraint
-import Data.Witness.Representative
+import Data.Witness.General.Constraint
+import Data.Witness.General.Representative
 import Import
 
 type SaturatedWitness :: forall k. (Type -> Type) -> k -> Type
