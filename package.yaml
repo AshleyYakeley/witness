@@ -100,7 +100,7 @@ library:
       - Data.Witness.List
       - Data.Witness.Concat
       - Data.Witness.ApplyStack
-      - Data.Witness.HList
+      - Data.Witness.ListProduct
       - Data.Witness.ListSum
       - Data.Witness.Representative
       - Data.Witness.Saturate

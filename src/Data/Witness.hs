@@ -17,10 +17,10 @@ import Data.Witness.Cons as I
 import Data.Witness.Constraint as I
 import Data.Witness.Either as I
 import Data.Witness.Finite as I
-import Data.Witness.HList as I
 import Data.Witness.IndNat as I
 import Data.Witness.List as I
 import Data.Witness.ListElement as I
+import Data.Witness.ListProduct as I
 import Data.Witness.ListSum as I
 import Data.Witness.Natural as I
 import Data.Witness.Pair as I

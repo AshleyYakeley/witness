@@ -1,0 +1,96 @@
+module Data.Witness.ListProduct where
+
+import Control.Applicative
+import Control.Category
+import Data.Constraint (Dict(..))
+import Data.Functor.Identity as Import
+import Data.Kind
+import Data.Type.Equality
+import Data.Witness.Constraint
+import Data.Witness.List
+import Data.Witness.ListElement
+import Data.Witness.Representative
+import Prelude hiding ((.), id)
+import Unsafe.Coerce
+
+type ListProduct :: [Type] -> Type
+type family ListProduct w = r | r -> w where
+    ListProduct '[] = ()
+    ListProduct (t : tt) = (t, ListProduct tt)
+
+-- | workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
+injectiveListProduct ::
+       forall (a :: [Type]) (b :: [Type]). ListProduct a ~ ListProduct b
+    => a :~: b
+injectiveListProduct = unsafeCoerce Refl
+
+listProductEq :: (forall a. w a -> Dict (Eq a)) -> ListType w t -> Dict (Eq (ListProduct t))
+listProductEq _ NilListType = Dict
+listProductEq f (ConsListType t tt) =
+    case (f t, listProductEq f tt) of
+        (Dict, Dict) -> Dict
+
+listProductShow :: (forall a. w a -> Dict (Show a)) -> ListType w t -> Dict (Show (ListProduct t))
+listProductShow _ NilListType = Dict
+listProductShow f (ConsListType t tt) =
+    case (f t, listProductShow f tt) of
+        (Dict, Dict) -> Dict
+
+type ListProductType :: (Type -> Type) -> (Type -> Type)
+data ListProductType wit t where
+    MkListProductType
+        :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListProductType wit (ListProduct lt)
+
+instance TestEquality wit => TestEquality (ListProductType wit) where
+    testEquality (MkListProductType lt1) (MkListProductType lt2) =
+        case testEquality lt1 lt2 of
+            Just Refl -> Just Refl
+            Nothing -> Nothing
+
+instance WitnessConstraint Eq w => WitnessConstraint Eq (ListProductType w) where
+    witnessConstraint (MkListProductType lt) = listProductEq witnessConstraint lt
+
+instance Representative w => Representative (ListProductType w) where
+    getRepWitness (MkListProductType NilListType) = Dict
+    getRepWitness (MkListProductType (ConsListType a ar)) =
+        case (getRepWitness a, getRepWitness $ MkListProductType ar) of
+            (Dict, Dict) -> Dict
+
+instance Representative w => Is (ListProductType w) () where
+    representative = MkListProductType NilListType
+
+instance (Is w a, Is (ListProductType w) ar) => Is (ListProductType w) (a, ar) where
+    representative =
+        case representative @_ @(ListProductType w) @ar of
+            MkListProductType r -> MkListProductType $ ConsListType representative r
+
+fillListProduct :: ListType w t -> (forall a. w a -> a) -> ListProduct t
+fillListProduct NilListType _f = ()
+fillListProduct (ConsListType wa wr) f = (f wa, fillListProduct wr f)
+
+mapListProduct :: ListType w t -> (forall a. w a -> a -> a) -> ListProduct t -> ListProduct t
+mapListProduct NilListType _f () = ()
+mapListProduct (ConsListType wa wr) f (a, rest) = (f wa a, mapListProduct wr f rest)
+
+lift2ListProduct :: ListType w t -> (forall a. w a -> a -> a -> a) -> ListProduct t -> ListProduct t -> ListProduct t
+lift2ListProduct NilListType _f () () = ()
+lift2ListProduct (ConsListType wa wr) f (a, resta) (b, restb) = (f wa a b, lift2ListProduct wr f resta restb)
+
+identityListProduct :: ListType Identity lt -> ListProduct lt
+identityListProduct NilListType = ()
+identityListProduct (ConsListType (Identity a) rest) = (a, identityListProduct rest)
+
+sequenceListProduct :: Applicative f => ListType f lt -> f (ListProduct lt)
+sequenceListProduct NilListType = pure ()
+sequenceListProduct (ConsListType fa rest) = liftA2 (,) fa (sequenceListProduct rest)
+
+listProductGetElement :: ListElementType list t -> ListProduct list -> t
+listProductGetElement FirstElementType = fst -- using fst and snd for irrefutable matching
+listProductGetElement (RestElementType lw) = listProductGetElement lw . snd
+
+listProductPutElement :: ListElementType list t -> t -> ListProduct list -> ListProduct list
+listProductPutElement FirstElementType t (_, r) = (t, r)
+listProductPutElement (RestElementType lw) t (a, r) = (a, listProductPutElement lw t r)
+
+listProductModifyElement :: ListElementType list t -> (t -> t) -> ListProduct list -> ListProduct list
+listProductModifyElement n aa t = listProductPutElement n (aa (listProductGetElement n t)) t

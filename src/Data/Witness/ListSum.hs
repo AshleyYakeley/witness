@@ -6,6 +6,7 @@ import Data.Type.Equality
 import Data.Void
 import Data.Witness.Constraint
 import Data.Witness.List
+import Data.Witness.Representative
 import Prelude hiding ((.), id)
 import Unsafe.Coerce
 
@@ -14,7 +15,7 @@ type family ListSum w = r | r -> w where
     ListSum '[] = Void
     ListSum (t : tt) = Either t (ListSum tt)
 
--- workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
+-- | workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
 injectiveListSum ::
        forall (a :: [Type]) (b :: [Type]). ListSum a ~ ListSum b
     => a :~: b
@@ -32,9 +33,34 @@ listSumShow f (ConsListType t tt) =
     case (f t, listSumShow f tt) of
         (Dict, Dict) -> Dict
 
-type ListSumWit :: (Type -> Type) -> (Type -> Type)
-data ListSumWit wit t where
-    MkListSumWit :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListSumWit wit (ListSum lt)
+type ListSumType :: (Type -> Type) -> (Type -> Type)
+data ListSumType wit t where
+    MkListSumType :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListSumType wit (ListSum lt)
 
-instance WitnessConstraint Eq w => WitnessConstraint Eq (ListSumWit w) where
-    witnessConstraint (MkListSumWit lt) = listSumEq witnessConstraint lt
+instance TestEquality wit => TestEquality (ListSumType wit) where
+    testEquality (MkListSumType lt1) (MkListSumType lt2) =
+        case testEquality lt1 lt2 of
+            Just Refl -> Just Refl
+            Nothing -> Nothing
+
+instance WitnessConstraint Eq w => WitnessConstraint Eq (ListSumType w) where
+    witnessConstraint (MkListSumType lt) = listSumEq witnessConstraint lt
+
+instance Representative w => Representative (ListSumType w) where
+    getRepWitness (MkListSumType NilListType) = Dict
+    getRepWitness (MkListSumType (ConsListType a ar)) =
+        case (getRepWitness a, getRepWitness $ MkListSumType ar) of
+            (Dict, Dict) -> Dict
+
+instance Representative w => Is (ListSumType w) Void where
+    representative = MkListSumType NilListType
+
+instance (Is w a, Is (ListSumType w) ar) => Is (ListSumType w) (Either a ar) where
+    representative =
+        case representative @_ @(ListSumType w) @ar of
+            MkListSumType r -> MkListSumType $ ConsListType representative r
+
+mapListSum :: ListType w t -> (forall a. w a -> a -> a) -> ListSum t -> ListSum t
+mapListSum NilListType _f v = v
+mapListSum (ConsListType wa _wr) f (Left a) = Left $ f wa a
+mapListSum (ConsListType _wa wr) f (Right rest) = Right $ mapListSum wr f rest
