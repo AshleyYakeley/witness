@@ -3,4 +3,4 @@ packages: [.]
 ghc-options:
     "$locals": -Werror
 extra-deps:
-- countable-1.1
+- countable-1.2

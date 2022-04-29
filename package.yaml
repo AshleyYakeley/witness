@@ -73,7 +73,7 @@ library:
       - base >= 4.15 && < 5
       - constraints >= 0.13
       - transformers >= 0.5
-      - countable >= 1.1
+      - countable >= 1.2
       - semigroupoids >= 5.3
     exposed-modules:
       - Data.Type.With
