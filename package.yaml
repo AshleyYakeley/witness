@@ -104,3 +104,5 @@ library:
       - Data.Witness.Representative
       - Data.Witness.Saturate
       - Data.Witness
+    other-modules:
+      - Import

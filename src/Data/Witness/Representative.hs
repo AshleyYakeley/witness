@@ -1,12 +1,8 @@
 module Data.Witness.Representative where
 
-import Data.Constraint
-import Data.Functor.Compose
-import Data.Kind
-import Data.Proxy
-import Data.Type.Equality
 import Data.Witness.Any
 import Data.Witness.WitnessValue
+import Import
 
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
 isWitnessRepresentative Dict = representative

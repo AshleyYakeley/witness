@@ -1,10 +1,6 @@
 module Data.Witness.Constraint where
 
-import Data.Constraint
-import Data.Functor.Compose
-import Data.Kind
-import Data.Type.Equality
-import Prelude
+import Import
 
 type AllWitnessConstraint :: forall kw kt. (kw -> Constraint) -> (kt -> kw) -> Constraint
 class AllWitnessConstraint c w where

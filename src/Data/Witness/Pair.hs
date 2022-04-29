@@ -1,11 +1,8 @@
 module Data.Witness.Pair where
 
-import Data.Constraint (Dict(..))
-import Data.Kind
-import Data.Type.Equality
 import Data.Witness.Constraint
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 
 -- | a witness for pairs of witnesses
 type PairType :: (k -> Type) -> (k -> Type) -> (k -> Type)

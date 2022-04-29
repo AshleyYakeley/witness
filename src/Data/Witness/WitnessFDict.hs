@@ -1,11 +1,7 @@
 module Data.Witness.WitnessFDict where
 
-import Data.Kind
-import Data.Maybe
-import Data.Traversable
-import Data.Type.Equality
 import Data.Witness.Any
-import Prelude
+import Import
 
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.

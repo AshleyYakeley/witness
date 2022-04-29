@@ -1,8 +1,6 @@
 module Data.Type.With where
 
-import Control.Category
-import Data.Kind
-import Data.Type.Equality
+import Import
 
 withRefl :: forall k (a :: k) (b :: k) (r :: Type). a :~: b -> (a ~ b => r) -> r
 withRefl Refl r = r

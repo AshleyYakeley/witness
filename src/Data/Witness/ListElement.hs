@@ -1,13 +1,7 @@
 module Data.Witness.ListElement where
 
-import Data.Countable
-import Data.Empty
-import Data.Kind
-import Data.Maybe
-import Data.Searchable
-import Data.Type.Equality
 import Data.Witness.List
-import Prelude
+import Import
 
 type ListElementType :: forall k. [k] -> k -> Type
 data ListElementType kk t where

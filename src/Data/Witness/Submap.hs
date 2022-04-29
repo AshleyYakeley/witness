@@ -1,11 +1,10 @@
 module Data.Witness.Submap where
 
-import Data.Kind
 import Data.Witness.All
 import Data.Witness.Any
 import Data.Witness.Either
 import Data.Witness.Finite
-import Prelude
+import Import
 
 type SubmapWitness :: forall k. (k -> Type) -> (k -> Type) -> Type
 data SubmapWitness w f = MkSubmapWitness

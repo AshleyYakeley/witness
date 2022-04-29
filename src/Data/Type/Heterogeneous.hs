@@ -2,9 +2,7 @@
 
 module Data.Type.Heterogeneous where
 
-import Data.Kind
-import Data.Type.Equality
-import Prelude
+import Import
 
 withHRefl :: forall ka (a :: ka) kb (b :: kb) (r :: Type). a :~~: b -> ((a ~~ b) => r) -> r
 withHRefl HRefl r = r

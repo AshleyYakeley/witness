@@ -1,11 +1,8 @@
 module Data.Witness.Saturate where
 
-import Data.Constraint
-import Data.Functor.Compose
-import Data.Kind
 import Data.Witness.Constraint
 import Data.Witness.Representative
-import Prelude
+import Import
 
 type SaturatedWitness :: forall k. (Type -> Type) -> k -> Type
 data SaturatedWitness w t where

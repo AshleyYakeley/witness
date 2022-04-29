@@ -1,10 +1,9 @@
 module Data.Witness.ApplyStack where
 
-import Data.Type.Equality
 import Data.Witness.Concat
 import Data.Witness.List
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 
 type ApplyStack :: forall k. [k -> k] -> k -> k
 type family ApplyStack f a where

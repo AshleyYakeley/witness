@@ -1,14 +1,9 @@
 module Data.Witness.List where
 
-import Data.Constraint (Dict(..))
-import Data.Functor.Identity
-import Data.Kind
-import Data.List (intercalate)
-import Data.Type.Equality
 import Data.Witness.Any
 import Data.Witness.Pair
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 
 -- | a witness type for lists of types
 -- The @w@ parameter is the witness type of the elements.

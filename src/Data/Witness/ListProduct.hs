@@ -1,16 +1,10 @@
 module Data.Witness.ListProduct where
 
-import Control.Applicative
-import Control.Category
-import Data.Constraint (Dict(..))
-import Data.Functor.Identity as Import
-import Data.Kind
-import Data.Type.Equality
 import Data.Witness.Constraint
 import Data.Witness.List
 import Data.Witness.ListElement
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 import Unsafe.Coerce
 
 type ListProduct :: [Type] -> Type

@@ -1,20 +1,12 @@
 module Data.Witness.Cons where
 
-import Data.Constraint
-import Data.Countable
-import Data.Empty
-import Data.Kind
-import Data.Proxy
-import Data.Searchable
-import Data.Type.Equality
-import Data.Void
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
 import Data.Witness.List
 import Data.Witness.ListElement
 import Data.Witness.Representative
-import Prelude
+import Import
 
 type EmptyType :: forall k. k -> Type
 newtype EmptyType t =

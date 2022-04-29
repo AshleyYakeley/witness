@@ -2,18 +2,10 @@
 
 module Data.Witness.Finite where
 
-import Data.Constraint
-import Data.Countable
-import Data.Functor.Const
-import Data.Functor.Identity
-import Data.Kind
-import Data.List (intercalate)
-import Data.Searchable
-import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Any
 import Data.Witness.Constraint
-import Prelude
+import Import
 
 type FiniteWitness :: forall k. (k -> Type) -> Constraint
 class FiniteWitness (w :: k -> Type) where

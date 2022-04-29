@@ -1,10 +1,7 @@
 module Data.Witness.All where
 
-import Data.Functor.Identity
-import Data.Kind
-import Data.Type.Equality
 import Data.Witness.Any
-import Prelude
+import Import
 
 type AllF :: forall k. (k -> Type) -> (k -> Type) -> Type
 newtype AllF w f = MkAllF

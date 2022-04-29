@@ -1,12 +1,9 @@
 module Data.Witness.Either where
 
-import Data.Constraint
-import Data.Kind
-import Data.Type.Equality
 import Data.Witness.All
 import Data.Witness.Constraint
 import Data.Witness.Finite
-import Prelude
+import Import
 
 type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)
 data EitherType colsel1 colsel2 t

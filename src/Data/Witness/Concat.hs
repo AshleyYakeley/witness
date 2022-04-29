@@ -1,11 +1,8 @@
 module Data.Witness.Concat where
 
-import Data.Constraint (Dict(..))
-import Data.Kind
-import Data.Type.Equality
 import Data.Witness.List
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 
 type Concat :: forall k. [k] -> [k] -> [k]
 type family Concat a b where

@@ -1,6 +1,6 @@
 module Data.IndNat where
 
-import Prelude
+import Import
 
 -- | Inductive natural numbers.
 data IndNat

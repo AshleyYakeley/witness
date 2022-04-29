@@ -1,12 +1,8 @@
 module Data.Witness.IndNat where
 
-import Data.Constraint (Dict(..))
 import Data.IndNat
-import Data.Kind
-import Data.Maybe
-import Data.Type.Equality
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 
 type IndNatType :: IndNat -> Type
 data IndNatType t where

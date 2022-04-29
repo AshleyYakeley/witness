@@ -1,13 +1,9 @@
 module Data.Witness.ListSum where
 
-import Data.Constraint (Dict(..))
-import Data.Kind
-import Data.Type.Equality
-import Data.Void
 import Data.Witness.Constraint
 import Data.Witness.List
 import Data.Witness.Representative
-import Prelude hiding ((.), id)
+import Import
 import Unsafe.Coerce
 
 type ListSum :: [Type] -> Type

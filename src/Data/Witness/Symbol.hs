@@ -4,15 +4,11 @@ module Data.Witness.Symbol
     , KnownSymbol
     ) where
 
-import Data.Constraint
-import Data.Kind
-import Data.Proxy
-import Data.Type.Equality
 import Data.Witness.Constraint
 import Data.Witness.Representative
 import Data.Witness.WitnessValue
 import GHC.TypeLits
-import Prelude
+import Import
 
 type SymbolType :: Symbol -> Type
 data SymbolType symbol where

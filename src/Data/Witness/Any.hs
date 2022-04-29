@@ -1,13 +1,7 @@
 module Data.Witness.Any where
 
-import Data.Constraint (Dict(..))
-import Data.Functor.Const
-import Data.Functor.Identity
-import Data.Kind
-import Data.Maybe
-import Data.Type.Equality
 import Data.Witness.Constraint
-import Prelude
+import Import
 
 -- | Any value with a witness to a parameter of its type.
 type AnyF :: forall k. (k -> Type) -> (k -> Type) -> Type

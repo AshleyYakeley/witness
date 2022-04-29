@@ -1,7 +1,7 @@
 module Data.Witness.WitnessValue where
 
-import Data.Kind
 import Data.Witness.Any
+import Import
 
 type WitnessValue :: forall k. (k -> Type) -> Constraint
 class WitnessValue w where

@@ -20,17 +20,13 @@ module Data.Witness.Natural
     , naturalCountListType
     ) where
 
-import Data.Constraint
-import Data.Kind
-import Data.Proxy
-import Data.Type.Equality
 import Data.Witness.Constraint
 import Data.Witness.List
 import Data.Witness.Representative
 import Data.Witness.WitnessValue
 import GHC.TypeLits as GHC
+import Import
 import Numeric.Natural
-import Prelude
 import Unsafe.Coerce
 
 type TNatural = GHC.Nat
