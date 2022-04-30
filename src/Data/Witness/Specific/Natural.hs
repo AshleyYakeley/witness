@@ -9,7 +9,7 @@ module Data.Witness.Specific.Natural
     , Div
     , Mod
     , Log2
-    , TNatural
+    , Nat
     , NaturalType(..)
     , zeroNaturalType
     , succNaturalType
@@ -24,30 +24,27 @@ import Data.Witness.General.Constraint
 import Data.Witness.General.Representative
 import Data.Witness.General.WitnessValue
 import Data.Witness.Specific.List.List
-import GHC.TypeLits as GHC
+import GHC.TypeNats
 import Import
 import Numeric.Natural
 import Unsafe.Coerce
 
-type TNatural = GHC.Nat
-
-type NaturalType :: TNatural -> Type
+type NaturalType :: Nat -> Type
 data NaturalType bn where
     MkNaturalType :: KnownNat bn => NaturalType bn
 
 instance WitnessValue NaturalType where
     type WitnessValueType NaturalType = Natural
     witnessToValue :: forall t. NaturalType t -> Natural
-    witnessToValue MkNaturalType = fromInteger $ natVal (Proxy :: Proxy t)
+    witnessToValue MkNaturalType = natVal (Proxy :: Proxy t)
     valueToWitness i cont =
-        case someNatVal $ toInteger i of
-            Just (SomeNat p) -> let
-                psw :: forall (t :: TNatural). KnownNat t
+        case someNatVal i of
+            SomeNat p -> let
+                psw :: forall (t :: Nat). KnownNat t
                     => Proxy t
                     -> NaturalType t
                 psw _ = MkNaturalType
                 in cont $ psw p
-            Nothing -> error "negative Natural"
 
 instance TestEquality NaturalType where
     testEquality (MkNaturalType :: NaturalType a) (MkNaturalType :: NaturalType b) = sameNat (Proxy @a) (Proxy @b)
@@ -79,7 +76,7 @@ addNaturalType a b = unsafeNaturalType $ witnessToValue a + witnessToValue b
 multiplyNaturalType :: NaturalType a -> NaturalType b -> NaturalType (a * b)
 multiplyNaturalType a b = unsafeNaturalType $ witnessToValue a * witnessToValue b
 
-type NaturalListElement :: TNatural -> forall k. [k] -> k
+type NaturalListElement :: Nat -> forall k. [k] -> k
 type family NaturalListElement n tt where
     NaturalListElement 0 (t : tt) = t
     NaturalListElement n (t : tt) = NaturalListElement (n - 1) tt
