@@ -3,7 +3,7 @@ module Data.Witness
     , module Data.Witness
     ) where
 
-import Data.IndNat as I
+import Data.PeanoNat as I
 import Data.Proxy as I
 import Data.Type.Apply as I
 import Data.Type.Equality as I
@@ -19,13 +19,13 @@ import Data.Witness.Specific.ApplyStack as I
 import Data.Witness.Specific.Concat as I
 import Data.Witness.Specific.Cons as I
 import Data.Witness.Specific.Either as I
-import Data.Witness.Specific.IndNat as I
 import Data.Witness.Specific.List.Element as I
 import Data.Witness.Specific.List.List as I
 import Data.Witness.Specific.List.Product as I
 import Data.Witness.Specific.List.Sum as I
 import Data.Witness.Specific.Natural as I
 import Data.Witness.Specific.Pair as I
+import Data.Witness.Specific.PeanoNat as I
 import Data.Witness.Specific.Saturate as I
 import Data.Witness.Specific.Single as I
 import Data.Witness.Specific.Submap as I

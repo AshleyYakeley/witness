@@ -79,7 +79,7 @@ library:
       - Data.Type.With
       - Data.Type.Apply
       - Data.Type.Heterogeneous
-      - Data.IndNat
+      - Data.PeanoNat
       - Data.Witness.Specific.Any
       - Data.Witness.Specific.All
       - Data.Witness.General.Constraint
@@ -93,7 +93,7 @@ library:
       - Data.Witness.Specific.Submap
       - Data.Witness.Specific.WitnessDict
       - Data.Witness.Specific.WitnessFDict
-      - Data.Witness.Specific.IndNat
+      - Data.Witness.Specific.PeanoNat
       - Data.Witness.Specific.Natural
       - Data.Witness.Specific.List.Element
       - Data.Witness.Specific.List.List

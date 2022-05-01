@@ -15,15 +15,15 @@ module Data.Witness.Specific.Natural
     , succNaturalType
     , addNaturalType
     , multiplyNaturalType
-    , NaturalListElement
-    , NaturalListElementType(..)
-    , naturalCountListType
+    , PeanoToNatural
+    , peanoToNaturalType
     ) where
 
+import Data.PeanoNat
 import Data.Witness.General.Constraint
 import Data.Witness.General.Representative
 import Data.Witness.General.WitnessValue
-import Data.Witness.Specific.List.List
+import Data.Witness.Specific.PeanoNat
 import GHC.TypeNats
 import Import
 import Numeric.Natural
@@ -76,27 +76,6 @@ addNaturalType a b = unsafeNaturalType $ witnessToValue a + witnessToValue b
 multiplyNaturalType :: NaturalType a -> NaturalType b -> NaturalType (a * b)
 multiplyNaturalType a b = unsafeNaturalType $ witnessToValue a * witnessToValue b
 
-type NaturalListElement :: Nat -> forall k. [k] -> k
-type family NaturalListElement n tt where
-    NaturalListElement 0 (t : tt) = t
-    NaturalListElement n (t : tt) = NaturalListElement (n - 1) tt
-
-type NaturalListElementType :: forall k. [k] -> k -> Type
-data NaturalListElementType tt t where
-    MkNaturalListElementType :: NaturalType n -> NaturalListElementType tt (NaturalListElement n tt)
-
-instance TestEquality (NaturalListElementType tt) where
-    testEquality (MkNaturalListElementType na) (MkNaturalListElementType nb) = do
-        Refl <- testEquality na nb
-        return Refl
-
-unsafeNaturalCountListTypeN :: forall w lt lt'. Natural -> ListType w lt -> ListType (NaturalListElementType lt') lt
-unsafeNaturalCountListTypeN _ NilListType = NilListType
-unsafeNaturalCountListTypeN n (ConsListType _ lt) =
-    ConsListType
-        (valueToWitness n $
-         unsafeCoerce @(NaturalListElementType lt' _) @(NaturalListElementType lt' _) . MkNaturalListElementType) $
-    unsafeNaturalCountListTypeN (succ n) lt
-
-naturalCountListType :: forall w lt. ListType w lt -> ListType (NaturalListElementType lt) lt
-naturalCountListType = unsafeNaturalCountListTypeN 0
+peanoToNaturalType :: PeanoNatType pn -> NaturalType (PeanoToNatural pn)
+peanoToNaturalType ZeroType = zeroNaturalType
+peanoToNaturalType (SuccType n) = succNaturalType $ peanoToNaturalType n
