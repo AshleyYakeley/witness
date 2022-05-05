@@ -80,7 +80,7 @@ library:
       - Data.Type.Apply
       - Data.Type.Heterogeneous
       - Data.PeanoNat
-      - Data.Witness.Specific.Any
+      - Data.Witness.Specific.Some
       - Data.Witness.Specific.All
       - Data.Witness.General.Constraint
       - Data.Witness.General.WitnessValue

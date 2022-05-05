@@ -1,8 +1,8 @@
 module Data.Witness.Specific.List.List where
 
 import Data.Witness.General.Representative
-import Data.Witness.Specific.Any
 import Data.Witness.Specific.Pair
+import Data.Witness.Specific.Some
 import Import
 
 -- | a witness type for lists of types
@@ -39,11 +39,11 @@ instance (forall a. Show (w a)) => Show (ListType w lt) where
         showAll NilListType = []
         showAll (ConsListType t1 tr) = show t1 : showAll tr
 
-assembleListType :: [AnyW w] -> AnyW (ListType w)
-assembleListType [] = MkAnyW NilListType
-assembleListType ((MkAnyW wa):ww) =
+assembleListType :: [Some w] -> Some (ListType w)
+assembleListType [] = MkSome NilListType
+assembleListType ((MkSome wa):ww) =
     case assembleListType ww of
-        MkAnyW wwa -> MkAnyW $ ConsListType wa wwa
+        MkSome wwa -> MkSome $ ConsListType wa wwa
 
 mapMListType :: Applicative m => (forall t'. wita t' -> m (witb t')) -> ListType wita t -> m (ListType witb t)
 mapMListType _ff NilListType = pure NilListType

@@ -1,47 +1,47 @@
 module Data.Witness.Specific.All where
 
-import Data.Witness.Specific.Any
+import Data.Witness.Specific.Some
 import Import
 
-type AllF :: forall k. (k -> Type) -> (k -> Type) -> Type
-newtype AllF w f = MkAllF
-    { getAllF :: forall t. w t -> f t
+type AllFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+newtype AllFor w f = MkAllFor
+    { unAllFor :: forall t. w t -> f t
     }
 
-type AllValue :: (Type -> Type) -> Type
-newtype AllValue w = MkAllValue
-    { getAllValue :: forall t. w t -> t
+type AllOf :: (Type -> Type) -> Type
+newtype AllOf w = MkAllOf
+    { unAllOf :: forall t. w t -> t
     }
 
-setAllValue ::
+setAllOf ::
        forall (w :: Type -> Type) (a :: Type). TestEquality w
     => w a
     -> a
-    -> AllValue w
-    -> AllValue w
-setAllValue wa a (MkAllValue wtt) =
-    MkAllValue $ \wa' ->
+    -> AllOf w
+    -> AllOf w
+setAllOf wa a (MkAllOf wtt) =
+    MkAllOf $ \wa' ->
         case testEquality wa wa' of
             Just Refl -> a
             Nothing -> wtt wa'
 
-allFToAllValue :: forall (w :: Type -> Type). AllF w Identity -> AllValue w
-allFToAllValue (MkAllF wtit) = MkAllValue $ \wt -> runIdentity $ wtit wt
+allForToAllOf :: forall (w :: Type -> Type). AllFor w Identity -> AllOf w
+allForToAllOf (MkAllFor wtit) = MkAllOf $ \wt -> runIdentity $ wtit wt
 
-allValueToAllF :: forall (w :: Type -> Type). AllValue w -> AllF w Identity
-allValueToAllF (MkAllValue wtt) = MkAllF $ \wt -> Identity $ wtt wt
+allOfToAllFor :: forall (w :: Type -> Type). AllOf w -> AllFor w Identity
+allOfToAllFor (MkAllOf wtt) = MkAllFor $ \wt -> Identity $ wtt wt
 
-type UnAllValue :: Type -> Type -> Type
-type family UnAllValue aw where
-    UnAllValue (AllValue w) = w
+type UnAllOf :: Type -> Type -> Type
+type family UnAllOf aw where
+    UnAllOf (AllOf w) = w
 
 splitWitnessList ::
        forall (w :: Type -> Type). TestEquality w
-    => [AnyValue w]
-    -> AllF w []
-splitWitnessList [] = MkAllF $ \_ -> []
-splitWitnessList ((MkAnyValue wt t):rr) =
-    MkAllF $ \wt' ->
+    => [SomeOf w]
+    -> AllFor w []
+splitWitnessList [] = MkAllFor $ \_ -> []
+splitWitnessList ((MkSomeOf wt t):rr) =
+    MkAllFor $ \wt' ->
         case testEquality wt wt' of
-            Just Refl -> t : (getAllF (splitWitnessList rr) wt')
-            Nothing -> getAllF (splitWitnessList rr) wt'
+            Just Refl -> t : (unAllFor (splitWitnessList rr) wt')
+            Nothing -> unAllFor (splitWitnessList rr) wt'

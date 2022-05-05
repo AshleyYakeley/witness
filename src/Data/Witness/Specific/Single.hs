@@ -11,13 +11,13 @@ type SingleType :: forall k. k -> k -> Type
 type SingleType = (:~:)
 
 instance FiniteWitness (SingleType t) where
-    assembleWitnessF getsel = fmap (\ft -> MkAllF $ \Refl -> ft) $ getsel Refl
+    assembleWitnessF getsel = fmap (\ft -> MkAllFor $ \Refl -> ft) $ getsel Refl
 
 instance c t => WitnessConstraint c (SingleType t) where
     witnessConstraint Refl = Dict
 
-singleAll :: t -> AllValue (SingleType t)
-singleAll t = MkAllValue $ \Refl -> t
+singleAll :: t -> AllOf (SingleType t)
+singleAll t = MkAllOf $ \Refl -> t
 
-getSingleAll :: AllValue (SingleType t) -> t
-getSingleAll (MkAllValue f) = f Refl
+getSingleAll :: AllOf (SingleType t) -> t
+getSingleAll (MkAllOf f) = f Refl

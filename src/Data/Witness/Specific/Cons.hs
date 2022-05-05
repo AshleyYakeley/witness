@@ -29,11 +29,11 @@ instance FiniteWitness EmptyType where
 instance WitnessConstraint c EmptyType where
     witnessConstraint = never
 
-emptyAll :: AllValue EmptyType
-emptyAll = MkAllValue never
+emptyAll :: AllOf EmptyType
+emptyAll = MkAllOf never
 
-emptyAllF :: AllF EmptyType f
-emptyAllF = MkAllF never
+emptyAllF :: AllFor EmptyType f
+emptyAllF = MkAllFor never
 
 type ConsType :: forall k. k -> (k -> Type) -> k -> Type
 data ConsType a r t where
@@ -49,8 +49,8 @@ instance TestEquality r => TestEquality (ConsType a r) where
 
 instance FiniteWitness r => FiniteWitness (ConsType a r) where
     assembleWitnessF getsel =
-        (\f (MkAllF r) ->
-             MkAllF $ \wt ->
+        (\f (MkAllFor r) ->
+             MkAllFor $ \wt ->
                  case wt of
                      FirstType -> f
                      RestType rt -> r rt) <$>
@@ -63,9 +63,9 @@ instance (c a, WitnessConstraint c r) => WitnessConstraint c (ConsType a r) wher
         case witnessConstraint @_ @c rt of
             Dict -> Dict
 
-consAll :: a -> AllValue r -> AllValue (ConsType a r)
-consAll a (MkAllValue tup) =
-    MkAllValue $ \esel ->
+consAll :: a -> AllOf r -> AllOf (ConsType a r)
+consAll a (MkAllOf tup) =
+    MkAllOf $ \esel ->
         case esel of
             FirstType -> a
             RestType sel -> tup sel

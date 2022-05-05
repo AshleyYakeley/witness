@@ -1,7 +1,7 @@
 module Data.Witness.General.Representative where
 
 import Data.Witness.General.WitnessValue
-import Data.Witness.Specific.Any
+import Data.Witness.Specific.Some
 import Import
 
 isWitnessRepresentative :: Dict (Is rep a) -> rep a
@@ -43,11 +43,11 @@ rerepresentative _ = representative
 fromRepWitness :: Dict (Is rep a) -> rep a
 fromRepWitness Dict = representative
 
-mkAny :: Is rep a => a -> AnyValue rep
-mkAny a = MkAnyValue representative a
+mkSomeOf :: Is rep a => a -> SomeOf rep
+mkSomeOf a = MkSomeOf representative a
 
-mkAnyF :: Is rep a => f a -> AnyF rep f
-mkAnyF fa = MkAnyF representative fa
+mkSomeFor :: Is rep a => f a -> SomeFor rep f
+mkSomeFor fa = MkSomeFor representative fa
 
 instance Representative ((:~:) (t :: k)) where
     getRepWitness Refl = Dict

@@ -21,8 +21,8 @@ instance (TestEquality colsel1, TestEquality colsel2) => TestEquality (EitherTyp
 
 instance (FiniteWitness p, FiniteWitness q) => FiniteWitness (EitherType p q) where
     assembleWitnessF getsel =
-        (\(MkAllF p) (MkAllF q) ->
-             MkAllF $ \wt ->
+        (\(MkAllFor p) (MkAllFor q) ->
+             MkAllFor $ \wt ->
                  case wt of
                      LeftType rt -> p rt
                      RightType rt -> q rt) <$>
@@ -49,16 +49,16 @@ instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) => AllWitnes
                 case allWitnessConstraint @_ @_ @Show @q @t of
                     Dict -> Dict
 
-eitherAll :: AllValue sel1 -> AllValue sel2 -> AllValue (EitherType sel1 sel2)
-eitherAll (MkAllValue tup1) (MkAllValue tup2) =
-    MkAllValue $ \esel ->
+eitherAll :: AllOf sel1 -> AllOf sel2 -> AllOf (EitherType sel1 sel2)
+eitherAll (MkAllOf tup1) (MkAllOf tup2) =
+    MkAllOf $ \esel ->
         case esel of
             LeftType sel -> tup1 sel
             RightType sel -> tup2 sel
 
-eitherAllF :: AllF sel1 f -> AllF sel2 f -> AllF (EitherType sel1 sel2) f
-eitherAllF (MkAllF tup1) (MkAllF tup2) =
-    MkAllF $ \esel ->
+eitherAllF :: AllFor sel1 f -> AllFor sel2 f -> AllFor (EitherType sel1 sel2) f
+eitherAllF (MkAllFor tup1) (MkAllFor tup2) =
+    MkAllFor $ \esel ->
         case esel of
             LeftType sel -> tup1 sel
             RightType sel -> tup2 sel

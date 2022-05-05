@@ -1,6 +1,6 @@
 module Data.Witness.General.WitnessValue where
 
-import Data.Witness.Specific.Any
+import Data.Witness.Specific.Some
 import Import
 
 type WitnessValue :: forall k. (k -> Type) -> Constraint
@@ -11,12 +11,12 @@ class WitnessValue w where
 
 anyToValue ::
        forall k (w :: k -> Type). WitnessValue w
-    => AnyW w
+    => Some w
     -> WitnessValueType w
-anyToValue (MkAnyW wt) = witnessToValue wt
+anyToValue (MkSome wt) = witnessToValue wt
 
 valueToAny ::
        forall k (w :: k -> Type). WitnessValue w
     => WitnessValueType w
-    -> AnyW w
-valueToAny v = valueToWitness v MkAnyW
+    -> Some w
+valueToAny v = valueToWitness v MkSome

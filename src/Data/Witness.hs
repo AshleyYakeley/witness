@@ -14,7 +14,6 @@ import Data.Witness.General.Finite as I
 import Data.Witness.General.Representative as I
 import Data.Witness.General.WitnessValue as I
 import Data.Witness.Specific.All as I
-import Data.Witness.Specific.Any as I
 import Data.Witness.Specific.ApplyStack as I
 import Data.Witness.Specific.Concat as I
 import Data.Witness.Specific.Cons as I
@@ -28,6 +27,7 @@ import Data.Witness.Specific.Pair as I
 import Data.Witness.Specific.PeanoNat as I
 import Data.Witness.Specific.Saturate as I
 import Data.Witness.Specific.Single as I
+import Data.Witness.Specific.Some as I
 import Data.Witness.Specific.Submap as I
 import Data.Witness.Specific.Symbol as I
 import Data.Witness.Specific.WitnessDict as I
