@@ -1,7 +1,7 @@
 name: witness
 version: "0.6"
 author: Ashley Yakeley
-copyright: (c) 2017-2021 Ashley Yakeley
+copyright: (c) 2017-2022 Ashley Yakeley
 license: BSD-2-Clause
 license-file: LICENSE
 maintainer: <ashley@semantic.org>
@@ -9,12 +9,14 @@ homepage: https://github.com/AshleyYakeley/witness
 bug-reports: https://github.com/AshleyYakeley/witness/issues
 synopsis: values that witness types
 description:
-    A witness is a value that /witnesses/ some sort of constraint on some list of type variables.
-    This library provides support for simple witnesses, that constrain a type variable to a single type, and equality witnesses, that constrain two type variables to be the same type.
-    It also provides classes for representatives, which are values that represent types.
-    See the paper /Witnesses and Open Witnesses/ (<http://semantic.org/stuff/Open-Witnesses.pdf>).
+    A /witness/ is a value that witnesses some sort of constraint on some list of type variables.
+    This library provides support for a wide variety of witness types.
+    It also provides classes for /representatives/, which are values that represent types.
 category: Data
 build-type: Simple
+
+extra-source-files:
+  - changelog.md
 
 library:
     source-dirs: src
@@ -72,9 +74,7 @@ library:
     dependencies:
       - base >= 4.15 && < 5
       - constraints >= 0.13
-      - transformers >= 0.5
       - countable >= 1.2
-      - semigroupoids >= 5.3
     exposed-modules:
       - Data.Type.Apply
       - Data.Type.Heterogeneous

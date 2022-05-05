@@ -1,6 +1,5 @@
 module Data.Witness
     ( module I
-    , module Data.Witness
     ) where
 
 import Data.PeanoNat as I
@@ -31,15 +30,3 @@ import Data.Witness.Specific.Submap as I
 import Data.Witness.Specific.Symbol as I
 import Data.Witness.Specific.WitnessForDict as I
 import Data.Witness.Specific.WitnessOfDict as I
-import Prelude
-
--- | See whether two represented and witnessed types are the same.
-matchIs ::
-       forall w a b. (TestEquality w, Is w a, Is w b)
-    => Proxy w
-    -> Maybe (a :~: b)
-matchIs _ = testEquality r r
-  where
-    r :: forall t. (Is w t)
-      => w t
-    r = representative

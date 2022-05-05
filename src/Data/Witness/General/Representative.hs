@@ -65,3 +65,13 @@ typeValue ::
        forall k (rep :: k -> Type) (a :: k). (Is rep a, WitnessValue rep)
     => WitnessValueType rep
 typeValue = witnessToValue @k @rep (representative @k @rep @a)
+
+-- | See whether two represented and witnessed types are the same.
+matchIs ::
+       forall w a b. (TestEquality w, Is w a, Is w b)
+    => Maybe (a :~: b)
+matchIs = let
+    r :: forall t. Is w t
+      => w t
+    r = representative
+    in testEquality (r @a) (r @b)
