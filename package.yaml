@@ -91,8 +91,8 @@ library:
       - Data.Witness.Specific.Cons
       - Data.Witness.Specific.Either
       - Data.Witness.Specific.Submap
-      - Data.Witness.Specific.WitnessDict
-      - Data.Witness.Specific.WitnessFDict
+      - Data.Witness.Specific.WitnessOfDict
+      - Data.Witness.Specific.WitnessForDict
       - Data.Witness.Specific.PeanoNat
       - Data.Witness.Specific.Natural
       - Data.Witness.Specific.List.Element

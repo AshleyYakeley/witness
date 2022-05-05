@@ -30,8 +30,8 @@ import Data.Witness.Specific.Single as I
 import Data.Witness.Specific.Some as I
 import Data.Witness.Specific.Submap as I
 import Data.Witness.Specific.Symbol as I
-import Data.Witness.Specific.WitnessDict as I
-import Data.Witness.Specific.WitnessFDict as I
+import Data.Witness.Specific.WitnessForDict as I
+import Data.Witness.Specific.WitnessOfDict as I
 import Prelude
 
 -- | See whether two represented and witnessed types are the same.

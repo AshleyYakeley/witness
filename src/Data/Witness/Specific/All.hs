@@ -35,13 +35,13 @@ type UnAllOf :: Type -> Type -> Type
 type family UnAllOf aw where
     UnAllOf (AllOf w) = w
 
-splitWitnessList ::
+splitSomeOfList ::
        forall (w :: Type -> Type). TestEquality w
     => [SomeOf w]
     -> AllFor w []
-splitWitnessList [] = MkAllFor $ \_ -> []
-splitWitnessList ((MkSomeOf wt t):rr) =
+splitSomeOfList [] = MkAllFor $ \_ -> []
+splitSomeOfList ((MkSomeOf wt t):rr) =
     MkAllFor $ \wt' ->
         case testEquality wt wt' of
-            Just Refl -> t : (unAllFor (splitWitnessList rr) wt')
-            Nothing -> unAllFor (splitWitnessList rr) wt'
+            Just Refl -> t : (unAllFor (splitSomeOfList rr) wt')
+            Nothing -> unAllFor (splitSomeOfList rr) wt'

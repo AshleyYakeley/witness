@@ -23,7 +23,7 @@ eitherSubmapWitness ::
 eitherSubmapWitness (MkSubmapWitness a1 i1) (MkSubmapWitness a2 i2) =
     MkSubmapWitness
         ((fmap (mapSome LeftType) a1) ++ (fmap (mapSome RightType) a2))
-        (unAllFor $ eitherAllF (MkAllFor i1) (MkAllFor i2))
+        (unAllFor $ eitherAllFor (MkAllFor i1) (MkAllFor i2))
 
 finiteSubmapWitness :: FiniteWitness w => (forall t. w t -> f t) -> SubmapWitness w f
 finiteSubmapWitness wf = MkSubmapWitness allWitnesses wf
