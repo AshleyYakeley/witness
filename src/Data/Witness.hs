@@ -8,7 +8,6 @@ import Data.Proxy as I
 import Data.Type.Apply as I
 import Data.Type.Equality as I
 import Data.Type.Heterogeneous as I
-import Data.Type.With as I
 import Data.Witness.General.Constraint as I
 import Data.Witness.General.Finite as I
 import Data.Witness.General.Representative as I

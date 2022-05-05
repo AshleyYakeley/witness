@@ -76,7 +76,6 @@ library:
       - countable >= 1.2
       - semigroupoids >= 5.3
     exposed-modules:
-      - Data.Type.With
       - Data.Type.Apply
       - Data.Type.Heterogeneous
       - Data.PeanoNat
