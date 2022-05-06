@@ -6,17 +6,17 @@ import Import
 
 -- | Any value with a witness to a parameter of its type.
 type SomeFor :: forall k. (k -> Type) -> (k -> Type) -> Type
-data SomeFor w f =
+data SomeFor f w =
     forall a. MkSomeFor (w a)
                         (f a)
 
-matchSomeFor :: TestEquality w => w a -> SomeFor w f -> Maybe (f a)
+matchSomeFor :: TestEquality w => w a -> SomeFor f w -> Maybe (f a)
 matchSomeFor wit (MkSomeFor cwit cfa) = do
     Refl <- testEquality cwit wit
     return cfa
 
 type SomeOf :: (Type -> Type) -> Type
-type SomeOf w = SomeFor w Identity
+type SomeOf = SomeFor Identity
 
 pattern MkSomeOf :: w a -> a -> SomeOf w
 
@@ -42,7 +42,7 @@ matchSomeOf wit av = do
     return a
 
 type Some :: forall k. (k -> Type) -> Type
-type Some w = SomeFor w (Const ())
+type Some = SomeFor (Const ())
 
 pattern MkSome :: w a -> Some w
 

@@ -7,7 +7,7 @@ import Import
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
 type WitnessOfDict :: (Type -> Type) -> Type
-type WitnessOfDict w = WitnessForDict w Identity
+type WitnessOfDict = WitnessForDict Identity
 
 -- | An empty dictionary.
 emptyWitnessOfDict :: WitnessOfDict w

@@ -32,7 +32,7 @@ instance WitnessConstraint c EmptyType where
 emptyAllOf :: AllOf EmptyType
 emptyAllOf = MkAllOf never
 
-emptyAllFor :: AllFor EmptyType f
+emptyAllFor :: AllFor f EmptyType
 emptyAllFor = MkAllFor never
 
 type ConsType :: forall k. k -> (k -> Type) -> k -> Type

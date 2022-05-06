@@ -13,7 +13,7 @@ class FiniteWitness (w :: k -> Type) where
     assembleWitnessFor ::
            forall (m :: Type -> Type) (f :: k -> Type). Applicative m
         => (forall (t :: k). w t -> m (f t))
-        -> m (AllFor w f)
+        -> m (AllFor f w)
 
 instance (TestEquality w, FiniteWitness w) => Countable (Some w) where
     countPrevious = finiteCountPrevious

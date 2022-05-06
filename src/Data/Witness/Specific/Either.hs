@@ -57,7 +57,7 @@ eitherAllOf (MkAllOf tup1) (MkAllOf tup2) =
             LeftType sel -> tup1 sel
             RightType sel -> tup2 sel
 
-eitherAllFor :: AllFor sel1 f -> AllFor sel2 f -> AllFor (EitherType sel1 sel2) f
+eitherAllFor :: AllFor f sel1 -> AllFor f sel2 -> AllFor f (EitherType sel1 sel2)
 eitherAllFor (MkAllFor tup1) (MkAllFor tup2) =
     MkAllFor $ \esel ->
         case esel of

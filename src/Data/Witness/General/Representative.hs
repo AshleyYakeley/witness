@@ -46,7 +46,7 @@ fromRepWitness Dict = representative
 mkSomeOf :: Is rep a => a -> SomeOf rep
 mkSomeOf a = MkSomeOf representative a
 
-mkSomeFor :: Is rep a => f a -> SomeFor rep f
+mkSomeFor :: Is rep a => f a -> SomeFor f rep
 mkSomeFor fa = MkSomeFor representative fa
 
 instance Representative ((:~:) (t :: k)) where

@@ -5,7 +5,7 @@ import Data.Witness.Specific.Some
 import Import
 
 type AllFor :: forall k. (k -> Type) -> (k -> Type) -> Type
-newtype AllFor w f = MkAllFor
+newtype AllFor f w = MkAllFor
     { unAllFor :: forall t. w t -> f t
     }
 
@@ -26,10 +26,10 @@ setAllOf wa a (MkAllOf wtt) =
             Just Refl -> a
             Nothing -> wtt wa'
 
-allForToAllOf :: forall (w :: Type -> Type). AllFor w Identity -> AllOf w
+allForToAllOf :: forall (w :: Type -> Type). AllFor Identity w -> AllOf w
 allForToAllOf (MkAllFor wtit) = MkAllOf $ \wt -> runIdentity $ wtit wt
 
-allOfToAllFor :: forall (w :: Type -> Type). AllOf w -> AllFor w Identity
+allOfToAllFor :: forall (w :: Type -> Type). AllOf w -> AllFor Identity w
 allOfToAllFor (MkAllOf wtt) = MkAllFor $ \wt -> Identity $ wtt wt
 
 type UnAllOf :: Type -> Type -> Type
@@ -39,7 +39,7 @@ type family UnAllOf aw where
 splitSomeOfList ::
        forall (w :: Type -> Type). TestEquality w
     => [SomeOf w]
-    -> AllFor w []
+    -> AllFor [] w
 splitSomeOfList [] = MkAllFor $ \_ -> []
 splitSomeOfList ((MkSomeOf wt t):rr) =
     MkAllFor $ \wt' ->
@@ -49,5 +49,5 @@ splitSomeOfList ((MkSomeOf wt t):rr) =
 
 allForWitnessConstraint ::
        forall k (c :: k -> Constraint) (w :: k -> Type). WitnessConstraint c w
-    => AllFor w (Compose Dict c)
+    => AllFor (Compose Dict c) w
 allForWitnessConstraint = MkAllFor $ \wt -> Compose $ witnessConstraint wt
