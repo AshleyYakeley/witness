@@ -28,5 +28,5 @@ import Data.Witness.Specific.Single as I
 import Data.Witness.Specific.Some as I
 import Data.Witness.Specific.Submap as I
 import Data.Witness.Specific.Symbol as I
-import Data.Witness.Specific.WitnessForDict as I
-import Data.Witness.Specific.WitnessOfDict as I
+import Data.Witness.Specific.WitnessForMap as I
+import Data.Witness.Specific.WitnessOfMap as I
