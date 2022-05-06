@@ -1,8 +1,8 @@
 module Data.Witness.Specific.Cons where
 
-import Data.Witness.General.Constraint
 import Data.Witness.General.Finite
 import Data.Witness.General.Representative
+import Data.Witness.General.WitnessConstraint
 import Data.Witness.Specific.All
 import Data.Witness.Specific.List.Element
 import Data.Witness.Specific.List.List
@@ -24,16 +24,16 @@ instance Representative EmptyType where
     getRepWitness = never
 
 instance FiniteWitness EmptyType where
-    assembleWitnessF _ = pure emptyAllF
+    assembleWitnessFor _ = pure emptyAllFor
 
 instance WitnessConstraint c EmptyType where
     witnessConstraint = never
 
-emptyAll :: AllOf EmptyType
-emptyAll = MkAllOf never
+emptyAllOf :: AllOf EmptyType
+emptyAllOf = MkAllOf never
 
-emptyAllF :: AllFor EmptyType f
-emptyAllF = MkAllFor never
+emptyAllFor :: AllFor EmptyType f
+emptyAllFor = MkAllFor never
 
 type ConsType :: forall k. k -> (k -> Type) -> k -> Type
 data ConsType a r t where
@@ -48,14 +48,14 @@ instance TestEquality r => TestEquality (ConsType a r) where
     testEquality _ _ = Nothing
 
 instance FiniteWitness r => FiniteWitness (ConsType a r) where
-    assembleWitnessF getsel =
+    assembleWitnessFor getsel =
         (\f (MkAllFor r) ->
              MkAllFor $ \wt ->
                  case wt of
                      FirstType -> f
                      RestType rt -> r rt) <$>
         getsel FirstType <*>
-        assembleWitnessF (getsel . RestType)
+        assembleWitnessFor (getsel . RestType)
 
 instance (c a, WitnessConstraint c r) => WitnessConstraint c (ConsType a r) where
     witnessConstraint FirstType = Dict
@@ -63,8 +63,8 @@ instance (c a, WitnessConstraint c r) => WitnessConstraint c (ConsType a r) wher
         case witnessConstraint @_ @c rt of
             Dict -> Dict
 
-consAll :: a -> AllOf r -> AllOf (ConsType a r)
-consAll a (MkAllOf tup) =
+consAllOf :: a -> AllOf r -> AllOf (ConsType a r)
+consAllOf a (MkAllOf tup) =
     MkAllOf $ \esel ->
         case esel of
             FirstType -> a
@@ -73,22 +73,22 @@ consAll a (MkAllOf tup) =
 type IsFiniteConsWitness :: forall k. (k -> Type) -> Constraint
 class Is (ListType Proxy) (FiniteConsWitness sel) => IsFiniteConsWitness (sel :: k -> Type) where
     type FiniteConsWitness sel :: [k]
-    toLTW :: forall t. sel t -> ListElementType (FiniteConsWitness sel) t
-    fromLTW :: forall t. ListElementType (FiniteConsWitness sel) t -> sel t
+    toFiniteConsElement :: forall t. sel t -> ListElementType (FiniteConsWitness sel) t
+    fromFiniteConsElement :: forall t. ListElementType (FiniteConsWitness sel) t -> sel t
 
 instance Is (ListType Proxy) edits => IsFiniteConsWitness (ListElementType edits) where
     type FiniteConsWitness (ListElementType edits) = edits
-    toLTW = id
-    fromLTW = id
+    toFiniteConsElement = id
+    fromFiniteConsElement = id
 
 instance IsFiniteConsWitness EmptyType where
     type FiniteConsWitness EmptyType = '[]
-    toLTW wit = never wit
-    fromLTW lt = never lt
+    toFiniteConsElement wit = never wit
+    fromFiniteConsElement lt = never lt
 
 instance IsFiniteConsWitness lt => IsFiniteConsWitness (ConsType a lt) where
     type FiniteConsWitness (ConsType a lt) = a : (FiniteConsWitness lt)
-    toLTW FirstType = FirstElementType
-    toLTW (RestType sel) = RestElementType $ toLTW sel
-    fromLTW FirstElementType = FirstType
-    fromLTW (RestElementType lt) = RestType $ fromLTW lt
+    toFiniteConsElement FirstType = FirstElementType
+    toFiniteConsElement (RestType sel) = RestElementType $ toFiniteConsElement sel
+    fromFiniteConsElement FirstElementType = FirstType
+    fromFiniteConsElement (RestElementType lt) = RestType $ fromFiniteConsElement lt

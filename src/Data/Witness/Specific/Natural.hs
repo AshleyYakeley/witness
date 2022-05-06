@@ -20,7 +20,7 @@ module Data.Witness.Specific.Natural
     ) where
 
 import Data.PeanoNat
-import Data.Witness.General.Constraint
+import Data.Witness.General.AllConstraint
 import Data.Witness.General.Representative
 import Data.Witness.General.WitnessValue
 import Data.Witness.Specific.PeanoNat
@@ -58,8 +58,8 @@ instance KnownNat bn => Is NaturalType bn where
 instance Show (NaturalType bn) where
     show = show . witnessToValue
 
-instance AllWitnessConstraint Show NaturalType where
-    allWitnessConstraint = Dict
+instance AllConstraint Show NaturalType where
+    allConstraint = Dict
 
 unsafeNaturalType :: forall n. Natural -> NaturalType n
 unsafeNaturalType i = valueToWitness i $ \(nt :: NaturalType t) -> unsafeCoerce @(NaturalType t) @(NaturalType n) nt

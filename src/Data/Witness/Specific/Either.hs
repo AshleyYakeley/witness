@@ -1,7 +1,8 @@
 module Data.Witness.Specific.Either where
 
-import Data.Witness.General.Constraint
+import Data.Witness.General.AllConstraint
 import Data.Witness.General.Finite
+import Data.Witness.General.WitnessConstraint
 import Data.Witness.Specific.All
 import Import
 
@@ -20,14 +21,14 @@ instance (TestEquality w1, TestEquality w2) => TestEquality (EitherType w1 w2) w
     testEquality _ _ = Nothing
 
 instance (FiniteWitness p, FiniteWitness q) => FiniteWitness (EitherType p q) where
-    assembleWitnessF getsel =
+    assembleWitnessFor getsel =
         (\(MkAllFor p) (MkAllFor q) ->
              MkAllFor $ \wt ->
                  case wt of
                      LeftType rt -> p rt
                      RightType rt -> q rt) <$>
-        assembleWitnessF (getsel . LeftType) <*>
-        assembleWitnessF (getsel . RightType)
+        assembleWitnessFor (getsel . LeftType) <*>
+        assembleWitnessFor (getsel . RightType)
 
 instance (WitnessConstraint c p, WitnessConstraint c q) => WitnessConstraint c (EitherType p q) where
     witnessConstraint (LeftType rt) =
@@ -41,12 +42,12 @@ instance (Show (p t), Show (q t)) => Show (EitherType p q t) where
     show (LeftType rt) = show rt
     show (RightType rt) = show rt
 
-instance (AllWitnessConstraint Show p, AllWitnessConstraint Show q) => AllWitnessConstraint Show (EitherType p q) where
-    allWitnessConstraint :: forall t. Dict (Show (EitherType p q t))
-    allWitnessConstraint =
-        case allWitnessConstraint @_ @_ @Show @p @t of
+instance (AllConstraint Show p, AllConstraint Show q) => AllConstraint Show (EitherType p q) where
+    allConstraint :: forall t. Dict (Show (EitherType p q t))
+    allConstraint =
+        case allConstraint @_ @_ @Show @p @t of
             Dict ->
-                case allWitnessConstraint @_ @_ @Show @q @t of
+                case allConstraint @_ @_ @Show @q @t of
                     Dict -> Dict
 
 eitherAllOf :: AllOf sel1 -> AllOf sel2 -> AllOf (EitherType sel1 sel2)

@@ -1,6 +1,7 @@
 module Data.Witness.Specific.Some where
 
-import Data.Witness.General.Constraint
+import Data.Witness.General.AllConstraint
+import Data.Witness.General.WitnessConstraint
 import Import
 
 -- | Any value with a witness to a parameter of its type.
@@ -62,5 +63,5 @@ instance forall k (w :: k -> Type). TestEquality w => Eq (Some w) where
 mapSome :: forall k (w1 :: k -> Type) (w2 :: k -> Type). (forall t. w1 t -> w2 t) -> Some w1 -> Some w2
 mapSome f (MkSome wt) = MkSome $ f wt
 
-instance forall k (w :: k -> Type). AllWitnessConstraint Show w => Show (Some w) where
-    show (MkSome wa) = showAllWitness wa
+instance forall k (w :: k -> Type). AllConstraint Show w => Show (Some w) where
+    show (MkSome wa) = allShow wa

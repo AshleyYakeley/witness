@@ -4,7 +4,7 @@ module Data.Witness.Specific.Symbol
     , KnownSymbol
     ) where
 
-import Data.Witness.General.Constraint
+import Data.Witness.General.AllConstraint
 import Data.Witness.General.Representative
 import Data.Witness.General.WitnessValue
 import GHC.TypeLits
@@ -39,5 +39,5 @@ instance KnownSymbol symbol => Is SymbolType symbol where
 instance Show (SymbolType symbol) where
     show = witnessToValue
 
-instance AllWitnessConstraint Show SymbolType where
-    allWitnessConstraint = Dict
+instance AllConstraint Show SymbolType where
+    allConstraint = Dict

@@ -7,9 +7,10 @@ import Data.Proxy as I
 import Data.Type.Apply as I
 import Data.Type.Equality as I
 import Data.Type.Heterogeneous as I
-import Data.Witness.General.Constraint as I
+import Data.Witness.General.AllConstraint as I
 import Data.Witness.General.Finite as I
 import Data.Witness.General.Representative as I
+import Data.Witness.General.WitnessConstraint as I
 import Data.Witness.General.WitnessValue as I
 import Data.Witness.Specific.All as I
 import Data.Witness.Specific.ApplyStack as I
@@ -23,7 +24,6 @@ import Data.Witness.Specific.List.Sum as I
 import Data.Witness.Specific.Natural as I
 import Data.Witness.Specific.Pair as I
 import Data.Witness.Specific.PeanoNat as I
-import Data.Witness.Specific.Saturate as I
 import Data.Witness.Specific.Single as I
 import Data.Witness.Specific.Some as I
 import Data.Witness.Specific.Submap as I

@@ -1,5 +1,6 @@
 module Data.Witness.Specific.All where
 
+import Data.Witness.General.WitnessConstraint
 import Data.Witness.Specific.Some
 import Import
 
@@ -45,3 +46,8 @@ splitSomeOfList ((MkSomeOf wt t):rr) =
         case testEquality wt wt' of
             Just Refl -> t : (unAllFor (splitSomeOfList rr) wt')
             Nothing -> unAllFor (splitSomeOfList rr) wt'
+
+allForWitnessConstraint ::
+       forall k (c :: k -> Constraint) (w :: k -> Type). WitnessConstraint c w
+    => AllFor w (Compose Dict c)
+allForWitnessConstraint = MkAllFor $ \wt -> Compose $ witnessConstraint wt

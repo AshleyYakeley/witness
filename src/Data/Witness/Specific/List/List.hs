@@ -75,6 +75,10 @@ listTypeToList :: (forall a. w a -> r) -> ListType w t -> [r]
 listTypeToList _wr NilListType = []
 listTypeToList wr (ConsListType wa rest) = (wr wa) : (listTypeToList wr rest)
 
+listTypeFor :: Applicative m => ListType w t -> (forall a. w a -> m r) -> m [r]
+listTypeFor NilListType _ = pure []
+listTypeFor (ConsListType t tt) f = liftA2 (:) (f t) $ listTypeFor tt f
+
 listTypeFor_ :: Applicative m => ListType w t -> (forall a. w a -> m ()) -> m ()
 listTypeFor_ NilListType _ = pure ()
 listTypeFor_ (ConsListType t tt) f = f t *> listTypeFor_ tt f

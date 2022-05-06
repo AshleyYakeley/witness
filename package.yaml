@@ -81,7 +81,8 @@ library:
       - Data.PeanoNat
       - Data.Witness.Specific.Some
       - Data.Witness.Specific.All
-      - Data.Witness.General.Constraint
+      - Data.Witness.General.AllConstraint
+      - Data.Witness.General.WitnessConstraint
       - Data.Witness.General.WitnessValue
       - Data.Witness.Specific.Symbol
       - Data.Witness.General.Finite
@@ -101,7 +102,6 @@ library:
       - Data.Witness.Specific.List.Product
       - Data.Witness.Specific.List.Sum
       - Data.Witness.General.Representative
-      - Data.Witness.Specific.Saturate
       - Data.Witness
     other-modules:
       - Import

@@ -1,7 +1,7 @@
 module Data.Witness.Specific.List.Product where
 
-import Data.Witness.General.Constraint
 import Data.Witness.General.Representative
+import Data.Witness.General.WitnessConstraint
 import Data.Witness.Specific.List.Element
 import Data.Witness.Specific.List.List
 import Import
