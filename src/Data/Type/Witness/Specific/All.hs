@@ -1,7 +1,7 @@
-module Data.Witness.Specific.All where
+module Data.Type.Witness.Specific.All where
 
-import Data.Witness.General.WitnessConstraint
-import Data.Witness.Specific.Some
+import Data.Type.Witness.General.WitnessConstraint
+import Data.Type.Witness.Specific.Some
 import Import
 
 type AllFor :: forall k. (k -> Type) -> (k -> Type) -> Type

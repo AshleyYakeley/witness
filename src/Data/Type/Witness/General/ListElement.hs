@@ -1,8 +1,8 @@
-module Data.Witness.General.ListElement where
+module Data.Type.Witness.General.ListElement where
 
-import Data.Witness.General.Representative
-import Data.Witness.Specific.List.Element
-import Data.Witness.Specific.List.List
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.Specific.List.Element
+import Data.Type.Witness.Specific.List.List
 import Import
 
 type ListElementWitness :: forall k. (k -> Type) -> Constraint

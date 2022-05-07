@@ -1,8 +1,8 @@
-module Data.Witness.Specific.PeanoNat where
+module Data.Type.Witness.Specific.PeanoNat where
 
 import Data.PeanoNat
-import Data.Witness.General.Representative
-import Data.Witness.General.WitnessValue
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.General.WitnessValue
 import Import
 
 type PeanoNatType :: PeanoNat -> Type

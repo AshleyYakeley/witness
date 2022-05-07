@@ -1,9 +1,9 @@
-module Data.Witness.Specific.FiniteAllFor where
+module Data.Type.Witness.Specific.FiniteAllFor where
 
-import Data.Witness.General.Finite
-import Data.Witness.Specific.All
-import Data.Witness.Specific.Either
-import Data.Witness.Specific.Some
+import Data.Type.Witness.General.Finite
+import Data.Type.Witness.Specific.All
+import Data.Type.Witness.Specific.Either
+import Data.Type.Witness.Specific.Some
 import Import
 
 type FiniteAllFor :: forall k. (k -> Type) -> (k -> Type) -> Type

@@ -1,12 +1,12 @@
-module Data.Witness.Specific.Symbol
-    ( module Data.Witness.Specific.Symbol
+module Data.Type.Witness.Specific.Symbol
+    ( module Data.Type.Witness.Specific.Symbol
     , Symbol
     , KnownSymbol
     ) where
 
-import Data.Witness.General.AllConstraint
-import Data.Witness.General.Representative
-import Data.Witness.General.WitnessValue
+import Data.Type.Witness.General.AllConstraint
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.General.WitnessValue
 import GHC.TypeLits
 import Import
 

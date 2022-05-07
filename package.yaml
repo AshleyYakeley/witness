@@ -78,32 +78,32 @@ library:
     exposed-modules:
       - Data.Type.Apply
       - Data.PeanoNat
-      - Data.Witness.General.TestHetEquality
-      - Data.Witness.General.HetConstraint
-      - Data.Witness.Specific.Some
-      - Data.Witness.Specific.All
-      - Data.Witness.General.AllConstraint
-      - Data.Witness.General.WitnessConstraint
-      - Data.Witness.General.WitnessValue
-      - Data.Witness.General.ListElement
-      - Data.Witness.Specific.Symbol
-      - Data.Witness.General.Finite
-      - Data.Witness.Specific.Single
-      - Data.Witness.Specific.Pair
-      - Data.Witness.Specific.Empty
-      - Data.Witness.Specific.Either
-      - Data.Witness.Specific.FiniteAllFor
-      - Data.Witness.Specific.WitnessOfMap
-      - Data.Witness.Specific.WitnessForMap
-      - Data.Witness.Specific.PeanoNat
-      - Data.Witness.Specific.Natural
-      - Data.Witness.Specific.List.Element
-      - Data.Witness.Specific.List.List
-      - Data.Witness.Specific.Concat
-      - Data.Witness.Specific.ApplyStack
-      - Data.Witness.Specific.List.Product
-      - Data.Witness.Specific.List.Sum
-      - Data.Witness.General.Representative
-      - Data.Witness
+      - Data.Type.Witness.General.TestHetEquality
+      - Data.Type.Witness.General.HetConstraint
+      - Data.Type.Witness.Specific.Some
+      - Data.Type.Witness.Specific.All
+      - Data.Type.Witness.General.AllConstraint
+      - Data.Type.Witness.General.WitnessConstraint
+      - Data.Type.Witness.General.WitnessValue
+      - Data.Type.Witness.General.ListElement
+      - Data.Type.Witness.Specific.Symbol
+      - Data.Type.Witness.General.Finite
+      - Data.Type.Witness.Specific.Single
+      - Data.Type.Witness.Specific.Pair
+      - Data.Type.Witness.Specific.Empty
+      - Data.Type.Witness.Specific.Either
+      - Data.Type.Witness.Specific.FiniteAllFor
+      - Data.Type.Witness.Specific.WitnessOfMap
+      - Data.Type.Witness.Specific.WitnessForMap
+      - Data.Type.Witness.Specific.PeanoNat
+      - Data.Type.Witness.Specific.Natural
+      - Data.Type.Witness.Specific.List.Element
+      - Data.Type.Witness.Specific.List.List
+      - Data.Type.Witness.Specific.Concat
+      - Data.Type.Witness.Specific.ApplyStack
+      - Data.Type.Witness.Specific.List.Product
+      - Data.Type.Witness.Specific.List.Sum
+      - Data.Type.Witness.General.Representative
+      - Data.Type.Witness
     other-modules:
       - Import

@@ -1,12 +1,12 @@
-module Data.Witness.Specific.Either where
+module Data.Type.Witness.Specific.Either where
 
-import Data.Witness.General.AllConstraint
-import Data.Witness.General.Finite
-import Data.Witness.General.ListElement
-import Data.Witness.General.WitnessConstraint
-import Data.Witness.Specific.All
-import Data.Witness.Specific.List.Element
-import Data.Witness.Specific.Single
+import Data.Type.Witness.General.AllConstraint
+import Data.Type.Witness.General.Finite
+import Data.Type.Witness.General.ListElement
+import Data.Type.Witness.General.WitnessConstraint
+import Data.Type.Witness.Specific.All
+import Data.Type.Witness.Specific.List.Element
+import Data.Type.Witness.Specific.Single
 import Import
 
 type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)

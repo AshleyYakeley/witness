@@ -1,4 +1,4 @@
-module Data.Witness.Specific.Natural
+module Data.Type.Witness.Specific.Natural
     ( KnownNat
     , type (<=)
     , type (+)
@@ -20,10 +20,10 @@ module Data.Witness.Specific.Natural
     ) where
 
 import Data.PeanoNat
-import Data.Witness.General.AllConstraint
-import Data.Witness.General.Representative
-import Data.Witness.General.WitnessValue
-import Data.Witness.Specific.PeanoNat
+import Data.Type.Witness.General.AllConstraint
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.General.WitnessValue
+import Data.Type.Witness.Specific.PeanoNat
 import GHC.TypeNats
 import Import
 import Numeric.Natural

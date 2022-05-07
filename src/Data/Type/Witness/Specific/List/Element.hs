@@ -1,6 +1,6 @@
-module Data.Witness.Specific.List.Element where
+module Data.Type.Witness.Specific.List.Element where
 
-import Data.Witness.Specific.List.List
+import Data.Type.Witness.Specific.List.List
 import Import
 
 type ListElementType :: forall k. [k] -> k -> Type

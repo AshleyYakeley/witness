@@ -1,7 +1,7 @@
-module Data.Witness.General.Representative where
+module Data.Type.Witness.General.Representative where
 
-import Data.Witness.General.WitnessValue
-import Data.Witness.Specific.Some
+import Data.Type.Witness.General.WitnessValue
+import Data.Type.Witness.Specific.Some
 import Import
 
 isWitnessRepresentative :: Dict (Is rep a) -> rep a

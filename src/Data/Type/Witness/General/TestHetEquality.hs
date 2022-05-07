@@ -1,4 +1,4 @@
-module Data.Witness.General.TestHetEquality
+module Data.Type.Witness.General.TestHetEquality
     ( (:~~:)(..)
     , withHRefl
     , hetHomoEq

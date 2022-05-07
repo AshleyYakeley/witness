@@ -1,7 +1,7 @@
-module Data.Witness.Specific.WitnessOfMap where
+module Data.Type.Witness.Specific.WitnessOfMap where
 
-import Data.Witness.Specific.Some
-import Data.Witness.Specific.WitnessForMap
+import Data.Type.Witness.Specific.Some
+import Data.Type.Witness.Specific.WitnessForMap
 import Import
 
 -- | A dictionary that is heterogenous up to its simple witness type @w@.

@@ -1,10 +1,10 @@
-module Data.Witness.Specific.Empty where
+module Data.Type.Witness.Specific.Empty where
 
-import Data.Witness.General.Finite
-import Data.Witness.General.ListElement
-import Data.Witness.General.Representative
-import Data.Witness.General.WitnessConstraint
-import Data.Witness.Specific.All
+import Data.Type.Witness.General.Finite
+import Data.Type.Witness.General.ListElement
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.General.WitnessConstraint
+import Data.Type.Witness.Specific.All
 import Import
 
 type EmptyType :: forall k. k -> Type

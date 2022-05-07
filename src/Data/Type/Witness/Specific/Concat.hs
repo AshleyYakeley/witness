@@ -1,7 +1,7 @@
-module Data.Witness.Specific.Concat where
+module Data.Type.Witness.Specific.Concat where
 
-import Data.Witness.General.Representative
-import Data.Witness.Specific.List.List
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.Specific.List.List
 import Import
 
 type Concat :: forall k. [k] -> [k] -> [k]

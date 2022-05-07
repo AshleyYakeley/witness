@@ -1,8 +1,8 @@
 {-# OPTIONS -fno-warn-orphans #-}
 
-module Data.Witness.Specific.Single where
+module Data.Type.Witness.Specific.Single where
 
-import Data.Witness.Specific.All
+import Data.Type.Witness.Specific.All
 import Import
 
 type SingleType :: forall k. k -> k -> Type

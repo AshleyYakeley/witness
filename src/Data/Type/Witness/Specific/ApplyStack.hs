@@ -1,8 +1,8 @@
-module Data.Witness.Specific.ApplyStack where
+module Data.Type.Witness.Specific.ApplyStack where
 
-import Data.Witness.General.Representative
-import Data.Witness.Specific.Concat
-import Data.Witness.Specific.List.List
+import Data.Type.Witness.General.Representative
+import Data.Type.Witness.Specific.Concat
+import Data.Type.Witness.Specific.List.List
 import Import
 
 type ApplyStack :: forall k. [k -> k] -> k -> k
