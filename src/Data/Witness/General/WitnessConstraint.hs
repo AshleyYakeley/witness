@@ -8,3 +8,6 @@ class WitnessConstraint c w where
 
 instance WitnessConstraint c (Compose Dict c) where
     witnessConstraint (Compose d) = d
+
+instance c t => WitnessConstraint c ((:~:) t) where
+    witnessConstraint Refl = Dict

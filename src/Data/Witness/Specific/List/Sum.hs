@@ -29,6 +29,11 @@ listSumShow f (ConsListType t tt) =
     case (f t, listSumShow f tt) of
         (Dict, Dict) -> Dict
 
+mapListSum :: ListType w t -> (forall a. w a -> a -> a) -> ListSum t -> ListSum t
+mapListSum NilListType _f v = v
+mapListSum (ConsListType wa _wr) f (Left a) = Left $ f wa a
+mapListSum (ConsListType _wa wr) f (Right rest) = Right $ mapListSum wr f rest
+
 type ListSumType :: (Type -> Type) -> (Type -> Type)
 data ListSumType wit t where
     MkListSumType :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListSumType wit (ListSum lt)
@@ -55,8 +60,3 @@ instance (Is w a, Is (ListSumType w) ar) => Is (ListSumType w) (Either a ar) whe
     representative =
         case representative @_ @(ListSumType w) @ar of
             MkListSumType r -> MkListSumType $ ConsListType representative r
-
-mapListSum :: ListType w t -> (forall a. w a -> a -> a) -> ListSum t -> ListSum t
-mapListSum NilListType _f v = v
-mapListSum (ConsListType wa _wr) f (Left a) = Left $ f wa a
-mapListSum (ConsListType _wa wr) f (Right rest) = Right $ mapListSum wr f rest

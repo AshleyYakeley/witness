@@ -10,12 +10,6 @@ import Import
 type SingleType :: forall k. k -> k -> Type
 type SingleType = (:~:)
 
-instance FiniteWitness (SingleType t) where
-    assembleWitnessFor getsel = fmap (\ft -> MkAllFor $ \Refl -> ft) $ getsel Refl
-
-instance c t => WitnessConstraint c (SingleType t) where
-    witnessConstraint Refl = Dict
-
 singleAllOf :: t -> AllOf (SingleType t)
 singleAllOf t = MkAllOf $ \Refl -> t
 

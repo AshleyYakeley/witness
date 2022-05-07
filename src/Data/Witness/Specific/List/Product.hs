@@ -30,34 +30,6 @@ listProductShow f (ConsListType t tt) =
     case (f t, listProductShow f tt) of
         (Dict, Dict) -> Dict
 
-type ListProductType :: (Type -> Type) -> (Type -> Type)
-data ListProductType wit t where
-    MkListProductType
-        :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListProductType wit (ListProduct lt)
-
-instance TestEquality wit => TestEquality (ListProductType wit) where
-    testEquality (MkListProductType lt1) (MkListProductType lt2) =
-        case testEquality lt1 lt2 of
-            Just Refl -> Just Refl
-            Nothing -> Nothing
-
-instance WitnessConstraint Eq w => WitnessConstraint Eq (ListProductType w) where
-    witnessConstraint (MkListProductType lt) = listProductEq witnessConstraint lt
-
-instance Representative w => Representative (ListProductType w) where
-    getRepWitness (MkListProductType NilListType) = Dict
-    getRepWitness (MkListProductType (ConsListType a ar)) =
-        case (getRepWitness a, getRepWitness $ MkListProductType ar) of
-            (Dict, Dict) -> Dict
-
-instance Representative w => Is (ListProductType w) () where
-    representative = MkListProductType NilListType
-
-instance (Is w a, Is (ListProductType w) ar) => Is (ListProductType w) (a, ar) where
-    representative =
-        case representative @_ @(ListProductType w) @ar of
-            MkListProductType r -> MkListProductType $ ConsListType representative r
-
 fillListProduct :: ListType w t -> (forall a. w a -> a) -> ListProduct t
 fillListProduct NilListType _f = ()
 fillListProduct (ConsListType wa wr) f = (f wa, fillListProduct wr f)
@@ -88,3 +60,31 @@ listProductPutElement (RestElementType lw) t (a, r) = (a, listProductPutElement 
 
 listProductModifyElement :: ListElementType list t -> (t -> t) -> ListProduct list -> ListProduct list
 listProductModifyElement n aa t = listProductPutElement n (aa (listProductGetElement n t)) t
+
+type ListProductType :: (Type -> Type) -> (Type -> Type)
+data ListProductType wit t where
+    MkListProductType
+        :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListProductType wit (ListProduct lt)
+
+instance TestEquality wit => TestEquality (ListProductType wit) where
+    testEquality (MkListProductType lt1) (MkListProductType lt2) =
+        case testEquality lt1 lt2 of
+            Just Refl -> Just Refl
+            Nothing -> Nothing
+
+instance WitnessConstraint Eq w => WitnessConstraint Eq (ListProductType w) where
+    witnessConstraint (MkListProductType lt) = listProductEq witnessConstraint lt
+
+instance Representative w => Representative (ListProductType w) where
+    getRepWitness (MkListProductType NilListType) = Dict
+    getRepWitness (MkListProductType (ConsListType a ar)) =
+        case (getRepWitness a, getRepWitness $ MkListProductType ar) of
+            (Dict, Dict) -> Dict
+
+instance Representative w => Is (ListProductType w) () where
+    representative = MkListProductType NilListType
+
+instance (Is w a, Is (ListProductType w) ar) => Is (ListProductType w) (a, ar) where
+    representative =
+        case representative @_ @(ListProductType w) @ar of
+            MkListProductType r -> MkListProductType $ ConsListType representative r

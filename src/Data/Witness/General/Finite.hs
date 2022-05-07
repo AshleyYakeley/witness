@@ -15,6 +15,9 @@ class FiniteWitness (w :: k -> Type) where
         => (forall (t :: k). w t -> m (f t))
         -> m (AllFor f w)
 
+instance FiniteWitness ((:~:) t) where
+    assembleWitnessFor getsel = fmap (\ft -> MkAllFor $ \Refl -> ft) $ getsel Refl
+
 instance (TestEquality w, FiniteWitness w) => Countable (Some w) where
     countPrevious = finiteCountPrevious
     countMaybeNext = finiteCountMaybeNext
