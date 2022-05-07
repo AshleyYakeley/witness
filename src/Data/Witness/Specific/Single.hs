@@ -2,8 +2,6 @@
 
 module Data.Witness.Specific.Single where
 
-import Data.Witness.General.Finite
-import Data.Witness.General.WitnessConstraint
 import Data.Witness.Specific.All
 import Import
 

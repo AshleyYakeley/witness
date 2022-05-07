@@ -84,11 +84,12 @@ library:
       - Data.Witness.General.AllConstraint
       - Data.Witness.General.WitnessConstraint
       - Data.Witness.General.WitnessValue
+      - Data.Witness.General.ListElement
       - Data.Witness.Specific.Symbol
       - Data.Witness.General.Finite
       - Data.Witness.Specific.Single
       - Data.Witness.Specific.Pair
-      - Data.Witness.Specific.Cons
+      - Data.Witness.Specific.Empty
       - Data.Witness.Specific.Either
       - Data.Witness.Specific.FiniteAllFor
       - Data.Witness.Specific.WitnessOfMap

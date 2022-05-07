@@ -2,8 +2,11 @@ module Data.Witness.Specific.Either where
 
 import Data.Witness.General.AllConstraint
 import Data.Witness.General.Finite
+import Data.Witness.General.ListElement
 import Data.Witness.General.WitnessConstraint
 import Data.Witness.Specific.All
+import Data.Witness.Specific.List.Element
+import Data.Witness.Specific.Single
 import Import
 
 type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)
@@ -63,3 +66,13 @@ eitherAllFor (MkAllFor tup1) (MkAllFor tup2) =
         case esel of
             LeftType sel -> tup1 sel
             RightType sel -> tup2 sel
+
+type ConsType :: forall k. k -> (k -> Type) -> k -> Type
+type ConsType a = EitherType (SingleType a)
+
+instance ListElementWitness lt => ListElementWitness (ConsType a lt) where
+    type WitnessTypeList (ConsType a lt) = a : (WitnessTypeList lt)
+    toFiniteConsElement (LeftType Refl) = FirstElementType
+    toFiniteConsElement (RightType sel) = RestElementType $ toFiniteConsElement sel
+    fromFiniteConsElement FirstElementType = LeftType Refl
+    fromFiniteConsElement (RestElementType lt) = RightType $ fromFiniteConsElement lt
