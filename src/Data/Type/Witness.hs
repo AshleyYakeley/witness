@@ -4,8 +4,8 @@ module Data.Type.Witness
 
 import Data.PeanoNat as I
 import Data.Proxy as I
-import Data.Type.Apply as I
 import Data.Type.Equality as I
+import Data.Type.Witness.Apply as I
 import Data.Type.Witness.General.AllConstraint as I
 import Data.Type.Witness.General.Finite as I
 import Data.Type.Witness.General.HetConstraint as I

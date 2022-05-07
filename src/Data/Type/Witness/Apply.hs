@@ -1,4 +1,4 @@
-module Data.Type.Apply where
+module Data.Type.Witness.Apply where
 
 import Import
 

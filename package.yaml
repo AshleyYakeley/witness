@@ -76,7 +76,7 @@ library:
       - constraints >= 0.13
       - countable >= 1.2
     exposed-modules:
-      - Data.Type.Apply
+      - Data.Type.Witness.Apply
       - Data.PeanoNat
       - Data.Type.Witness.General.TestHetEquality
       - Data.Type.Witness.General.HetConstraint
