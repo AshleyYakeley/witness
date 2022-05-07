@@ -30,8 +30,8 @@ instance WitnessConstraint c EmptyType where
 
 instance ListElementWitness EmptyType where
     type WitnessTypeList EmptyType = '[]
-    toFiniteConsElement wit = never wit
-    fromFiniteConsElement lt = never lt
+    toListElementWitness wit = never wit
+    fromListElementWitness lt = never lt
 
 emptyAllOf :: AllOf EmptyType
 emptyAllOf = MkAllOf never

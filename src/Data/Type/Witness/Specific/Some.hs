@@ -1,6 +1,7 @@
 module Data.Type.Witness.Specific.Some where
 
 import Data.Type.Witness.General.AllConstraint
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.WitnessConstraint
 import Import
 
@@ -66,6 +67,9 @@ matchSome wit aw = isJust $ matchSomeFor wit aw
 
 instance forall k (w :: k -> Type). TestEquality w => Eq (Some w) where
     (==) (MkSome wa) = matchSome wa
+
+instance forall k (w :: k -> Type). TestOrder w => Ord (Some w) where
+    compare (MkSome wa) (MkSome wb) = wOrderingToOrdering $ testCompare wa wb
 
 instance forall k (w :: k -> Type). AllConstraint Show w => Show (Some w) where
     show (MkSome wa) = allShow wa

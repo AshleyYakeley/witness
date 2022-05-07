@@ -72,7 +72,7 @@ type ConsType a = EitherType (SingleType a)
 
 instance ListElementWitness lt => ListElementWitness (ConsType a lt) where
     type WitnessTypeList (ConsType a lt) = a : (WitnessTypeList lt)
-    toFiniteConsElement (LeftType Refl) = FirstElementType
-    toFiniteConsElement (RightType sel) = RestElementType $ toFiniteConsElement sel
-    fromFiniteConsElement FirstElementType = LeftType Refl
-    fromFiniteConsElement (RestElementType lt) = RightType $ fromFiniteConsElement lt
+    toListElementWitness (LeftType Refl) = FirstElementType
+    toListElementWitness (RightType sel) = RestElementType $ toListElementWitness sel
+    fromListElementWitness FirstElementType = LeftType Refl
+    fromListElementWitness (RestElementType lt) = RightType $ fromListElementWitness lt

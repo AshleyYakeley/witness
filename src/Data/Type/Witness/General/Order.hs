@@ -2,10 +2,15 @@ module Data.Type.Witness.General.Order where
 
 import Import
 
-data WOrder (a :: k) (b :: k) where
-    WLT :: forall k (a :: k) (b :: k). WOrder a b
-    WEQ :: forall k (a :: k). WOrder a a
-    WGT :: forall k (a :: k) (b :: k). WOrder a b
+data WOrdering (a :: k) (b :: k) where
+    WLT :: forall k (a :: k) (b :: k). WOrdering a b
+    WEQ :: forall k (a :: k). WOrdering a a
+    WGT :: forall k (a :: k) (b :: k). WOrdering a b
+
+wOrderingToOrdering :: WOrdering a b -> Ordering
+wOrderingToOrdering WLT = LT
+wOrderingToOrdering WEQ = EQ
+wOrderingToOrdering WGT = GT
 
 class TestEquality w => TestOrder (w :: k -> Type) where
-    testOrder :: forall (a :: k) (b :: k). w a -> w b -> WOrder a b
+    testCompare :: forall (a :: k) (b :: k). w a -> w b -> WOrdering a b
