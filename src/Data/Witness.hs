@@ -6,11 +6,12 @@ import Data.PeanoNat as I
 import Data.Proxy as I
 import Data.Type.Apply as I
 import Data.Type.Equality as I
-import Data.Type.Heterogeneous as I
 import Data.Witness.General.AllConstraint as I
 import Data.Witness.General.Finite as I
+import Data.Witness.General.HetConstraint as I
 import Data.Witness.General.ListElement as I
 import Data.Witness.General.Representative as I
+import Data.Witness.General.TestHetEquality as I
 import Data.Witness.General.WitnessConstraint as I
 import Data.Witness.General.WitnessValue as I
 import Data.Witness.Specific.All as I

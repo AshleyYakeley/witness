@@ -77,8 +77,9 @@ library:
       - countable >= 1.2
     exposed-modules:
       - Data.Type.Apply
-      - Data.Type.Heterogeneous
       - Data.PeanoNat
+      - Data.Witness.General.TestHetEquality
+      - Data.Witness.General.HetConstraint
       - Data.Witness.Specific.Some
       - Data.Witness.Specific.All
       - Data.Witness.General.AllConstraint
