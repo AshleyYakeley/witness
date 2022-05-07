@@ -35,6 +35,9 @@ instance (TestEquality w, FiniteWitness w) => Finite (Some w) where
 allWitnesses :: FiniteWitness w => [Some w]
 allWitnesses = getConst $ assembleWitnessFor $ \wt -> Const [MkSome wt]
 
+allForCodomain :: FiniteWitness w => AllFor f w -> [Some f]
+allForCodomain af = fmap (allMapSome af) allWitnesses
+
 instance (FiniteWitness w, AllConstraint Show w, WitnessConstraint Show w) => Show (AllOf w) where
     show (MkAllOf wtt) = let
         showItem :: Some w -> String

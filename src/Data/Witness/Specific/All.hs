@@ -32,6 +32,9 @@ allForToAllOf (MkAllFor wtit) = MkAllOf $ \wt -> runIdentity $ wtit wt
 allOfToAllFor :: forall (w :: Type -> Type). AllOf w -> AllFor Identity w
 allOfToAllFor (MkAllOf wtt) = MkAllFor $ \wt -> Identity $ wtt wt
 
+allMapSome :: AllFor f w -> SomeFor g w -> SomeFor g f
+allMapSome (MkAllFor f) = mapSome f
+
 type UnAllOf :: Type -> Type -> Type
 type family UnAllOf aw where
     UnAllOf (AllOf w) = w

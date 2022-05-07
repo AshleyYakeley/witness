@@ -10,6 +10,13 @@ data SomeFor f w =
     forall a. MkSomeFor (w a)
                         (f a)
 
+mapSome ::
+       forall k (g :: k -> Type) (w1 :: k -> Type) (w2 :: k -> Type).
+       (forall t. w1 t -> w2 t)
+    -> SomeFor g w1
+    -> SomeFor g w2
+mapSome f (MkSomeFor wt gt) = MkSomeFor (f wt) gt
+
 matchSomeFor :: TestEquality w => w a -> SomeFor f w -> Maybe (f a)
 matchSomeFor wit (MkSomeFor cwit cfa) = do
     Refl <- testEquality cwit wit
@@ -59,9 +66,6 @@ matchSome wit aw = isJust $ matchSomeFor wit aw
 
 instance forall k (w :: k -> Type). TestEquality w => Eq (Some w) where
     (==) (MkSome wa) = matchSome wa
-
-mapSome :: forall k (w1 :: k -> Type) (w2 :: k -> Type). (forall t. w1 t -> w2 t) -> Some w1 -> Some w2
-mapSome f (MkSome wt) = MkSome $ f wt
 
 instance forall k (w :: k -> Type). AllConstraint Show w => Show (Some w) where
     show (MkSome wa) = allShow wa

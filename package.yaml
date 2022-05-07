@@ -90,7 +90,7 @@ library:
       - Data.Witness.Specific.Pair
       - Data.Witness.Specific.Cons
       - Data.Witness.Specific.Either
-      - Data.Witness.Specific.Submap
+      - Data.Witness.Specific.FiniteAllFor
       - Data.Witness.Specific.WitnessOfMap
       - Data.Witness.Specific.WitnessForMap
       - Data.Witness.Specific.PeanoNat
