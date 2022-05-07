@@ -10,6 +10,7 @@ import Data.Type.Witness.General.AllConstraint as I
 import Data.Type.Witness.General.Finite as I
 import Data.Type.Witness.General.HetConstraint as I
 import Data.Type.Witness.General.ListElement as I
+import Data.Type.Witness.General.Order as I
 import Data.Type.Witness.General.Representative as I
 import Data.Type.Witness.General.TestHetEquality as I
 import Data.Type.Witness.General.WitnessConstraint as I

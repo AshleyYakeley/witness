@@ -104,6 +104,7 @@ library:
       - Data.Type.Witness.Specific.List.Product
       - Data.Type.Witness.Specific.List.Sum
       - Data.Type.Witness.General.Representative
+      - Data.Type.Witness.General.Order
       - Data.Type.Witness
     other-modules:
       - Import
