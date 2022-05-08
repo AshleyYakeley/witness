@@ -1,6 +1,7 @@
 module Data.Type.Witness.Specific.PeanoNat where
 
 import Data.PeanoNat
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessValue
 import Import
@@ -16,6 +17,16 @@ instance TestEquality PeanoNatType where
         Refl <- testEquality a b
         return Refl
     testEquality _ _ = Nothing
+
+instance TestOrder PeanoNatType where
+    testCompare ZeroType ZeroType = WEQ
+    testCompare (SuccType a) (SuccType b) =
+        case testCompare a b of
+            WLT -> WLT
+            WGT -> WGT
+            WEQ -> WEQ
+    testCompare (SuccType _) ZeroType = WGT
+    testCompare ZeroType (SuccType _) = WLT
 
 instance Representative PeanoNatType where
     getRepWitness ZeroType = Dict

@@ -5,6 +5,7 @@ module Data.Type.Witness.Specific.Symbol
     ) where
 
 import Data.Type.Witness.General.AllConstraint
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessValue
 import GHC.TypeLits
@@ -29,6 +30,15 @@ instance WitnessValue SymbolType where
 
 instance TestEquality SymbolType where
     testEquality (MkSymbolType :: SymbolType a) (MkSymbolType :: SymbolType b) = sameSymbol (Proxy @a) (Proxy @b)
+
+instance TestOrder SymbolType where
+    testCompare a b =
+        case testEquality a b of
+            Just Refl -> WEQ
+            Nothing ->
+                if witnessToValue a > witnessToValue b
+                    then WGT
+                    else WLT
 
 instance Representative SymbolType where
     getRepWitness MkSymbolType = Dict

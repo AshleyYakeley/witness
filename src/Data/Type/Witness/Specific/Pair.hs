@@ -1,5 +1,6 @@
 module Data.Type.Witness.Specific.Pair where
 
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessConstraint
 import Import
@@ -21,6 +22,10 @@ instance (Is w1 t, Is w2 t) => Is (PairType w1 w2) t where
 -- | left-biased
 instance TestEquality w1 => TestEquality (PairType w1 w2) where
     testEquality (MkPairType a1 _) (MkPairType b1 _) = testEquality a1 b1
+
+-- | left-biased
+instance TestOrder w1 => TestOrder (PairType w1 w2) where
+    testCompare (MkPairType a1 _) (MkPairType b1 _) = testCompare a1 b1
 
 -- | right-biased
 instance WitnessConstraint c w2 => WitnessConstraint c (PairType w1 w2) where

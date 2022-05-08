@@ -1,5 +1,6 @@
 module Data.Type.Witness.Specific.List.Element where
 
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.Specific.List.List
 import Import
 
@@ -14,6 +15,16 @@ instance TestEquality (ListElementType tt) where
         Refl <- testEquality lt1 lt2
         return Refl
     testEquality _ _ = Nothing
+
+instance TestOrder (ListElementType tt) where
+    testCompare FirstElementType FirstElementType = WEQ
+    testCompare (RestElementType a) (RestElementType b) =
+        case testCompare a b of
+            WLT -> WLT
+            WGT -> WGT
+            WEQ -> WEQ
+    testCompare (RestElementType _) FirstElementType = WGT
+    testCompare FirstElementType (RestElementType _) = WLT
 
 instance Searchable (ListElementType '[] t) where
     search = finiteSearch

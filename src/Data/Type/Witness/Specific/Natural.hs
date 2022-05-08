@@ -21,6 +21,7 @@ module Data.Type.Witness.Specific.Natural
 
 import Data.PeanoNat
 import Data.Type.Witness.General.AllConstraint
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessValue
 import Data.Type.Witness.Specific.PeanoNat
@@ -48,6 +49,15 @@ instance WitnessValue NaturalType where
 
 instance TestEquality NaturalType where
     testEquality (MkNaturalType :: NaturalType a) (MkNaturalType :: NaturalType b) = sameNat (Proxy @a) (Proxy @b)
+
+instance TestOrder NaturalType where
+    testCompare a b =
+        case testEquality a b of
+            Just Refl -> WEQ
+            Nothing ->
+                if witnessToValue a > witnessToValue b
+                    then WGT
+                    else WLT
 
 instance Representative NaturalType where
     getRepWitness MkNaturalType = Dict

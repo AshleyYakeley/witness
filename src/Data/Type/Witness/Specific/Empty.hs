@@ -2,6 +2,7 @@ module Data.Type.Witness.Specific.Empty where
 
 import Data.Type.Witness.General.Finite
 import Data.Type.Witness.General.ListElement
+import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessConstraint
 import Data.Type.Witness.Specific.All
@@ -18,6 +19,9 @@ instance Finite (EmptyType t) where
 
 instance TestEquality EmptyType where
     testEquality = never
+
+instance TestOrder EmptyType where
+    testCompare = never
 
 instance Representative EmptyType where
     getRepWitness = never
