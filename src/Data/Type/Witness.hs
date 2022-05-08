@@ -31,5 +31,5 @@ import Data.Type.Witness.Specific.PeanoNat as I
 import Data.Type.Witness.Specific.Single as I
 import Data.Type.Witness.Specific.Some as I
 import Data.Type.Witness.Specific.Symbol as I
-import Data.Type.Witness.Specific.WitnessForMap as I
-import Data.Type.Witness.Specific.WitnessOfMap as I
+import Data.Type.Witness.Specific.WitnessMap.For as I
+import Data.Type.Witness.Specific.WitnessMap.Of as I
