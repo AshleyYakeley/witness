@@ -1,4 +1,4 @@
-## [0.6] - 2022-05-06
+## [0.6] - 2022-05-08
 - reorganise modules
 - rename types and functions
 - additional functionality

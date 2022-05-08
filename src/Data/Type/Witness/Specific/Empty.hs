@@ -27,7 +27,7 @@ instance Representative EmptyType where
     getRepWitness = never
 
 instance FiniteWitness EmptyType where
-    assembleWitnessFor _ = pure emptyAllFor
+    assembleAllFor _ = pure emptyAllFor
 
 instance WitnessConstraint c EmptyType where
     witnessConstraint = never

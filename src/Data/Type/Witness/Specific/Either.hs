@@ -24,14 +24,14 @@ instance (TestEquality w1, TestEquality w2) => TestEquality (EitherType w1 w2) w
     testEquality _ _ = Nothing
 
 instance (FiniteWitness p, FiniteWitness q) => FiniteWitness (EitherType p q) where
-    assembleWitnessFor getsel =
+    assembleAllFor getsel =
         (\(MkAllFor p) (MkAllFor q) ->
              MkAllFor $ \wt ->
                  case wt of
                      LeftType rt -> p rt
                      RightType rt -> q rt) <$>
-        assembleWitnessFor (getsel . LeftType) <*>
-        assembleWitnessFor (getsel . RightType)
+        assembleAllFor (getsel . LeftType) <*>
+        assembleAllFor (getsel . RightType)
 
 instance (WitnessConstraint c p, WitnessConstraint c q) => WitnessConstraint c (EitherType p q) where
     witnessConstraint (LeftType rt) =

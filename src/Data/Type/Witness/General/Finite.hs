@@ -10,13 +10,13 @@ import Import
 
 type FiniteWitness :: forall k. (k -> Type) -> Constraint
 class FiniteWitness (w :: k -> Type) where
-    assembleWitnessFor ::
+    assembleAllFor ::
            forall (m :: Type -> Type) (f :: k -> Type). Applicative m
         => (forall (t :: k). w t -> m (f t))
         -> m (AllFor f w)
 
 instance FiniteWitness ((:~:) t) where
-    assembleWitnessFor getsel = fmap (\ft -> MkAllFor $ \Refl -> ft) $ getsel Refl
+    assembleAllFor getsel = fmap (\ft -> MkAllFor $ \Refl -> ft) $ getsel Refl
 
 instance (TestEquality w, FiniteWitness w) => Countable (Some w) where
     countPrevious = finiteCountPrevious
@@ -31,12 +31,11 @@ instance (TestEquality w, FiniteWitness w) => Finite (Some w) where
         => (Some w -> f b)
         -> f (Some w -> b)
     assemble afb =
-        fmap (\(MkAllFor wtcb) (MkSome wt) -> getConst $ wtcb wt) $
-        assembleWitnessFor $ \wt -> fmap Const $ afb $ MkSome wt
-    allValues = getConst $ assembleWitnessFor $ \wt -> Const [MkSome wt]
+        fmap (\(MkAllFor wtcb) (MkSome wt) -> getConst $ wtcb wt) $ assembleAllFor $ \wt -> fmap Const $ afb $ MkSome wt
+    allValues = getConst $ assembleAllFor $ \wt -> Const [MkSome wt]
 
 allWitnesses :: FiniteWitness w => [Some w]
-allWitnesses = getConst $ assembleWitnessFor $ \wt -> Const [MkSome wt]
+allWitnesses = getConst $ assembleAllFor $ \wt -> Const [MkSome wt]
 
 allForCodomain :: FiniteWitness w => AllFor f w -> [Some f]
 allForCodomain af = fmap (allMapSome af) allWitnesses
@@ -51,5 +50,5 @@ instance (FiniteWitness w, AllConstraint Show w, WitnessConstraint Show w) => Sh
                 Dict -> show (wtt wt)
         in "{" ++ intercalate "," (fmap showItem allWitnesses) ++ "}"
 
-assembleWitnessOf :: (FiniteWitness w, Applicative m) => (forall t. w t -> m t) -> m (AllOf w)
-assembleWitnessOf wtmt = fmap allForToAllOf $ assembleWitnessFor $ \wt -> fmap Identity $ wtmt wt
+assembleAllOf :: (FiniteWitness w, Applicative m) => (forall t. w t -> m t) -> m (AllOf w)
+assembleAllOf wtmt = fmap allForToAllOf $ assembleAllFor $ \wt -> fmap Identity $ wtmt wt
