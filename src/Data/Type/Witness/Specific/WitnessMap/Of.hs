@@ -42,3 +42,6 @@ witnessMapOfRemove = witnessMapForRemove
 -- | Create a dictionary from a list of witness\/value pairs
 witnessMapOfFromList :: [SomeOf w] -> WitnessMapOf w
 witnessMapOfFromList = MkWitnessMapFor
+
+witnessMapOfToList :: WitnessMapOf w -> [SomeOf w]
+witnessMapOfToList = witnessMapForToList

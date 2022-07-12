@@ -6,9 +6,9 @@ import Import
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
 type WitnessMapFor :: forall k. (k -> Type) -> (k -> Type) -> Type
-newtype WitnessMapFor f w =
-    MkWitnessMapFor [SomeFor f w]
-    deriving (Semigroup, Monoid)
+newtype WitnessMapFor f w = MkWitnessMapFor
+    { witnessMapForToList :: [SomeFor f w]
+    } deriving (Semigroup, Monoid)
 
 -- | An empty dictionary.
 emptyWitnessMapFor :: WitnessMapFor f w
