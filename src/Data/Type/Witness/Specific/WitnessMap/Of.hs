@@ -14,15 +14,15 @@ emptyWitnessMapOf :: WitnessMapOf w
 emptyWitnessMapOf = emptyWitnessMapFor
 
 -- | Look up the first value in the dictionary that matches the given witness.
-witnessMapOfLookup :: (TestEquality w) => w a -> WitnessMapOf w -> Maybe a
+witnessMapOfLookup :: TestEquality w => w a -> WitnessMapOf w -> Maybe a
 witnessMapOfLookup wit d = fmap runIdentity $ witnessMapForLookup wit d
 
 -- | Modify the first value in the dictionary that matches a particular witness.
-witnessMapOfModify :: (TestEquality w) => w a -> (a -> a) -> WitnessMapOf w -> WitnessMapOf w
+witnessMapOfModify :: TestEquality w => w a -> (a -> a) -> WitnessMapOf w -> WitnessMapOf w
 witnessMapOfModify wit amap = witnessMapForModify wit (Identity . amap . runIdentity)
 
 -- | Replace the first value in the dictionary that matches the witness
-witnessMapOfReplace :: (TestEquality w) => w a -> a -> WitnessMapOf w -> WitnessMapOf w
+witnessMapOfReplace :: TestEquality w => w a -> a -> WitnessMapOf w -> WitnessMapOf w
 witnessMapOfReplace wit newa = witnessMapOfModify wit $ const newa
 
 witnessMapOfSingle :: w a -> a -> WitnessMapOf w
@@ -36,7 +36,7 @@ witnessMapOfAdd :: w a -> a -> WitnessMapOf w -> WitnessMapOf w
 witnessMapOfAdd wit a = witnessMapForAdd wit $ Identity a
 
 -- | Remove the first entry in the dictionary that matches the given witness.
-witnessMapOfRemove :: (TestEquality w) => w a -> WitnessMapOf w -> WitnessMapOf w
+witnessMapOfRemove :: TestEquality w => w a -> WitnessMapOf w -> WitnessMapOf w
 witnessMapOfRemove = witnessMapForRemove
 
 -- | Create a dictionary from a list of witness\/value pairs

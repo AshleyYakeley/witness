@@ -1,5 +1,5 @@
 name: witness
-version: "0.6"
+version: "0.6.1"
 author: Ashley Yakeley
 copyright: (c) 2017-2022 Ashley Yakeley
 license: BSD-2-Clause
@@ -74,6 +74,7 @@ library:
     dependencies:
       - base >= 4.15 && < 5
       - constraints >= 0.13
+      - containers >= 0.4
       - countable >= 1.2
     exposed-modules:
       - Data.Type.Witness.Apply
@@ -95,6 +96,8 @@ library:
       - Data.Type.Witness.Specific.FiniteAllFor
       - Data.Type.Witness.Specific.WitnessMap.Of
       - Data.Type.Witness.Specific.WitnessMap.For
+      - Data.Type.Witness.Specific.OrderedWitnessMap.Of
+      - Data.Type.Witness.Specific.OrderedWitnessMap.For
       - Data.Type.Witness.Specific.PeanoNat
       - Data.Type.Witness.Specific.Natural
       - Data.Type.Witness.Specific.List.Element

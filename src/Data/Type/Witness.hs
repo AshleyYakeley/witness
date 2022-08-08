@@ -26,6 +26,8 @@ import Data.Type.Witness.Specific.List.List as I
 import Data.Type.Witness.Specific.List.Product as I
 import Data.Type.Witness.Specific.List.Sum as I
 import Data.Type.Witness.Specific.Natural as I
+import Data.Type.Witness.Specific.OrderedWitnessMap.For as I
+import Data.Type.Witness.Specific.OrderedWitnessMap.Of as I
 import Data.Type.Witness.Specific.Pair as I
 import Data.Type.Witness.Specific.PeanoNat as I
 import Data.Type.Witness.Specific.Single as I

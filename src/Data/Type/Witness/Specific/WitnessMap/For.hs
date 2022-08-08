@@ -15,11 +15,11 @@ emptyWitnessMapFor :: WitnessMapFor f w
 emptyWitnessMapFor = mempty
 
 -- | Look up the first value in the dictionary that matches the given witness.
-witnessMapForLookup :: (TestEquality w) => w a -> WitnessMapFor f w -> Maybe (f a)
+witnessMapForLookup :: TestEquality w => w a -> WitnessMapFor f w -> Maybe (f a)
 witnessMapForLookup wit (MkWitnessMapFor cells) = listToMaybe (mapMaybe (matchSomeFor wit) cells)
 
 -- | Modify the first value in the dictionary that matches a particular witness.
-witnessMapForModify :: (TestEquality w) => w a -> (f a -> f a) -> WitnessMapFor f w -> WitnessMapFor f w
+witnessMapForModify :: TestEquality w => w a -> (f a -> f a) -> WitnessMapFor f w -> WitnessMapFor f w
 witnessMapForModify wit amap (MkWitnessMapFor cells) =
     MkWitnessMapFor (replaceFirst ((fmap ((MkSomeFor wit) . amap)) . (matchSomeFor wit)) cells)
   where
@@ -31,7 +31,7 @@ witnessMapForModify wit amap (MkWitnessMapFor cells) =
     replaceFirst _ _ = []
 
 -- | Replace the first value in the dictionary that matches the witness
-witnessMapForReplace :: (TestEquality w) => w a -> f a -> WitnessMapFor f w -> WitnessMapFor f w
+witnessMapForReplace :: TestEquality w => w a -> f a -> WitnessMapFor f w -> WitnessMapFor f w
 witnessMapForReplace wit newfa = witnessMapForModify wit (const newfa)
 
 -- | Add a witness and value as the first entry in the dictionary.
@@ -46,7 +46,7 @@ witnessMapForFold :: Monoid m => WitnessMapFor f w -> (forall a. w a -> f a -> m
 witnessMapForFold (MkWitnessMapFor cells) f = mconcat $ fmap (\(MkSomeFor wit fa) -> f wit fa) cells
 
 -- | Remove the first entry in the dictionary that matches the given witness.
-witnessMapForRemove :: (TestEquality w) => w a -> WitnessMapFor f w -> WitnessMapFor f w
+witnessMapForRemove :: TestEquality w => w a -> WitnessMapFor f w -> WitnessMapFor f w
 witnessMapForRemove wit (MkWitnessMapFor cells) =
     MkWitnessMapFor (removeFirst (\(MkSomeFor cwit _) -> isJust (testEquality wit cwit)) cells)
   where
