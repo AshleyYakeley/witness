@@ -21,6 +21,7 @@ import Data.Type.Witness.Specific.Concat as I
 import Data.Type.Witness.Specific.Either as I
 import Data.Type.Witness.Specific.Empty as I
 import Data.Type.Witness.Specific.FiniteAllFor as I
+import Data.Type.Witness.Specific.FixedList as I
 import Data.Type.Witness.Specific.List.Element as I
 import Data.Type.Witness.Specific.List.List as I
 import Data.Type.Witness.Specific.List.Product as I

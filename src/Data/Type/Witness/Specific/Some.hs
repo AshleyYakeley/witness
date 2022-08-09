@@ -73,3 +73,6 @@ instance forall k (w :: k -> Type). TestOrder w => Ord (Some w) where
 
 instance forall k (w :: k -> Type). AllConstraint Show w => Show (Some w) where
     show (MkSome wa) = allShow wa
+
+someForToSome :: SomeFor f w -> Some w
+someForToSome (MkSomeFor wa _) = MkSome wa

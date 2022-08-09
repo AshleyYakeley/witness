@@ -53,6 +53,10 @@ data GreaterEqual a b where
     ZeroGreaterEqual :: GreaterEqual a 'Zero
     SuccGreaterEqual :: GreaterEqual a b -> GreaterEqual ('Succ a) ('Succ b)
 
+greaterEqualIndex :: GreaterEqual a b -> PeanoNatType b
+greaterEqualIndex ZeroGreaterEqual = ZeroType
+greaterEqualIndex (SuccGreaterEqual n) = SuccType $ greaterEqualIndex n
+
 samePeanoGreaterEqual :: PeanoNatType a -> GreaterEqual a a
 samePeanoGreaterEqual ZeroType = ZeroGreaterEqual
 samePeanoGreaterEqual (SuccType a) = SuccGreaterEqual $ samePeanoGreaterEqual a
@@ -94,3 +98,32 @@ addPeanoNatTypeGE a ZeroType =
 addPeanoNatTypeGE a (SuccType b) =
     case succAddPeanoNatTypeEqual a b of
         Refl -> diff1GreaterEqual $ addPeanoNatTypeGE a b
+
+type Greater :: PeanoNat -> PeanoNat -> Type
+data Greater a b where
+    MkGreater :: GreaterEqual a b -> Greater ('Succ a) b
+
+greaterIndex :: Greater a b -> PeanoNatType b
+greaterIndex (MkGreater n) = greaterEqualIndex n
+
+peanoGreater :: PeanoNatType a -> PeanoNatType b -> Maybe (Greater a b)
+peanoGreater (SuccType a) b = fmap MkGreater $ peanoGreaterEqual a b
+peanoGreater ZeroType _ = Nothing
+
+instance Eq (Greater 'Zero b) where
+    (==) = never
+
+instance Searchable (Greater 'Zero b) where
+    search = finiteSearch
+
+instance Countable (Greater 'Zero b) where
+    countPrevious = never
+    countMaybeNext Nothing = Nothing
+    countMaybeNext (Just n) = never n
+
+instance Finite (Greater 'Zero b) where
+    allValues = []
+    assemble _ = pure never
+
+instance Empty (Greater 'Zero b) where
+    never n = case n of {}

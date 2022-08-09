@@ -100,6 +100,7 @@ library:
       - Data.Type.Witness.Specific.OrderedWitnessMap.For
       - Data.Type.Witness.Specific.PeanoNat
       - Data.Type.Witness.Specific.Natural
+      - Data.Type.Witness.Specific.FixedList
       - Data.Type.Witness.Specific.List.Element
       - Data.Type.Witness.Specific.List.List
       - Data.Type.Witness.Specific.Concat

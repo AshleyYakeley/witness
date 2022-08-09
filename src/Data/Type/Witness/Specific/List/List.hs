@@ -1,7 +1,10 @@
 module Data.Type.Witness.Specific.List.List where
 
+import Data.PeanoNat
 import Data.Type.Witness.General.Representative
+import Data.Type.Witness.Specific.FixedList
 import Data.Type.Witness.Specific.Pair
+import Data.Type.Witness.Specific.PeanoNat
 import Data.Type.Witness.Specific.Some
 import Import
 
@@ -82,3 +85,16 @@ listTypeFor (ConsListType t tt) f = liftA2 (:) (f t) $ listTypeFor tt f
 listTypeFor_ :: Applicative m => ListType w t -> (forall a. w a -> m ()) -> m ()
 listTypeFor_ NilListType _ = pure ()
 listTypeFor_ (ConsListType t tt) f = f t *> listTypeFor_ tt f
+
+listTypeLengthType :: ListType w lt -> PeanoNatType (ListLength lt)
+listTypeLengthType NilListType = ZeroType
+listTypeLengthType (ConsListType _ rest) = SuccType $ listTypeLengthType rest
+
+listTypeToFixedList :: (forall a. w a -> r) -> ListType w t -> FixedList (ListLength t) r
+listTypeToFixedList _wr NilListType = NilFixedList
+listTypeToFixedList wr (ConsListType wa rest) = ConsFixedList (wr wa) $ listTypeToFixedList wr rest
+
+listTypeFromFixedList :: FixedList n (Some w) -> (forall t. n ~ ListLength t => ListType w t -> r) -> r
+listTypeFromFixedList NilFixedList call = call NilListType
+listTypeFromFixedList (ConsFixedList (MkSome wa) l) call =
+    listTypeFromFixedList l $ \rest -> call $ ConsListType wa rest

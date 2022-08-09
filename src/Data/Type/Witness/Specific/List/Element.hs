@@ -1,7 +1,10 @@
 module Data.Type.Witness.Specific.List.Element where
 
+import Data.PeanoNat
 import Data.Type.Witness.General.Order
 import Data.Type.Witness.Specific.List.List
+import Data.Type.Witness.Specific.PeanoNat
+import Data.Type.Witness.Specific.Some
 import Import
 
 type ListElementType :: forall k. [k] -> k -> Type
@@ -42,6 +45,10 @@ instance Finite (ListElementType '[] t) where
 instance Empty (ListElementType '[] t) where
     never lt = case lt of {}
 
+pickListElement :: forall k (w :: k -> Type) (t :: k) (lt :: [k]). ListElementType lt t -> ListType w lt -> w t
+pickListElement FirstElementType (ConsListType wt _) = wt
+pickListElement (RestElementType n) (ConsListType _ l) = pickListElement n l
+
 lookUpListElement ::
        forall k (w :: k -> Type) (t :: k) (lt :: [k]). TestEquality w
     => w t
@@ -57,3 +64,16 @@ lookUpListElement wt (ConsListType _ lt) = do
 countListType :: ListType w lt -> ListType (ListElementType lt) lt
 countListType NilListType = NilListType
 countListType (ConsListType _ lt) = ConsListType FirstElementType (mapListType RestElementType $ countListType lt)
+
+listElementTypeIndex :: Some (ListElementType lt) -> Some (Greater (ListLength lt))
+listElementTypeIndex (MkSome FirstElementType) = MkSome $ MkGreater ZeroGreaterEqual
+listElementTypeIndex (MkSome (RestElementType n)) =
+    case listElementTypeIndex $ MkSome n of
+        MkSome (MkGreater n') -> MkSome $ MkGreater $ SuccGreaterEqual n'
+
+indexListElementType :: ListType w lt -> Some (Greater (ListLength lt)) -> SomeFor w (ListElementType lt)
+indexListElementType (ConsListType wa _) (MkSome (MkGreater ZeroGreaterEqual)) = MkSomeFor FirstElementType wa
+indexListElementType (ConsListType _ lt) (MkSome (MkGreater (SuccGreaterEqual n))) =
+    case indexListElementType lt (MkSome (MkGreater n)) of
+        MkSomeFor n' wa -> MkSomeFor (RestElementType n') wa
+indexListElementType NilListType (MkSome n) = never n

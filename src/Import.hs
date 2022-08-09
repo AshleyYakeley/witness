@@ -3,6 +3,7 @@ module Import
     ) where
 
 import Control.Applicative as I
+import Control.Arrow as I
 import Control.Category as I
 import Data.Constraint as I (Dict(..))
 import Data.Countable as I

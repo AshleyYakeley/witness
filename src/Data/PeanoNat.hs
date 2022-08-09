@@ -40,3 +40,8 @@ type PeanoToNatural :: PeanoNat -> Nat
 type family PeanoToNatural pn where
     PeanoToNatural 'Zero = 0
     PeanoToNatural ('Succ pn) = PeanoToNatural pn + 1
+
+type ListLength :: forall k. [k] -> PeanoNat
+type family ListLength l where
+    ListLength '[] = 'Zero
+    ListLength (a ': aa) = 'Succ (ListLength aa)
