@@ -1,3 +1,12 @@
+## [0.6.1] - 2022-09-12
+- new ListLength type family and associated functions
+- new Greater type family and associated functions
+- new FixedList type indexed by PeanoNat
+- new ListElement functions
+- new OrderedWitnessMapFor and OrderedWitnessMapOf types
+- new functions:
+  - someForToSome
+
 ## [0.6] - 2022-05-08
 - reorganise modules
 - rename types and functions
