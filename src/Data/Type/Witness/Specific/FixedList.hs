@@ -35,6 +35,17 @@ instance Traversable (FixedList n) where
     sequenceA NilFixedList = pure NilFixedList
     sequenceA (ConsFixedList fa l) = liftA2 ConsFixedList fa $ sequenceA l
 
+instance Eq a => Eq (FixedList n a) where
+    NilFixedList == NilFixedList = True
+    (ConsFixedList a la) == (ConsFixedList b lb) =
+        if a == b
+            then la == lb
+            else False
+
+fixedListLength :: FixedList n a -> PeanoNatType n
+fixedListLength NilFixedList = ZeroType
+fixedListLength (ConsFixedList _ l) = SuccType $ fixedListLength l
+
 fixedFromList :: [a] -> (forall n. PeanoNatType n -> FixedList n a -> r) -> r
 fixedFromList [] call = call ZeroType NilFixedList
 fixedFromList (a:aa) call = fixedFromList aa $ \n l -> call (SuccType n) $ ConsFixedList a l
