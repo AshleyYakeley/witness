@@ -46,6 +46,10 @@ fixedListLength :: FixedList n a -> PeanoNatType n
 fixedListLength NilFixedList = ZeroType
 fixedListLength (ConsFixedList _ l) = SuccType $ fixedListLength l
 
+fixedListGenerate :: Applicative m => PeanoNatType n -> m a -> m (FixedList n a)
+fixedListGenerate ZeroType _ = pure NilFixedList
+fixedListGenerate (SuccType n) ma = liftA2 ConsFixedList ma $ fixedListGenerate n ma
+
 fixedFromList :: [a] -> (forall n. PeanoNatType n -> FixedList n a -> r) -> r
 fixedFromList [] call = call ZeroType NilFixedList
 fixedFromList (a:aa) call = fixedFromList aa $ \n l -> call (SuccType n) $ ConsFixedList a l
