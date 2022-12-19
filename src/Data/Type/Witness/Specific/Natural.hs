@@ -27,7 +27,6 @@ import Data.Type.Witness.General.WitnessValue
 import Data.Type.Witness.Specific.PeanoNat
 import GHC.TypeNats
 import Import
-import Numeric.Natural
 import Unsafe.Coerce
 
 type NaturalType :: Nat -> Type

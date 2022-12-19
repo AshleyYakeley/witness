@@ -72,7 +72,7 @@ library:
       - -Wcompat
       - -Wnoncanonical-monad-instances
     dependencies:
-      - base >= 4.15 && < 5
+      - base >= 4.16 && < 5
       - constraints >= 0.13
       - containers >= 0.4
       - countable >= 1.2
