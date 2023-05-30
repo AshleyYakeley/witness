@@ -104,3 +104,10 @@ listTypeFromFixedList :: FixedList n (Some w) -> (forall t. n ~ ListLength t => 
 listTypeFromFixedList NilFixedList call = call NilListType
 listTypeFromFixedList (ConsFixedList (MkSome wa) l) call =
     listTypeFromFixedList l $ \rest -> call $ ConsListType wa rest
+
+listTypeFind :: (forall a. w a -> Maybe r) -> ListType w tt -> Maybe r
+listTypeFind _ NilListType = Nothing
+listTypeFind f (ConsListType a aa) =
+    case f a of
+        Just r -> Just r
+        Nothing -> listTypeFind f aa
