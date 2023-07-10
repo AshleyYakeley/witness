@@ -6,6 +6,15 @@ type AllConstraint :: forall kw kt. (kw -> Constraint) -> (kt -> kw) -> Constrai
 class AllConstraint c w where
     allConstraint :: forall t. Dict (c (w t))
 
+withAllConstraint ::
+       forall k (c :: Type -> Constraint) (w :: k -> Type) (a :: k) (r :: Type). AllConstraint c w
+    => w a
+    -> (c (w a) => r)
+    -> r
+withAllConstraint _ call =
+    case allConstraint @Type @k @c @w @a of
+        Dict -> call
+
 instance AllConstraint Show ((:~:) t) where
     allConstraint = Dict
 

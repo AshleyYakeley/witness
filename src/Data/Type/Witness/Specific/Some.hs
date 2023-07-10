@@ -71,8 +71,15 @@ instance forall k (w :: k -> Type). TestEquality w => Eq (Some w) where
 instance forall k (w :: k -> Type). TestOrder w => Ord (Some w) where
     compare (MkSome wa) (MkSome wb) = wOrderingToOrdering $ testCompare wa wb
 
+withSomeAllConstraint ::
+       forall k (c :: Type -> Constraint) (w :: k -> Type) (r :: Type). AllConstraint c w
+    => Some w
+    -> (forall a. c (w a) => w a -> r)
+    -> r
+withSomeAllConstraint (MkSome wa) call = withAllConstraint @k @c wa $ call wa
+
 instance forall k (w :: k -> Type). AllConstraint Show w => Show (Some w) where
-    show (MkSome wa) = allShow wa
+    show swa = withSomeAllConstraint @k @Show swa show
 
 someForToSome :: SomeFor f w -> Some w
 someForToSome (MkSomeFor wa _) = MkSome wa
