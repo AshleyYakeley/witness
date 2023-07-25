@@ -1,3 +1,8 @@
+## [0.6.2] - 2023-07-25
+- withAllConstraint, withSomeAllConstraint
+- listTypeToListM, listTypeForList, listTypeFind
+- fixedListLength, fixedListGenerate, Eq FixedList
+
 ## [0.6.1] - 2022-09-12
 - new ListLength type family and associated functions
 - new Greater type family and associated functions
