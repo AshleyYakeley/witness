@@ -1,3 +1,6 @@
+## UNRELEASED
+- listProductSequence
+
 ## [0.6.2] - 2023-07-25
 - withAllConstraint, withSomeAllConstraint
 - listTypeToListM, listTypeForList, listTypeFind

@@ -61,6 +61,13 @@ listProductPutElement (RestElementType lw) t (a, r) = (a, listProductPutElement 
 listProductModifyElement :: ListElementType list t -> (t -> t) -> ListProduct list -> ListProduct list
 listProductModifyElement n aa t = listProductPutElement n (aa (listProductGetElement n t)) t
 
+listProductSequence ::
+       forall f list. Applicative f
+    => ListType f list
+    -> f (ListProduct list)
+listProductSequence NilListType = pure ()
+listProductSequence (ConsListType t tt) = liftA2 (,) t $ listProductSequence tt
+
 type ListProductType :: (Type -> Type) -> (Type -> Type)
 data ListProductType wit t where
     MkListProductType
