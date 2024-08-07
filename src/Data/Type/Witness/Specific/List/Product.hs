@@ -4,6 +4,7 @@ import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessConstraint
 import Data.Type.Witness.Specific.List.Element
 import Data.Type.Witness.Specific.List.List
+import Data.Type.Witness.Specific.Some
 import Import
 import Unsafe.Coerce
 
@@ -67,6 +68,22 @@ listProductSequence ::
     -> f (ListProduct list)
 listProductSequence NilListType = pure ()
 listProductSequence (ConsListType t tt) = liftA2 (,) t $ listProductSequence tt
+
+pickListProduct :: TestEquality w => ListType w lta -> w b -> Maybe (ListProduct lta -> b)
+pickListProduct NilListType _ = Nothing
+pickListProduct (ConsListType wa _) wb
+    | Just Refl <- testEquality wa wb = Just fst
+pickListProduct (ConsListType _ la) wb = fmap (\f -> f . snd) $ pickListProduct la wb
+
+matchListProduct ::
+       TestEquality w => ListType w lta -> ListType w ltb -> Either (Some w) (ListProduct lta -> ListProduct ltb)
+matchListProduct _ NilListType = return $ \_ -> ()
+matchListProduct la (ConsListType wb lb) =
+    case pickListProduct la wb of
+        Nothing -> Left $ MkSome wb
+        Just f1 -> do
+            fr <- matchListProduct la lb
+            return $ \pa -> (f1 pa, fr pa)
 
 type ListProductType :: (Type -> Type) -> (Type -> Type)
 data ListProductType wit t where
