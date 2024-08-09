@@ -9,6 +9,9 @@ newtype AllFor f w = MkAllFor
     { unAllFor :: forall t. w t -> f t
     }
 
+mapAllFor :: (forall a. f1 a -> f2 a) -> AllFor f1 w -> AllFor f2 w
+mapAllFor ff (MkAllFor wtft) = MkAllFor $ ff . wtft
+
 type AllOf :: (Type -> Type) -> Type
 newtype AllOf w = MkAllOf
     { unAllOf :: forall t. w t -> t
