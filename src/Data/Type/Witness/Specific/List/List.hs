@@ -111,3 +111,7 @@ listTypeFind f (ConsListType a aa) =
     case f a of
         Just r -> Just r
         Nothing -> listTypeFind f aa
+
+sequenceComposeListType :: Applicative f => ListType (Compose f w) lt -> f (ListType w lt)
+sequenceComposeListType NilListType = pure NilListType
+sequenceComposeListType (ConsListType (Compose fwa) tt) = liftA2 ConsListType fwa $ sequenceComposeListType tt
