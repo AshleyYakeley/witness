@@ -47,11 +47,18 @@ library:
       - UndecidableSuperClasses
       - ViewPatterns
     ghc-options:
-      - -Wall
-      - -Wincomplete-uni-patterns
-      - -Wincomplete-record-updates
-      - -Wcompat
-      - -Wnoncanonical-monad-instances
+      - -Weverything
+      - -Wno-missing-import-lists
+      - -Wno-missing-export-lists
+      - -Wno-unsafe
+      - -Wno-missing-safe-haskell-mode
+      - -Wno-missing-kind-signatures
+      - -Wno-partial-type-signatures
+      - -Wno-monomorphism-restriction
+      - -Wno-missing-local-signatures
+      - -Wno-partial-fields
+      - -Wno-all-missed-specialisations # non-breaking
+      - -Wno-missed-specialisations # non-breaking
     dependencies:
       - base >= 4.16 && < 5
       - constraints >= 0.13
