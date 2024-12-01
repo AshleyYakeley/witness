@@ -1,6 +1,6 @@
 module Data.Type.Witness.Specific.OrderedWitnessMap.For where
 
-import qualified Data.Map as Map
+import Data.Map qualified as Map
 import Data.Type.Witness.General.Order
 import Data.Type.Witness.Specific.Some
 import Import
