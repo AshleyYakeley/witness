@@ -7,6 +7,7 @@ import Import
 
 -- | Any value with a witness to a parameter of its type.
 type SomeFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+type role SomeFor representational representational
 data SomeFor f w =
     forall a. MkSomeFor (w a)
                         (f a)
@@ -50,7 +51,7 @@ matchSomeOf wit av = do
     return a
 
 type Some :: forall k. (k -> Type) -> Type
-type Some = SomeFor (Const ())
+type Some @k = SomeFor @k (Const ())
 
 pattern MkSome :: w a -> Some w
 

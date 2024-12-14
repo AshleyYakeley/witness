@@ -1,5 +1,5 @@
 name: witness
-version: "0.6.2"
+version: "0.7"
 author: Ashley Yakeley
 copyright: (c) 2017-2022 Ashley Yakeley
 license: BSD-2-Clause
@@ -41,6 +41,7 @@ library:
       - RoleAnnotations
       - NoStarIsType
       - TemplateHaskell
+      - TypeAbstractions
       - TypeFamilies
       - TypeFamilyDependencies
       - UndecidableInstances

@@ -5,6 +5,7 @@ import Data.Type.Witness.Specific.Some
 import Import
 
 type AllFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+type role AllFor representational representational
 newtype AllFor f w = MkAllFor
     { unAllFor :: forall t. w t -> f t
     }
@@ -13,6 +14,7 @@ mapAllFor :: (forall a. f1 a -> f2 a) -> AllFor f1 w -> AllFor f2 w
 mapAllFor ff (MkAllFor wtft) = MkAllFor $ ff . wtft
 
 type AllOf :: (Type -> Type) -> Type
+type role AllOf representational
 newtype AllOf w = MkAllOf
     { unAllOf :: forall t. w t -> t
     }

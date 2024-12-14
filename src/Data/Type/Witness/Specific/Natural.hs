@@ -30,6 +30,7 @@ import Import
 import Unsafe.Coerce
 
 type NaturalType :: Nat -> Type
+type role NaturalType nominal
 data NaturalType bn where
     MkNaturalType :: KnownNat bn => NaturalType bn
 

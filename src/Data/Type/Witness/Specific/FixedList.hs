@@ -7,6 +7,7 @@ import Data.Type.Witness.Specific.Some
 import Import
 
 type FixedList :: PeanoNat -> Type -> Type
+type role FixedList nominal representational
 data FixedList n a where
     NilFixedList :: FixedList 'Zero a
     ConsFixedList :: a -> FixedList n a -> FixedList ('Succ n) a

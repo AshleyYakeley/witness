@@ -1,5 +1,8 @@
-## UNRELEASED
-- listProductSequence
+## [0.7] - UNRELEASED
+- listProductSequence, matchListProduct
+- sequenceComposeListType
+- mapAllFor
+- fix for GHC 9.10
 
 ## [0.6.2] - 2023-07-25
 - withAllConstraint, withSomeAllConstraint

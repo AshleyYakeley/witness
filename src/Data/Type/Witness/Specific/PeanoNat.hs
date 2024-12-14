@@ -7,6 +7,7 @@ import Data.Type.Witness.General.WitnessValue
 import Import
 
 type PeanoNatType :: PeanoNat -> Type
+type role PeanoNatType nominal
 data PeanoNatType t where
     ZeroType :: PeanoNatType 'Zero
     SuccType :: PeanoNatType t -> PeanoNatType ('Succ t)
@@ -49,6 +50,7 @@ instance WitnessValue PeanoNatType where
     valueToWitness (Succ n) cont = valueToWitness n $ \t -> cont $ SuccType t
 
 type GreaterEqual :: PeanoNat -> PeanoNat -> Type
+type role GreaterEqual nominal nominal
 data GreaterEqual a b where
     ZeroGreaterEqual :: GreaterEqual a 'Zero
     SuccGreaterEqual :: GreaterEqual a b -> GreaterEqual ('Succ a) ('Succ b)
@@ -100,6 +102,7 @@ addPeanoNatTypeGE a (SuccType b) =
         Refl -> diff1GreaterEqual $ addPeanoNatTypeGE a b
 
 type Greater :: PeanoNat -> PeanoNat -> Type
+type role Greater nominal nominal
 data Greater a b where
     MkGreater :: GreaterEqual a b -> Greater ('Succ a) b
 

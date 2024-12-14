@@ -5,7 +5,7 @@ cabal-version: 2.2
 -- see: https://github.com/sol/hpack
 
 name:           witness
-version:        0.6.2
+version:        0.7
 synopsis:       values that witness types
 description:    A /witness/ is a value that witnesses some sort of constraint on some list of type variables. This library provides support for a wide variety of witness types. It also provides classes for /representatives/, which are values that represent types.
 category:       Data
@@ -79,6 +79,7 @@ library
       RoleAnnotations
       NoStarIsType
       TemplateHaskell
+      TypeAbstractions
       TypeFamilies
       TypeFamilyDependencies
       UndecidableInstances

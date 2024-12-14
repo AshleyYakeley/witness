@@ -12,6 +12,7 @@ import GHC.TypeLits
 import Import
 
 type SymbolType :: Symbol -> Type
+type role SymbolType nominal
 data SymbolType symbol where
     MkSymbolType :: KnownSymbol symbol => SymbolType symbol
 

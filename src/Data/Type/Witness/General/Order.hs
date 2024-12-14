@@ -2,6 +2,7 @@ module Data.Type.Witness.General.Order where
 
 import Import
 
+type role WOrdering nominal nominal
 data WOrdering (a :: k) (b :: k) where
     WLT :: forall k (a :: k) (b :: k). WOrdering a b
     WEQ :: forall k (a :: k). WOrdering a a

@@ -8,9 +8,10 @@ import Import
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
 type OrderedWitnessMapFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+type role OrderedWitnessMapFor representational nominal
 newtype OrderedWitnessMapFor f w =
     MkOrderedWitnessMapFor (Map.Map (Some w) (SomeFor f w))
-    deriving (Semigroup, Monoid)
+    deriving newtype (Semigroup, Monoid)
 
 -- | An empty dictionary.
 emptyOrderedWitnessMapFor :: TestOrder w => OrderedWitnessMapFor f w

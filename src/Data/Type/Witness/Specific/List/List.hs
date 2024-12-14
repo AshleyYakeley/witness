@@ -11,9 +11,10 @@ import Import
 -- | a witness type for lists of types
 -- The @w@ parameter is the witness type of the elements.
 type ListType :: (k -> Type) -> ([k] -> Type)
+type role ListType representational nominal
 data ListType w lt where
     NilListType :: ListType w '[]
-    ConsListType :: w a -> ListType w lt -> ListType w (a : lt)
+    ConsListType :: w a -> ListType w lt -> ListType w (a ': lt)
 
 instance Representative w => Representative (ListType w) where
     getRepWitness NilListType = Dict
@@ -24,7 +25,7 @@ instance Representative w => Representative (ListType w) where
 instance Representative w => Is (ListType w) '[] where
     representative = NilListType
 
-instance (Is w a, Is (ListType w) lt) => Is (ListType w) (a : lt) where
+instance (Is w a, Is (ListType w) lt) => Is (ListType w) (a ': lt) where
     representative = ConsListType representative representative
 
 instance TestEquality w => TestEquality (ListType w) where

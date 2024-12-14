@@ -9,9 +9,10 @@ import Data.Type.Witness.Specific.All
 import Import
 
 type EmptyType :: forall k. k -> Type
+type role EmptyType phantom
 newtype EmptyType t =
     MkEmptyType Void
-    deriving (Eq, Countable, Searchable, Empty)
+    deriving newtype (Eq, Countable, Searchable, Empty)
 
 instance Finite (EmptyType t) where
     allValues = []

@@ -1,3 +1,5 @@
+{-# OPTIONS -Wno-redundant-constraints #-}
+
 module Data.Type.Witness.Specific.List.Product where
 
 import Data.Type.Witness.General.Representative
@@ -11,7 +13,7 @@ import Unsafe.Coerce
 type ListProduct :: [Type] -> Type
 type family ListProduct w = r | r -> w where
     ListProduct '[] = ()
-    ListProduct (t : tt) = (t, ListProduct tt)
+    ListProduct (t ': tt) = (t, ListProduct tt)
 
 -- | workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
 injectiveListProduct ::
@@ -86,6 +88,7 @@ matchListProduct la (ConsListType wb lb) =
             return $ \pa -> (f1 pa, fr pa)
 
 type ListProductType :: (Type -> Type) -> (Type -> Type)
+type role ListProductType representational nominal
 data ListProductType wit t where
     MkListProductType
         :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListProductType wit (ListProduct lt)

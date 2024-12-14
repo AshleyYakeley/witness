@@ -43,4 +43,4 @@ type family PeanoToNatural pn where
 type ListLength :: forall k. [k] -> PeanoNat
 type family ListLength l where
     ListLength '[] = 'Zero
-    ListLength (a ': aa) = 'Succ (ListLength aa)
+    ListLength (_ ': aa) = 'Succ (ListLength aa)

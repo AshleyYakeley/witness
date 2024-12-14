@@ -20,6 +20,7 @@ class TestHetEquality (w :: forall k. k -> Type) where
 
 -- | Equivalent to ':~~:', but can be made an instance of 'TestHetEquality'
 type HetEqual :: forall ka. ka -> forall kb. kb -> Type
+type role HetEqual nominal nominal
 data HetEqual a b where
     HetRefl :: forall k (a :: k). HetEqual a a
 

@@ -10,6 +10,7 @@ import Data.Type.Witness.Specific.Single
 import Import
 
 type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)
+type role EitherType representational representational nominal
 data EitherType w1 w2 t
     = LeftType (w1 t)
     | RightType (w2 t)
@@ -71,7 +72,7 @@ type ConsType :: forall k. k -> (k -> Type) -> k -> Type
 type ConsType a = EitherType (SingleType a)
 
 instance ListElementWitness lt => ListElementWitness (ConsType a lt) where
-    type WitnessTypeList (ConsType a lt) = a : (WitnessTypeList lt)
+    type WitnessTypeList (ConsType a lt) = a ': (WitnessTypeList lt)
     toListElementWitness (LeftType Refl) = FirstElementType
     toListElementWitness (RightType sel) = RestElementType $ toListElementWitness sel
     fromListElementWitness FirstElementType = LeftType Refl

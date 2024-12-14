@@ -7,6 +7,7 @@ import Data.Type.Witness.Specific.Some
 import Import
 
 type FiniteAllFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+type role FiniteAllFor representational representational
 data FiniteAllFor f w = MkFiniteAllFor
     { finiteDomain :: [Some w]
     , finiteGetAllFor :: forall t. w t -> f t

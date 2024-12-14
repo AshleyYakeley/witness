@@ -1,3 +1,5 @@
+{-# OPTIONS -Wno-redundant-constraints #-}
+
 module Data.Type.Witness.Specific.List.Sum where
 
 import Data.Type.Witness.General.Representative
@@ -9,7 +11,7 @@ import Unsafe.Coerce
 type ListSum :: [Type] -> Type
 type family ListSum w = r | r -> w where
     ListSum '[] = Void
-    ListSum (t : tt) = Either t (ListSum tt)
+    ListSum (t ': tt) = Either t (ListSum tt)
 
 -- | workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
 injectiveListSum ::
@@ -35,6 +37,7 @@ mapListSum (ConsListType wa _wr) f (Left a) = Left $ f wa a
 mapListSum (ConsListType _wa wr) f (Right rest) = Right $ mapListSum wr f rest
 
 type ListSumType :: (Type -> Type) -> (Type -> Type)
+type role ListSumType representational nominal
 data ListSumType wit t where
     MkListSumType :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListSumType wit (ListSum lt)
 

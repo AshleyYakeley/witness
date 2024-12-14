@@ -8,9 +8,10 @@ import Data.Type.Witness.Specific.Some
 import Import
 
 type ListElementType :: forall k. [k] -> k -> Type
+type role ListElementType nominal nominal
 data ListElementType kk t where
-    FirstElementType :: ListElementType (t : tt) t
-    RestElementType :: ListElementType aa t -> ListElementType (a : aa) t
+    FirstElementType :: ListElementType (t ': tt) t
+    RestElementType :: ListElementType aa t -> ListElementType (a ': aa) t
 
 instance TestEquality (ListElementType tt) where
     testEquality FirstElementType FirstElementType = Just Refl
