@@ -57,7 +57,7 @@ jobs:
             run: cabal test
         -
             name: Check
-            run: cabal check
+            run: cabal check --ignore=missing-upper-bounds
         -
             name: Document
             run: cabal haddock

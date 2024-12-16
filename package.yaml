@@ -5,21 +5,20 @@ copyright: (c) 2017-2024 Ashley Yakeley
 license: BSD-2-Clause
 license-file: LICENSE
 maintainer: <ashley@semantic.org>
-homepage: https://github.com/AshleyYakeley/witness
-bug-reports: https://github.com/AshleyYakeley/witness/issues
+github: "AshleyYakeley/witness"
+
+category: Data
 synopsis: values that witness types
 description:
     A /witness/ is a value that witnesses some sort of constraint on some list of type variables.
     This library provides support for a wide variety of witness types.
     It also provides classes for /representatives/, which are values that represent types.
-category: Data
-build-type: Simple
 
 tested-with:
   - "GHC == 9.8.4"
   - "GHC == 9.10.1"
 
-extra-source-files:
+extra-doc-files:
   - changelog.md
 
 library:
