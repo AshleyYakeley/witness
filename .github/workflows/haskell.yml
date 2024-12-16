@@ -51,13 +51,13 @@ jobs:
                 cabal build --only-dependencies
         -
             name: Build
-            run: cabal build all
+            run: cabal build
         -
             name: Test
-            run: cabal test all
+            run: cabal test
         -
             name: Check
             run: cabal check
         -
             name: Document
-            run: cabal haddock all
+            run: cabal haddock
