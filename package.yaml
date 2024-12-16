@@ -1,7 +1,7 @@
 name: witness
 version: "0.7"
 author: Ashley Yakeley
-copyright: (c) 2017-2022 Ashley Yakeley
+copyright: (c) 2017-2024 Ashley Yakeley
 license: BSD-2-Clause
 license-file: LICENSE
 maintainer: <ashley@semantic.org>
@@ -14,6 +14,11 @@ description:
     It also provides classes for /representatives/, which are values that represent types.
 category: Data
 build-type: Simple
+
+tested-with:
+  - "GHC == 9.6.6"
+  - "GHC == 9.8.4"
+  - "GHC == 9.10.1"
 
 extra-source-files:
   - changelog.md
@@ -61,9 +66,9 @@ library:
       - -Wno-all-missed-specialisations # non-breaking
       - -Wno-missed-specialisations # non-breaking
     dependencies:
-      - base >= 4.16 && < 5
-      - constraints >= 0.13
-      - containers >= 0.4
+      - base >= 4.18 && < 5
+      - constraints >= 0.14
+      - containers >= 0.6
       - countable >= 1.2
     exposed-modules:
       - Data.Type.Witness.Apply

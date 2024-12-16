@@ -1,7 +1,4 @@
 resolver: lts-23.0
-compiler: ghc-9.10.1
 packages: [.]
 ghc-options:
     "$locals": -Werror
-extra-deps:
-  - filepath-1.5.4.0

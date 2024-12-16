@@ -13,10 +13,14 @@ homepage:       https://github.com/AshleyYakeley/witness
 bug-reports:    https://github.com/AshleyYakeley/witness/issues
 author:         Ashley Yakeley
 maintainer:     <ashley@semantic.org>
-copyright:      (c) 2017-2022 Ashley Yakeley
+copyright:      (c) 2017-2024 Ashley Yakeley
 license:        BSD-2-Clause
 license-file:   LICENSE
 build-type:     Simple
+tested-with:
+    GHC == 9.6.6
+  , GHC == 9.8.4
+  , GHC == 9.10.1
 extra-source-files:
     changelog.md
 
@@ -87,8 +91,8 @@ library
       ViewPatterns
   ghc-options: -Weverything -Wno-missing-import-lists -Wno-missing-export-lists -Wno-unsafe -Wno-missing-safe-haskell-mode -Wno-missing-kind-signatures -Wno-partial-type-signatures -Wno-monomorphism-restriction -Wno-missing-local-signatures -Wno-partial-fields -Wno-all-missed-specialisations -Wno-missed-specialisations
   build-depends:
-      base >=4.16 && <5
-    , constraints >=0.13
-    , containers >=0.4
+      base >=4.18 && <5
+    , constraints >=0.14
+    , containers >=0.6
     , countable >=1.2
   default-language: GHC2021
