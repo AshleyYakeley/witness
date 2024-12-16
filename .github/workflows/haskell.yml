@@ -41,16 +41,23 @@ jobs:
                     dist-newstyle
                 key: ${{runner.os}}-${{matrix.ghc}}
         -
+            name: Configure
+            run: |
+                cabal configure --enable-tests --enable-benchmarks --enable-documentation
+        -
             name: Install dependencies
             run: |
                 cabal update
-                cabal build --only-dependencies --enable-tests --enable-benchmarks
+                cabal build --only-dependencies
         -
-            name: Build & Test
-            run: |
-                cabal install --only-dependencies --enable-tests
-                cabal configure --enable-tests
-                cabal test
+            name: Build
+            run: cabal build all
         -
-            name: Haddock
-            run: cabal v1-haddock
+            name: Test
+            run: cabal test all
+        -
+            name: Check
+            run: cabal check
+        -
+            name: Document
+            run: cabal haddock all
