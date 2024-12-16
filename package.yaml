@@ -65,7 +65,7 @@ library:
       - -Wno-all-missed-specialisations # non-breaking
       - -Wno-missed-specialisations # non-breaking
     dependencies:
-      - base >= 4.18 && < 5
+      - base >= 4.19 && < 5
       - constraints >= 0.14
       - containers >= 0.6
       - countable >= 1.2
