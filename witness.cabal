@@ -9,7 +9,7 @@ version:        0.7
 synopsis:       values that witness types
 description:    A /witness/ is a value that witnesses some sort of constraint on some list of type variables. This library provides support for a wide variety of witness types. It also provides classes for /representatives/, which are values that represent types.
 category:       Data
-homepage:       https://github.com/AshleyYakeley/witness
+homepage:       https://github.com/AshleyYakeley/witness#readme
 bug-reports:    https://github.com/AshleyYakeley/witness/issues
 author:         Ashley Yakeley
 maintainer:     <ashley@semantic.org>
@@ -20,8 +20,12 @@ build-type:     Simple
 tested-with:
     GHC == 9.8.4
   , GHC == 9.10.1
-extra-source-files:
+extra-doc-files:
     changelog.md
+
+source-repository head
+  type: git
+  location: https://github.com/AshleyYakeley/witness
 
 library
   exposed-modules:
@@ -90,7 +94,7 @@ library
       ViewPatterns
   ghc-options: -Weverything -Wno-missing-import-lists -Wno-missing-export-lists -Wno-unsafe -Wno-missing-safe-haskell-mode -Wno-missing-kind-signatures -Wno-partial-type-signatures -Wno-monomorphism-restriction -Wno-missing-local-signatures -Wno-partial-fields -Wno-all-missed-specialisations -Wno-missed-specialisations
   build-depends:
-      base >=4.18 && <5
+      base >=4.19 && <5
     , constraints >=0.14
     , containers >=0.6
     , countable >=1.2
