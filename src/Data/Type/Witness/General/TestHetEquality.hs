@@ -1,14 +1,15 @@
 module Data.Type.Witness.General.TestHetEquality
-    ( (:~~:)(..)
+    ( (:~~:) (..)
     , withHRefl
     , hetHomoEq
-    , TestHetEquality(..)
-    , HetEqual(..)
-    ) where
+    , TestHetEquality (..)
+    , HetEqual (..)
+    )
+where
 
 import Import
 
-withHRefl :: forall ka (a :: ka) kb (b :: kb) (r :: Type). a :~~: b -> ((a ~~ b) => r) -> r
+withHRefl :: forall ka (a :: ka) kb (b :: kb) (r :: Type). a :~~: b -> (a ~~ b => r) -> r
 withHRefl HRefl r = r
 
 -- | somewhat awkwardly named
@@ -20,7 +21,9 @@ class TestHetEquality (w :: forall k. k -> Type) where
 
 -- | Equivalent to ':~~:', but can be made an instance of 'TestHetEquality'
 type HetEqual :: forall ka. ka -> forall kb. kb -> Type
+
 type role HetEqual nominal nominal
+
 data HetEqual a b where
     HetRefl :: forall k (a :: k). HetEqual a a
 

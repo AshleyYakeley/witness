@@ -10,7 +10,9 @@ import Data.Type.Witness.Specific.Single
 import Import
 
 type EitherType :: forall k. (k -> Type) -> (k -> Type) -> (k -> Type)
+
 type role EitherType representational representational nominal
+
 data EitherType w1 w2 t
     = LeftType (w1 t)
     | RightType (w2 t)
@@ -26,13 +28,14 @@ instance (TestEquality w1, TestEquality w2) => TestEquality (EitherType w1 w2) w
 
 instance (FiniteWitness p, FiniteWitness q) => FiniteWitness (EitherType p q) where
     assembleAllFor getsel =
-        (\(MkAllFor p) (MkAllFor q) ->
-             MkAllFor $ \wt ->
-                 case wt of
-                     LeftType rt -> p rt
-                     RightType rt -> q rt) <$>
-        assembleAllFor (getsel . LeftType) <*>
-        assembleAllFor (getsel . RightType)
+        ( \(MkAllFor p) (MkAllFor q) ->
+            MkAllFor $ \wt ->
+                case wt of
+                    LeftType rt -> p rt
+                    RightType rt -> q rt
+        )
+            <$> assembleAllFor (getsel . LeftType)
+            <*> assembleAllFor (getsel . RightType)
 
 instance (WitnessConstraint c p, WitnessConstraint c q) => WitnessConstraint c (EitherType p q) where
     witnessConstraint (LeftType rt) =

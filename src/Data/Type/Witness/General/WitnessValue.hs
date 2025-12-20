@@ -10,13 +10,15 @@ class WitnessValue w where
     valueToWitness :: forall r. WitnessValueType w -> (forall t. w t -> r) -> r
 
 someToValue ::
-       forall k (w :: k -> Type). WitnessValue w
-    => Some w
-    -> WitnessValueType w
+    forall k (w :: k -> Type).
+    WitnessValue w =>
+    Some w ->
+    WitnessValueType w
 someToValue (MkSome wt) = witnessToValue wt
 
 valueToSome ::
-       forall k (w :: k -> Type). WitnessValue w
-    => WitnessValueType w
-    -> Some w
+    forall k (w :: k -> Type).
+    WitnessValue w =>
+    WitnessValueType w ->
+    Some w
 valueToSome v = valueToWitness v MkSome

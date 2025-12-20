@@ -1,6 +1,7 @@
 module Data.Type.Witness.Specific.OrderedWitnessMap.For where
 
 import Data.Map qualified as Map
+
 import Data.Type.Witness.General.Order
 import Data.Type.Witness.Specific.Some
 import Import
@@ -8,9 +9,11 @@ import Import
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
 type OrderedWitnessMapFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+
 type role OrderedWitnessMapFor representational nominal
-newtype OrderedWitnessMapFor f w =
-    MkOrderedWitnessMapFor (Map.Map (Some w) (SomeFor f w))
+
+newtype OrderedWitnessMapFor f w
+    = MkOrderedWitnessMapFor (Map.Map (Some w) (SomeFor f w))
     deriving newtype (Semigroup, Monoid)
 
 -- | An empty dictionary.
@@ -26,11 +29,12 @@ orderedWitnessMapForLookup wit (MkOrderedWitnessMapFor wmap) = do
 
 -- | Modify the value in the dictionary that matches a particular witness.
 orderedWitnessMapForModify ::
-       forall f w a. TestOrder w
-    => w a
-    -> (f a -> f a)
-    -> OrderedWitnessMapFor f w
-    -> OrderedWitnessMapFor f w
+    forall f w a.
+    TestOrder w =>
+    w a ->
+    (f a -> f a) ->
+    OrderedWitnessMapFor f w ->
+    OrderedWitnessMapFor f w
 orderedWitnessMapForModify wit amap (MkOrderedWitnessMapFor wmap) = let
     updater :: SomeFor f w -> Maybe (SomeFor f w)
     updater (MkSomeFor wa fa) = do
@@ -67,6 +71,6 @@ orderedWitnessMapForFromList ee =
     MkOrderedWitnessMapFor $ Map.fromList $ fmap (\swf@(MkSomeFor wa _) -> (MkSome wa, swf)) ee
 
 orderedWitnessMapForMapM ::
-       Applicative m => (forall a. f a -> m (g a)) -> OrderedWitnessMapFor f w -> m (OrderedWitnessMapFor g w)
+    Applicative m => (forall a. f a -> m (g a)) -> OrderedWitnessMapFor f w -> m (OrderedWitnessMapFor g w)
 orderedWitnessMapForMapM fmg (MkOrderedWitnessMapFor cells) =
     fmap MkOrderedWitnessMapFor $ for cells $ \(MkSomeFor wit fa) -> fmap (MkSomeFor wit) $ fmg fa

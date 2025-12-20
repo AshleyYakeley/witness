@@ -10,14 +10,18 @@ module Data.Type.Witness.Specific.Natural
     , Mod
     , Log2
     , Nat
-    , NaturalType(..)
+    , NaturalType (..)
     , zeroNaturalType
     , succNaturalType
     , addNaturalType
     , multiplyNaturalType
     , PeanoToNatural
     , peanoToNaturalType
-    ) where
+    )
+where
+
+import GHC.TypeNats
+import Unsafe.Coerce
 
 import Data.PeanoNat
 import Data.Type.Witness.General.AllConstraint
@@ -25,12 +29,12 @@ import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessValue
 import Data.Type.Witness.Specific.PeanoNat
-import GHC.TypeNats
 import Import
-import Unsafe.Coerce
 
 type NaturalType :: Nat -> Type
+
 type role NaturalType nominal
+
 data NaturalType bn where
     MkNaturalType :: KnownNat bn => NaturalType bn
 
@@ -41,9 +45,11 @@ instance WitnessValue NaturalType where
     valueToWitness i cont =
         case someNatVal i of
             SomeNat p -> let
-                psw :: forall (t :: Nat). KnownNat t
-                    => Proxy t
-                    -> NaturalType t
+                psw ::
+                    forall (t :: Nat).
+                    KnownNat t =>
+                    Proxy t ->
+                    NaturalType t
                 psw _ = MkNaturalType
                 in cont $ psw p
 

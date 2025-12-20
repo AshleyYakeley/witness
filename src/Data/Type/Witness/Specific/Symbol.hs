@@ -2,17 +2,21 @@ module Data.Type.Witness.Specific.Symbol
     ( module Data.Type.Witness.Specific.Symbol
     , Symbol
     , KnownSymbol
-    ) where
+    )
+where
+
+import GHC.TypeLits
 
 import Data.Type.Witness.General.AllConstraint
 import Data.Type.Witness.General.Order
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessValue
-import GHC.TypeLits
 import Import
 
 type SymbolType :: Symbol -> Type
+
 type role SymbolType nominal
+
 data SymbolType symbol where
     MkSymbolType :: KnownSymbol symbol => SymbolType symbol
 
@@ -23,9 +27,11 @@ instance WitnessValue SymbolType where
     valueToWitness s cont =
         case someSymbolVal s of
             SomeSymbol p -> let
-                psw :: forall (t :: Symbol). KnownSymbol t
-                    => Proxy t
-                    -> SymbolType t
+                psw ::
+                    forall (t :: Symbol).
+                    KnownSymbol t =>
+                    Proxy t ->
+                    SymbolType t
                 psw _ = MkSymbolType
                 in cont $ psw p
 

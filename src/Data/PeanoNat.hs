@@ -1,6 +1,7 @@
 module Data.PeanoNat where
 
 import GHC.TypeNats
+
 import Import
 
 -- | Inductive natural numbers.

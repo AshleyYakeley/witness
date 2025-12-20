@@ -11,7 +11,9 @@ import Import
 -- | a witness type for lists of types
 -- The @w@ parameter is the witness type of the elements.
 type ListType :: (k -> Type) -> ([k] -> Type)
+
 type role ListType representational nominal
+
 data ListType w lt where
     NilListType :: ListType w '[]
     ConsListType :: w a -> ListType w lt -> ListType w (a ': lt)
@@ -38,14 +40,14 @@ instance TestEquality w => TestEquality (ListType w) where
 
 instance (forall a. Show (w a)) => Show (ListType w lt) where
     show s = "[" <> intercalate "," (showAll s) <> "]"
-      where
-        showAll :: forall t. ListType w t -> [String]
-        showAll NilListType = []
-        showAll (ConsListType t1 tr) = show t1 : showAll tr
+        where
+            showAll :: forall t. ListType w t -> [String]
+            showAll NilListType = []
+            showAll (ConsListType t1 tr) = show t1 : showAll tr
 
 assembleListType :: [Some w] -> Some (ListType w)
 assembleListType [] = MkSome NilListType
-assembleListType ((MkSome wa):ww) =
+assembleListType ((MkSome wa) : ww) =
     case assembleListType ww of
         MkSome wwa -> MkSome $ ConsListType wa wwa
 
@@ -54,11 +56,11 @@ mapMListType _ff NilListType = pure NilListType
 mapMListType ff (ConsListType t tt) = ConsListType <$> ff t <*> mapMListType ff tt
 
 joinMListType ::
-       Applicative m
-    => (forall t'. wita t' -> witb t' -> m (witc t'))
-    -> ListType wita t
-    -> ListType witb t
-    -> m (ListType witc t)
+    Applicative m =>
+    (forall t'. wita t' -> witb t' -> m (witc t')) ->
+    ListType wita t ->
+    ListType witb t ->
+    m (ListType witc t)
 joinMListType _ff NilListType NilListType = pure NilListType
 joinMListType ff (ConsListType t1 t1t) (ConsListType t2 t2t) = ConsListType <$> ff t1 t2 <*> joinMListType ff t1t t2t
 

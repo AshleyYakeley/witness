@@ -11,9 +11,10 @@ import Import
 type FiniteWitness :: forall k. (k -> Type) -> Constraint
 class FiniteWitness (w :: k -> Type) where
     assembleAllFor ::
-           forall (m :: Type -> Type) (f :: k -> Type). Applicative m
-        => (forall (t :: k). w t -> m (f t))
-        -> m (AllFor f w)
+        forall (m :: Type -> Type) (f :: k -> Type).
+        Applicative m =>
+        (forall (t :: k). w t -> m (f t)) ->
+        m (AllFor f w)
 
 instance FiniteWitness ((:~:) t) where
     assembleAllFor getsel = fmap (\ft -> MkAllFor $ \Refl -> ft) $ getsel Refl
@@ -27,9 +28,10 @@ instance (TestEquality w, FiniteWitness w) => Searchable (Some w) where
 
 instance (TestEquality w, FiniteWitness w) => Finite (Some w) where
     assemble ::
-           forall b f. Applicative f
-        => (Some w -> f b)
-        -> f (Some w -> b)
+        forall b f.
+        Applicative f =>
+        (Some w -> f b) ->
+        f (Some w -> b)
     assemble afb =
         fmap (\(MkAllFor wtcb) (MkSome wt) -> getConst $ wtcb wt) $ assembleAllFor $ \wt -> fmap Const $ afb $ MkSome wt
     allValues = getConst $ assembleAllFor $ \wt -> Const [MkSome wt]
@@ -44,10 +46,10 @@ instance (FiniteWitness w, AllConstraint Show w, WitnessConstraint Show w) => Sh
     show (MkAllOf wtt) = let
         showItem :: Some w -> String
         showItem (MkSome wt) =
-            allShow wt ++
-            " -> " ++
-            case witnessConstraint @_ @Show wt of
-                Dict -> show (wtt wt)
+            allShow wt
+                ++ " -> "
+                ++ case witnessConstraint @_ @Show wt of
+                    Dict -> show (wtt wt)
         in "{" ++ intercalate "," (fmap showItem allWitnesses) ++ "}"
 
 assembleAllOf :: (FiniteWitness w, Applicative m) => (forall t. w t -> m t) -> m (AllOf w)

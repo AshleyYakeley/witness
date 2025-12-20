@@ -2,11 +2,12 @@
 
 module Data.Type.Witness.Specific.List.Sum where
 
+import Unsafe.Coerce
+
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessConstraint
 import Data.Type.Witness.Specific.List.List
 import Import
-import Unsafe.Coerce
 
 type ListSum :: [Type] -> Type
 type family ListSum w = r | r -> w where
@@ -15,8 +16,9 @@ type family ListSum w = r | r -> w where
 
 -- | workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
 injectiveListSum ::
-       forall (a :: [Type]) (b :: [Type]). ListSum a ~ ListSum b
-    => a :~: b
+    forall (a :: [Type]) (b :: [Type]).
+    ListSum a ~ ListSum b =>
+    a :~: b
 injectiveListSum = unsafeCoerce Refl
 
 listSumEq :: (forall a. w a -> Dict (Eq a)) -> ListType w t -> Dict (Eq (ListSum t))
@@ -37,7 +39,9 @@ mapListSum (ConsListType wa _wr) f (Left a) = Left $ f wa a
 mapListSum (ConsListType _wa wr) f (Right rest) = Right $ mapListSum wr f rest
 
 type ListSumType :: (Type -> Type) -> (Type -> Type)
+
 type role ListSumType representational nominal
+
 data ListSumType wit t where
     MkListSumType :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListSumType wit (ListSum lt)
 

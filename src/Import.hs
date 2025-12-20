@@ -1,11 +1,12 @@
 module Import
     ( module I
-    ) where
+    )
+where
 
 import Control.Applicative as I
 import Control.Arrow as I
 import Control.Category as I
-import Data.Constraint as I (Dict(..))
+import Data.Constraint as I (Dict (..))
 import Data.Countable as I
 import Data.Empty as I
 import Data.Functor.Compose as I
@@ -19,4 +20,4 @@ import Data.Subsingular as I
 import Data.Traversable as I
 import Data.Type.Equality as I
 import Data.Void as I
-import Prelude as I hiding ((.), id)
+import Prelude as I hiding (id, (.))

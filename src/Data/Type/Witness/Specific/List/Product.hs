@@ -2,13 +2,14 @@
 
 module Data.Type.Witness.Specific.List.Product where
 
+import Unsafe.Coerce
+
 import Data.Type.Witness.General.Representative
 import Data.Type.Witness.General.WitnessConstraint
 import Data.Type.Witness.Specific.List.Element
 import Data.Type.Witness.Specific.List.List
 import Data.Type.Witness.Specific.Some
 import Import
-import Unsafe.Coerce
 
 type ListProduct :: [Type] -> Type
 type family ListProduct w = r | r -> w where
@@ -17,8 +18,9 @@ type family ListProduct w = r | r -> w where
 
 -- | workaround for https://gitlab.haskell.org/ghc/ghc/issues/10833
 injectiveListProduct ::
-       forall (a :: [Type]) (b :: [Type]). ListProduct a ~ ListProduct b
-    => a :~: b
+    forall (a :: [Type]) (b :: [Type]).
+    ListProduct a ~ ListProduct b =>
+    a :~: b
 injectiveListProduct = unsafeCoerce Refl
 
 listProductEq :: (forall a. w a -> Dict (Eq a)) -> ListType w t -> Dict (Eq (ListProduct t))
@@ -65,9 +67,10 @@ listProductModifyElement :: ListElementType list t -> (t -> t) -> ListProduct li
 listProductModifyElement n aa t = listProductPutElement n (aa (listProductGetElement n t)) t
 
 listProductSequence ::
-       forall f list. Applicative f
-    => ListType f list
-    -> f (ListProduct list)
+    forall f list.
+    Applicative f =>
+    ListType f list ->
+    f (ListProduct list)
 listProductSequence NilListType = pure ()
 listProductSequence (ConsListType t tt) = liftA2 (,) t $ listProductSequence tt
 
@@ -78,7 +81,7 @@ pickListProduct (ConsListType wa _) wb
 pickListProduct (ConsListType _ la) wb = fmap (\f -> f . snd) $ pickListProduct la wb
 
 matchListProduct ::
-       TestEquality w => ListType w lta -> ListType w ltb -> Either (Some w) (ListProduct lta -> ListProduct ltb)
+    TestEquality w => ListType w lta -> ListType w ltb -> Either (Some w) (ListProduct lta -> ListProduct ltb)
 matchListProduct _ NilListType = return $ \_ -> ()
 matchListProduct la (ConsListType wb lb) =
     case pickListProduct la wb of
@@ -88,10 +91,12 @@ matchListProduct la (ConsListType wb lb) =
             return $ \pa -> (f1 pa, fr pa)
 
 type ListProductType :: (Type -> Type) -> (Type -> Type)
+
 type role ListProductType representational nominal
+
 data ListProductType wit t where
-    MkListProductType
-        :: forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListProductType wit (ListProduct lt)
+    MkListProductType ::
+        forall (wit :: Type -> Type) (lt :: [Type]). ListType wit lt -> ListProductType wit (ListProduct lt)
 
 instance TestEquality wit => TestEquality (ListProductType wit) where
     testEquality (MkListProductType lt1) (MkListProductType lt2) =

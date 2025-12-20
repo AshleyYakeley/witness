@@ -6,10 +6,13 @@ import Import
 -- | A dictionary that is heterogenous up to its simple witness type @w@.
 -- Witnesses are the keys of the dictionary, and the values they witness are the values of the dictionary.
 type WitnessMapFor :: forall k. (k -> Type) -> (k -> Type) -> Type
+
 type role WitnessMapFor representational representational
+
 newtype WitnessMapFor f w = MkWitnessMapFor
     { witnessMapForToList :: [SomeFor f w]
-    } deriving newtype (Semigroup, Monoid)
+    }
+    deriving newtype (Semigroup, Monoid)
 
 -- | An empty dictionary.
 emptyWitnessMapFor :: WitnessMapFor f w
@@ -23,13 +26,13 @@ witnessMapForLookup wit (MkWitnessMapFor cells) = listToMaybe (mapMaybe (matchSo
 witnessMapForModify :: TestEquality w => w a -> (f a -> f a) -> WitnessMapFor f w -> WitnessMapFor f w
 witnessMapForModify wit amap (MkWitnessMapFor cells) =
     MkWitnessMapFor (replaceFirst ((fmap ((MkSomeFor wit) . amap)) . (matchSomeFor wit)) cells)
-  where
-    replaceFirst :: (a -> Maybe a) -> [a] -> [a]
-    replaceFirst ama (a:aa) =
-        case ama a of
-            Just newa -> (newa : aa)
-            _ -> a : (replaceFirst ama aa)
-    replaceFirst _ _ = []
+    where
+        replaceFirst :: (a -> Maybe a) -> [a] -> [a]
+        replaceFirst ama (a : aa) =
+            case ama a of
+                Just newa -> (newa : aa)
+                _ -> a : (replaceFirst ama aa)
+        replaceFirst _ _ = []
 
 -- | Replace the first value in the dictionary that matches the witness
 witnessMapForReplace :: TestEquality w => w a -> f a -> WitnessMapFor f w -> WitnessMapFor f w
@@ -50,12 +53,12 @@ witnessMapForFold (MkWitnessMapFor cells) f = mconcat $ fmap (\(MkSomeFor wit fa
 witnessMapForRemove :: TestEquality w => w a -> WitnessMapFor f w -> WitnessMapFor f w
 witnessMapForRemove wit (MkWitnessMapFor cells) =
     MkWitnessMapFor (removeFirst (\(MkSomeFor cwit _) -> isJust (testEquality wit cwit)) cells)
-  where
-    removeFirst :: (a -> Bool) -> [a] -> [a]
-    removeFirst p (a:as)
-        | p a = as
-    removeFirst p (a:as) = a : (removeFirst p as)
-    removeFirst _ _ = []
+    where
+        removeFirst :: (a -> Bool) -> [a] -> [a]
+        removeFirst p (a : as)
+            | p a = as
+        removeFirst p (a : as) = a : (removeFirst p as)
+        removeFirst _ _ = []
 
 -- | Create a dictionary from a list of witness\/value pairs
 witnessMapForFromList :: [SomeFor f w] -> WitnessMapFor f w

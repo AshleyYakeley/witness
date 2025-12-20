@@ -7,10 +7,13 @@ import Import
 
 -- | a witness for pairs of witnesses
 type PairType :: (k -> Type) -> (k -> Type) -> (k -> Type)
+
 type role PairType representational representational nominal
-data PairType w1 w2 t =
-    MkPairType (w1 t)
-               (w2 t)
+
+data PairType w1 w2 t
+    = MkPairType
+        (w1 t)
+        (w2 t)
 
 instance (Representative w1, Representative w2) => Representative (PairType w1 w2) where
     getRepWitness (MkPairType w1 w2) =

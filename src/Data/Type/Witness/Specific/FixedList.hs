@@ -7,7 +7,9 @@ import Data.Type.Witness.Specific.Some
 import Import
 
 type FixedList :: PeanoNat -> Type -> Type
+
 type role FixedList nominal representational
+
 data FixedList n a where
     NilFixedList :: FixedList 'Zero a
     ConsFixedList :: a -> FixedList n a -> FixedList ('Succ n) a
@@ -53,36 +55,38 @@ fixedListGenerate (SuccType n) ma = liftA2 ConsFixedList ma $ fixedListGenerate 
 
 fixedFromList :: [a] -> (forall n. PeanoNatType n -> FixedList n a -> r) -> r
 fixedFromList [] call = call ZeroType NilFixedList
-fixedFromList (a:aa) call = fixedFromList aa $ \n l -> call (SuccType n) $ ConsFixedList a l
+fixedFromList (a : aa) call = fixedFromList aa $ \n l -> call (SuccType n) $ ConsFixedList a l
 
 fixedListArrowSequence_ ::
-       forall arrow n a. Arrow arrow
-    => FixedList n (arrow a ())
-    -> arrow (FixedList n a) ()
+    forall arrow n a.
+    Arrow arrow =>
+    FixedList n (arrow a ()) ->
+    arrow (FixedList n a) ()
 fixedListArrowSequence_ NilFixedList = arr $ \_ -> ()
 fixedListArrowSequence_ (ConsFixedList x1 xr) =
     proc a1r -> do
-        x1 -<
-            case a1r of
+        x1
+            -< case a1r of
                 ConsFixedList a1 _ -> a1
-        fixedListArrowSequence_ xr -<
-            case a1r of
+        fixedListArrowSequence_ xr
+            -< case a1r of
                 ConsFixedList _ ar -> ar
 
 fixedListArrowSequence ::
-       forall arrow n a b. Arrow arrow
-    => FixedList n (arrow a b)
-    -> arrow (FixedList n a) (FixedList n b)
+    forall arrow n a b.
+    Arrow arrow =>
+    FixedList n (arrow a b) ->
+    arrow (FixedList n a) (FixedList n b)
 fixedListArrowSequence NilFixedList = arr $ \_ -> NilFixedList
 fixedListArrowSequence (ConsFixedList x1 xr) =
     proc a1r -> do
         b1 <-
-            x1 -<
-                case a1r of
+            x1
+                -< case a1r of
                     ConsFixedList a1 _ -> a1
         br <-
-            fixedListArrowSequence xr -<
-                case a1r of
+            fixedListArrowSequence xr
+                -< case a1r of
                     ConsFixedList _ ar -> ar
         returnA -< ConsFixedList b1 br
 

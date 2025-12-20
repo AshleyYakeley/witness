@@ -8,7 +8,9 @@ import Data.Type.Witness.Specific.Some
 import Import
 
 type ListElementType :: forall k. [k] -> k -> Type
+
 type role ListElementType nominal nominal
+
 data ListElementType kk t where
     FirstElementType :: ListElementType (t ': tt) t
     RestElementType :: ListElementType aa t -> ListElementType (a ': aa) t
@@ -54,10 +56,11 @@ pickListElement FirstElementType (ConsListType wt _) = wt
 pickListElement (RestElementType n) (ConsListType _ l) = pickListElement n l
 
 lookUpListElement ::
-       forall k (w :: k -> Type) (t :: k) (lt :: [k]). TestEquality w
-    => w t
-    -> ListType w lt
-    -> Maybe (ListElementType lt t)
+    forall k (w :: k -> Type) (t :: k) (lt :: [k]).
+    TestEquality w =>
+    w t ->
+    ListType w lt ->
+    Maybe (ListElementType lt t)
 lookUpListElement _ NilListType = Nothing
 lookUpListElement wt (ConsListType wt' _)
     | Just Refl <- testEquality wt wt' = Just FirstElementType

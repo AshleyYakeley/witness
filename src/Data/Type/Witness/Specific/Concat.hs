@@ -16,8 +16,9 @@ concatEmptyRefl (ConsListType _ la) =
         Refl -> Refl
 
 concatIsDict ::
-       forall k (w :: k -> Type) (aa :: [k]) (bb :: [k]). (Representative w, Is (ListType w) aa, Is (ListType w) bb)
-    => Dict (Is (ListType w) (Concat aa bb))
+    forall k (w :: k -> Type) (aa :: [k]) (bb :: [k]).
+    (Representative w, Is (ListType w) aa, Is (ListType w) bb) =>
+    Dict (Is (ListType w) (Concat aa bb))
 concatIsDict = let
     build :: forall aa'. ListType w aa' -> Dict (Is (ListType w) (Concat aa' bb))
     build NilListType = Dict
@@ -29,14 +30,15 @@ concatIsDict = let
     in build $ representative @_ @(ListType w) @aa
 
 withConcatIs ::
-       forall k (w :: k -> Type) (aa :: [k]) (bb :: [k]) r. (Representative w, Is (ListType w) aa, Is (ListType w) bb)
-    => (Is (ListType w) (Concat aa bb) => r)
-    -> r
+    forall k (w :: k -> Type) (aa :: [k]) (bb :: [k]) r.
+    (Representative w, Is (ListType w) aa, Is (ListType w) bb) =>
+    (Is (ListType w) (Concat aa bb) => r) ->
+    r
 withConcatIs call =
     case concatIsDict @k @w @aa @bb of
         Dict -> call
 
 concatListType ::
-       forall k (w :: k -> Type) (a :: [k]) (b :: [k]). ListType w a -> ListType w b -> ListType w (Concat a b)
+    forall k (w :: k -> Type) (a :: [k]) (b :: [k]). ListType w a -> ListType w b -> ListType w (Concat a b)
 concatListType NilListType lb = lb
 concatListType (ConsListType wa la) lb = ConsListType wa $ concatListType la lb
