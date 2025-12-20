@@ -12,7 +12,7 @@ type EmptyType :: forall k. k -> Type
 type role EmptyType phantom
 newtype EmptyType t =
     MkEmptyType Void
-    deriving newtype (Eq, Countable, Searchable, Empty)
+    deriving newtype (Eq, Countable, Searchable, Subsingular, Empty)
 
 instance Finite (EmptyType t) where
     allValues = []

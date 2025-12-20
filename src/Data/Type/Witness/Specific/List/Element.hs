@@ -43,6 +43,9 @@ instance Countable (ListElementType '[] t) where
 instance Finite (ListElementType '[] t) where
     allValues = []
 
+instance Subsingular (ListElementType '[] t) where
+    subsingle = Nothing
+
 instance Empty (ListElementType '[] t) where
     never lt = case lt of {}
 

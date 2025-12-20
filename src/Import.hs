@@ -15,6 +15,7 @@ import Data.List as I (intercalate)
 import Data.Maybe as I
 import Data.Proxy as I
 import Data.Searchable as I
+import Data.Subsingular as I
 import Data.Traversable as I
 import Data.Type.Equality as I
 import Data.Void as I

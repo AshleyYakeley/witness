@@ -128,5 +128,8 @@ instance Finite (Greater 'Zero b) where
     allValues = []
     assemble _ = pure never
 
+instance Subsingular (Greater 'Zero b) where
+    subsingle = Nothing
+
 instance Empty (Greater 'Zero b) where
     never n = case n of {}
