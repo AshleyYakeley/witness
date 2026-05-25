@@ -34,3 +34,16 @@ instance TestOrder w1 => TestOrder (PairType w1 w2) where
 -- | right-biased
 instance WitnessConstraint c w2 => WitnessConstraint c (PairType w1 w2) where
     witnessConstraint (MkPairType _ w2) = witnessConstraint w2
+
+instance (Invariant w1, Invariant w2) => Invariant (PairType w1 w2) where
+    invmap ab ba (MkPairType a1 a2) = MkPairType (invmap ab ba a1) (invmap ab ba a2)
+
+instance (Summable w1, Summable w2) => Summable (PairType w1 w2) where
+    rVoid = MkPairType rVoid rVoid
+    MkPairType a1 a2 <+++> MkPairType b1 b2 = MkPairType (a1 <+++> b1) (a2 <+++> b2)
+
+instance (Productable w1, Productable w2) => Productable (PairType w1 w2) where
+    rUnit = MkPairType rUnit rUnit
+    MkPairType a1 a2 <***> MkPairType b1 b2 = MkPairType (a1 <***> b1) (a2 <***> b2)
+    MkPairType a1 a2 ***> MkPairType b1 b2 = MkPairType (a1 ***> b1) (a2 ***> b2)
+    MkPairType a1 a2 <*** MkPairType b1 b2 = MkPairType (a1 <*** b1) (a2 <*** b2)
