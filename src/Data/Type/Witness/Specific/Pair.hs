@@ -47,3 +47,8 @@ instance (Productable w1, Productable w2) => Productable (PairType w1 w2) where
     MkPairType a1 a2 <***> MkPairType b1 b2 = MkPairType (a1 <***> b1) (a2 <***> b2)
     MkPairType a1 a2 ***> MkPairType b1 b2 = MkPairType (a1 ***> b1) (a2 ***> b2)
     MkPairType a1 a2 <*** MkPairType b1 b2 = MkPairType (a1 <*** b1) (a2 <*** b2)
+
+instance (Riggable w1, Riggable w2) => Riggable (PairType w1 w2) where
+    rOptional (MkPairType a1 a2) = MkPairType (rOptional a1) (rOptional a2)
+    rList1 (MkPairType a1 a2) = MkPairType (rList1 a1) (rList1 a2)
+    rList (MkPairType a1 a2) = MkPairType (rList a1) (rList a2)
